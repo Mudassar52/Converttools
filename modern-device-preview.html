@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reponsive break point tester</title>
+    <meta name="description" content="Check how your website looks on different screen sizes instantly. ">
+    <style>
+
+:root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            padding-top: 5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .control-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .url-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
+        }
+
+        .url-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .device-select {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .device-select option {
+            background: #16213e;
+            color: #fff;
+        }
+
+        .preview-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60vh;
+            perspective: 1000px;
+        }
+
+        .device-frame {
+            position: relative;
+            margin: 0 auto;
+            border: 12px solid #2a2a3a;
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            background: #fff;
+        }
+
+        .device-frame::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 20px;
+            background: #2a2a3a;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .device-screen {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 28px;
+            display: block;
+        }
+
+        .error-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff4757;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            display: none;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Device Sizes */
+        .iphone-13 {
+            width: 390px;
+            height: 844px;
+        }
+
+        .pixel-6 {
+            width: 412px;
+            height: 915px;
+        }
+
+        .ipad-pro {
+            width: 834px;
+            height: 1194px;
+        }
+
+        .galaxy-fold {
+            width: 280px;
+            height: 653px;
+        }
+
+        .surface-duo {
+            width: 540px;
+            height: 720px;
+        }
+
+        @media (max-width: 1200px) {
+            .device-frame {
+                transform: scale(0.8) rotateY(5deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .device-frame {
+                transform: scale(0.6) rotateY(5deg);
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .control-panel {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .device-frame {
+                transform: scale(0.4) rotateY(5deg);
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ToolHub
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg to png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png to jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image to pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf to image.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./thumbnail download.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text to pdf.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./text to doc.html"><i class="fas fa-file-word"></i> Text to DOC</a>
+                        <a href="./doc to text.html"><i class="fas fa-file-alt"></i> DOC to Text</a>
+                        <a href="./code editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./table editor.html"><i class="fas fa-table"></i> Table Editor</a>
+                        <a href="./pdf split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./Merge Pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./pdf to text.html"><i class="fas fa-file-alt"></i> PDF to Text</a>
+                        <a href="./Pdf to Doc.html"><i class="fas fa-file-word"></i> PDF to DOC</a>
+                        <a href="./pdf to zip.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./zip extract.html"><i class="fas fa-file-pdf"></i> Zip Extract </a>
+                        <a href="./excel to pdf.html"><i class="fas fa-file-alt"></i> Excel to PDF</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./doc to pdf.html"><i class="fas fa-file-pdf"></i> DOC to PDF</a>
+                        <a href="./Svg to Pdf.html"><i class="fas fa-file-pdf"></i> SVG to PDF</a>
+                        <a href="./gif to pdf.html"><i class="fas fa-file-pdf"></i> GIF to PDF</a>
+                        <a href="./image compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./watermark to pdf.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="header">
+            <h1>Device Preview Tool</h1>
+        </div>
+
+        <div class="control-panel">
+            <div class="input-group">
+                <input type="text" class="url-input" placeholder="Enter website URL (e.g., google.com)">
+            </div>
+            <div class="input-group">
+                <select class="device-select">
+                    <option value="iphone-13">iPhone 13</option>
+                    <option value="pixel-6">Pixel 6</option>
+                    <option value="galaxy-fold">Galaxy Fold</option>
+                    <option value="ipad-pro">iPad Pro</option>
+                    <option value="surface-duo">Surface Duo</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="preview-section">
+            <div class="device-frame iphone-13">
+                <iframe class="device-screen" src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="error-message"></div>
+
+    <script>
+        const urlInput = document.querySelector('.url-input');
+        const deviceSelect = document.querySelector('.device-select');
+        const deviceFrame = document.querySelector('.device-frame');
+        const deviceScreen = document.querySelector('.device-screen');
+        const errorMessage = document.querySelector('.error-message');
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        function updatePreview() {
+            let url = urlInput.value.trim();
+            
+            if (!url) {
+                showError('Please enter a URL');
+                return;
+            }
+
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            try {
+                new URL(url);
+                deviceScreen.src = url;
+            } catch {
+                showError('Please enter a valid URL');
+            }
+        }
+
+        function updateDeviceSize() {
+            deviceFrame.className = 'device-frame ' + deviceSelect.value;
+        }
+
+        urlInput.addEventListener('input', debounce(updatePreview, 1000));
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                updatePreview();
+            }
+        });
+
+        deviceSelect.addEventListener('change', updateDeviceSize);
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

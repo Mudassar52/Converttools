@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Shadow Generator</title>
+    <meta name="description" content="Design custom box shadows and copy the CSS code instantly for stylish effects.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 7rem;
+            color: #2d3748;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            perspective: 1000px;
+            padding: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: 1.2fr 0.8fr;
+            }
+        }
+
+        .controls, .preview {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+        }
+
+        .controls:hover, .preview:hover {
+            transform: translateZ(10px);
+        }
+
+        .preview-box {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 1rem;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .control-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 1rem;
+            appearance: none;
+            transition: all 0.2s ease;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #667eea;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.5);
+            transition: all 0.2s ease;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .control-group input[type="color"] {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 1rem;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .value-display {
+            position: absolute;
+            right: 0;
+            top: 0;
+            font-size: 0.875rem;
+            color: #667eea;
+            font-weight: 600;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+        }
+
+        .code-output {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            font-family: 'Monaco', 'Consolas', monospace;
+            position: relative;
+            margin-top: 2rem;
+            overflow: hidden;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .copy-button:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .copy-button.copied {
+            background: #48bb78;
+        }
+
+        .copy-button.copied::before {
+            content: "✓";
+            font-size: 1rem;
+        }
+
+        h2 {
+            color: #4a5568;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .presets {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .preset-button {
+            background: #f7fafc;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            color: #4a5568;
+        }
+
+        .preset-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ToolHub
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg to png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png to jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image to pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf to image.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./thumbnail download.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text to pdf.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./text to doc.html"><i class="fas fa-file-word"></i> Text to DOC</a>
+                        <a href="./doc to text.html"><i class="fas fa-file-alt"></i> DOC to Text</a>
+                        <a href="./code editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./table editor.html"><i class="fas fa-table"></i> Table Editor</a>
+                        <a href="./pdf split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./Merge Pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./pdf to text.html"><i class="fas fa-file-alt"></i> PDF to Text</a>
+                        <a href="./Pdf to Doc.html"><i class="fas fa-file-word"></i> PDF to DOC</a>
+                        <a href="./pdf to zip.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./zip extract.html"><i class="fas fa-file-pdf"></i> Zip Extract </a>
+                        <a href="./excel to pdf.html"><i class="fas fa-file-alt"></i> Excel to PDF</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./doc to pdf.html"><i class="fas fa-file-pdf"></i> DOC to PDF</a>
+                        <a href="./Svg to Pdf.html"><i class="fas fa-file-pdf"></i> SVG to PDF</a>
+                        <a href="./gif to pdf.html"><i class="fas fa-file-pdf"></i> GIF to PDF</a>
+                        <a href="./image compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./watermark to pdf.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+ <div class="container">
+        <div class="controls">
+            <h2>Shadow Designer</h2>
+            <div class="presets">
+                <button class="preset-button" data-preset="soft">Soft</button>
+                <button class="preset-button" data-preset="medium">Medium</button>
+                <button class="preset-button" data-preset="hard">Hard</button>
+            </div>
+            <div class="control-group">
+                <label for="horizontal">Horizontal Offset</label>
+                <input type="range" id="horizontal" min="-50" max="50" value="0">
+                <div class="value-display">0px</div>
+            </div>
+            <div class="control-group">
+                <label for="vertical">Vertical Offset</label>
+                <input type="range" id="vertical" min="-50" max="50" value="0">
+                <div class="value-display">0px</div>
+            </div>
+            <div class="control-group">
+                <label for="blur">Blur Radius</label>
+                <input type="range" id="blur" min="0" max="100" value="10">
+                <div class="value-display">10px</div>
+            </div>
+            <div class="control-group">
+                <label for="spread">Spread Radius</label>
+                <input type="range" id="spread" min="-50" max="50" value="0">
+                <div class="value-display">0px</div>
+            </div>
+            <div class="control-group">
+                <label for="color">Shadow Color</label>
+                <input type="color" id="color" value="#667eea">
+            </div>
+            <div class="control-group">
+                <label for="opacity">Opacity</label>
+                <input type="range" id="opacity" min="0" max="100" value="20">
+                <div class="value-display">0.2</div>
+            </div>
+        </div>
+        <div class="preview">
+            <h2>Preview</h2>
+            <div class="preview-box"></div>
+            <div class="code-output">
+                box-shadow: 0px 0px 10px 0px rgba(102, 126, 234, 0.2);
+                <button class="copy-button">Copy CSS</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+        const controls = {
+            horizontal: document.getElementById('horizontal'),
+            vertical: document.getElementById('vertical'),
+            blur: document.getElementById('blur'),
+            spread: document.getElementById('spread'),
+            color: document.getElementById('color'),
+            opacity: document.getElementById('opacity')
+        };
+
+        const previewBox = document.querySelector('.preview-box');
+        const codeOutput = document.querySelector('.code-output');
+        const copyButton = document.querySelector('.copy-button');
+
+        const presets = {
+            soft: {
+                horizontal: 0,
+                vertical: 4,
+                blur: 20,
+                spread: 0,
+                color: '#667eea',
+                opacity: 15
+            },
+            medium: {
+                horizontal: 0,
+                vertical: 8,
+                blur: 30,
+                spread: -2,
+                color: '#4a5568',
+                opacity: 20
+            },
+            hard: {
+                horizontal: 4,
+                vertical: 4,
+                blur: 15,
+                spread: 2,
+                color: '#2d3748',
+                opacity: 30
+            }
+        };
+
+        function updateShadow() {
+            const horizontal = controls.horizontal.value;
+            const vertical = controls.vertical.value;
+            const blur = controls.blur.value;
+            const spread = controls.spread.value;
+            const color = controls.color.value;
+            const opacity = (controls.opacity.value / 100).toFixed(2);
+
+            // Convert hex color to RGB
+            const r = parseInt(color.substr(1,2), 16);
+            const g = parseInt(color.substr(3,2), 16);
+            const b = parseInt(color.substr(5,2), 16);
+
+            const boxShadow = `${horizontal}px ${vertical}px ${blur}px ${spread}px rgba(${r}, ${g}, ${b}, ${opacity})`;
+            previewBox.style.boxShadow = boxShadow;
+            
+            // Format code with proper indentation
+            const cssCode = `box-shadow: ${boxShadow};`;
+            codeOutput.textContent = cssCode;
+            codeOutput.appendChild(copyButton);
+
+            // Update value displays
+            document.querySelectorAll('.control-group').forEach(group => {
+                const input = group.querySelector('input');
+                const display = group.querySelector('.value-display');
+                if (display && input.type === 'range') {
+                    if (input.id === 'opacity') {
+                        display.textContent = (input.value / 100).toFixed(2);
+                    } else {
+                        display.textContent = input.value + 'px';
+                    }
+                }
+            });
+        }
+
+        // Add event listeners to all controls
+        Object.values(controls).forEach(control => {
+            control.addEventListener('input', updateShadow);
+        });
+
+        // Preset buttons functionality
+        document.querySelectorAll('.preset-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const preset = presets[button.dataset.preset];
+                Object.keys(preset).forEach(key => {
+                    controls[key].value = preset[key];
+                });
+                updateShadow();
+            });
+        });
+
+        // Enhanced copy button functionality with visual feedback
+        copyButton.addEventListener('click', async () => {
+            try {
+                const code = codeOutput.textContent;
+                await navigator.clipboard.writeText(code);
+                
+                copyButton.classList.add('copied');
+                copyButton.textContent = 'Copied!';
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    copyButton.classList.remove('copied');
+                    copyButton.textContent = 'Copy CSS';
+                }, 2000);
+                
+                // Add temporary success animation to preview box
+                previewBox.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    previewBox.style.transform = 'scale(1)';
+                }, 200);
+            } catch (err) {
+                copyButton.textContent = 'Failed to copy';
+                setTimeout(() => {
+                    copyButton.textContent = 'Copy CSS';
+                }, 2000);
+            }
+        });
+
+        // Initial update
+        updateShadow();
+    </script>
+</body>
+</html>

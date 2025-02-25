@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Crawler</title>
+    <meta name="description" content="Extract valuable data from websites quickly with our powerful web crawling tool.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+         :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --background: #f8fafc;
+            --card: #ffffff;
+            --text: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            min-height: 100vh;
+            padding-top: 5rem;
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+        }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .url-input {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        input[type="url"], input[type="number"] {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input[type="url"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .crawl-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .crawl-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .crawl-btn:disabled {
+            background: var(--secondary);
+            cursor: not-allowed;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .option-card {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-card:hover {
+            background: #f1f5f9;
+        }
+
+        .option-card.active {
+            background: rgba(37, 99, 235, 0.1);
+            border: 2px solid var(--primary);
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .option-icon {
+            color: var(--primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .results-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .result-card {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .result-content {
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .result-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .result-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .result-content::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .loader {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            margin: 1rem auto;
+            animation: spin 1s linear infinite;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--danger);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .url-input {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ToolHub
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg to png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png to jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image to pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf to image.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./thumbnail download.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text to pdf.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./text to doc.html"><i class="fas fa-file-word"></i> Text to DOC</a>
+                        <a href="./doc to text.html"><i class="fas fa-file-alt"></i> DOC to Text</a>
+                        <a href="./code editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./table editor.html"><i class="fas fa-table"></i> Table Editor</a>
+                        <a href="./pdf split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./Merge Pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./pdf to text.html"><i class="fas fa-file-alt"></i> PDF to Text</a>
+                        <a href="./Pdf to Doc.html"><i class="fas fa-file-word"></i> PDF to DOC</a>
+                        <a href="./pdf to zip.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./zip extract.html"><i class="fas fa-file-pdf"></i> Zip Extract </a>
+                        <a href="./excel to pdf.html"><i class="fas fa-file-alt"></i> Excel to PDF</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./doc to pdf.html"><i class="fas fa-file-pdf"></i> DOC to PDF</a>
+                        <a href="./Svg to Pdf.html"><i class="fas fa-file-pdf"></i> SVG to PDF</a>
+                        <a href="./gif to pdf.html"><i class="fas fa-file-pdf"></i> GIF to PDF</a>
+                        <a href="./image compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./watermark to pdf.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="control-panel card">
+                <h1>Advanced Web Crawler</h1>
+                
+                <div class="input-group">
+                    <div class="url-input">
+                        <input type="url" id="urlInput" placeholder="Enter website URL" required>
+                        <button id="crawlButton" class="crawl-btn">
+                            <i class="fas fa-spider"></i>
+                            Start Crawling
+                        </button>
+                    </div>
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-bar-fill" id="progressBarFill"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Crawl Depth</label>
+                    <input type="number" id="depthInput" min="1" max="5" value="2">
+                </div>
+
+                <div class="options-grid">
+                    <div class="option-card active" data-option="links">
+                        <div class="option-header">
+                            <i class="fas fa-link option-icon"></i>
+                            <span>Links</span>
+                        </div>
+                        <small>Extract all page links</small>
+                    </div>
+                    <div class="option-card active" data-option="images">
+                        <div class="option-header">
+                            <i class="fas fa-image option-icon"></i>
+                            <span>Images</span>
+                        </div>
+                        <small>Extract image sources</small>
+                    </div>
+                    <div class="option-card" data-option="headings">
+                        <div class="option-header">
+                            <i class="fas fa-heading option-icon"></i>
+                            <span>Headings</span>
+                        </div>
+                        <small>Extract page headings</small>
+                    </div>
+                    <div class="option-card" data-option="meta">
+                        <div class="option-header">
+                            <i class="fas fa-info-circle option-icon"></i>
+                            <span>Meta Data</span>
+                        </div>
+                        <small>Extract meta information</small>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="pagesScanned">0</div>
+                        <small>Pages Scanned</small>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="linksFound">0</div>
+                        <small>Links Found</small>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="imagesFound">0</div>
+                        <small>Images Found</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-panel card">
+                <div class="results-header">
+                    <h2>Crawling Results</h2>
+                    <button id="exportButton" class="crawl-btn" style="display: none;">
+                        <i class="fas fa-download"></i>
+                        Export Results
+                    </button>
+                </div>
+                <div id="loader" class="loader"></div>
+                <div id="results" class="results-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlInput = document.getElementById('urlInput');
+            const depthInput = document.getElementById('depthInput');
+            const crawlButton = document.getElementById('crawlButton');
+            const exportButton = document.getElementById('exportButton');
+            const loader = document.getElementById('loader');
+            const results = document.getElementById('results');
+            const progressBar = document.getElementById('progressBar');
+            const progressBarFill = document.getElementById('progressBarFill');
+            const toast = document.getElementById('toast');
+
+            // Stats elements
+            const pagesScanned = document.getElementById('pagesScanned');
+            const linksFound = document.getElementById('linksFound');
+            const imagesFound = document.getElementById('imagesFound');
+
+            // Option toggles
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+            });
+
+            let crawlStats = {
+                pages: 0,
+                links: 0,
+                images: 0
+            };
+
+            function updateStats() {
+                pagesScanned.textContent = crawlStats.pages;
+                linksFound.textContent = crawlStats.links;
+                imagesFound.textContent = crawlStats.images;
+            }
+
+            function showToast(message, type = 'success') {
+                toast.textContent = message;
+                toast.className = `toast ${type}`;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+
+            function updateProgress(value) {
+                progressBarFill.style.width = `${value}%`;
+            }
+
+            async function crawlWebsite(url, depth = 1) {
+                const visitedUrls = new Set();
+                const results = {
+                    links: [],
+                    images: [],
+                    headings: [],
+                    meta: []
+                };
+
+                await crawl(url, 1); // Start crawling from depth 1
+                return results;
+
+                async function crawl(currentUrl, currentDepth) {
+                    if (currentDepth > depth || visitedUrls.has(currentUrl)) return;
+                    
+                    visitedUrls.add(currentUrl);
+                    crawlStats.pages++;
+                    updateStats();
+                    updateProgress((crawlStats.pages / (depth * 2)) * 100);
+
+                    try {
+                        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(currentUrl)}`;
+                        const response = await fetch(proxyUrl);
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        
+                        const html = await response.text();
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+
+                        // Extract data based on selected options
+                        const activeOptions = Array.from(document.querySelectorAll('.option-card.active'))
+                            .map(card => card.dataset.option);
+
+                        if (activeOptions.includes('links')) {
+                            const pageLinks = Array.from(doc.querySelectorAll('a[href]'))
+                                .map(link => link.href)
+                                .filter(href => href.startsWith('http'));
+                            results.links.push(...pageLinks);
+                            crawlStats.links += pageLinks.length;
+                            updateStats();
+
+                            // Recursively crawl found links if within depth limit
+                            if (currentDepth < depth) {
+                                const crawlPromises = pageLinks
+                                    .slice(0, 5) // Limit to 5 links per page
+                                    .map(link => crawl(link, currentDepth + 1));
+                                await Promise.all(crawlPromises);
+                            }
+                        }
+
+                        if (activeOptions.includes('images')) {
+                            const images = Array.from(doc.querySelectorAll('img[src]'))
+                                .map(img => ({
+                                    src: img.src,
+                                    alt: img.alt || '',
+                                    dimensions: `${img.width || 'unknown'}x${img.height || 'unknown'}`
+                                }));
+                            results.images.push(...images);
+                            crawlStats.images += images.length;
+                            updateStats();
+                        }
+
+                        if (activeOptions.includes('headings')) {
+                            const headings = Array.from(doc.querySelectorAll('h1, h2, h3'))
+                                .map(heading => ({
+                                    level: heading.tagName,
+                                    text: heading.textContent.trim()
+                                }));
+                            results.headings.push(...headings);
+                        }
+
+                        if (activeOptions.includes('meta')) {
+                            const meta = Array.from(doc.querySelectorAll('meta'))
+                                .map(meta => ({
+                                    name: meta.getAttribute('name') || meta.getAttribute('property'),
+                                    content: meta.getAttribute('content')
+                                }))
+                                .filter(meta => meta.name && meta.content);
+                            results.meta.push(...meta);
+                        }
+
+                    } catch (error) {
+                        showToast(`Failed to crawl ${currentUrl}: ${error.message}`, 'error');
+                    }
+                }
+            }
+
+            function displayResults(data) {
+                results.innerHTML = '';
+                
+                if (data.links.length > 0) {
+                    addResultCard('Links', data.links, 'fas fa-link');
+                }
+                
+                if (data.images.length > 0) {
+                    addResultCard('Images', data.images.map(img => 
+                        `${img.src} (${img.dimensions}) - Alt: ${img.alt || 'No alt text'}`
+                    ), 'fas fa-image');
+                }
+                
+                if (data.headings.length > 0) {
+                    addResultCard('Headings', data.headings.map(h => 
+                        `${h.level}: ${h.text}`
+                    ), 'fas fa-heading');
+                }
+                
+                if (data.meta.length > 0) {
+                    addResultCard('Meta Data', data.meta.map(m => 
+                        `${m.name}: ${m.content}`
+                    ), 'fas fa-info-circle');
+                }
+
+                exportButton.style.display = 'flex';
+            }
+
+            function addResultCard(title, items, iconClass) {
+                const card = document.createElement('div');
+                card.className = 'result-card';
+                card.innerHTML = `
+                    <div class="result-header">
+                        <h3><i class="${iconClass}"></i> ${title}</h3>
+                        <span>${items.length} items</span>
+                    </div>
+                    <div class="result-content">
+                        <ul>
+                            ${items.map(item => `<li>${typeof item === 'string' ? item : JSON.stringify(item)}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                results.appendChild(card);
+            }
+
+            crawlButton.addEventListener('click', async () => {
+                const url = urlInput.value.trim();
+                const depth = parseInt(depthInput.value) || 1;
+                
+                if (!url) {
+                    showToast('Please enter a valid URL', 'error');
+                    return;
+                }
+
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    showToast('URL must start with http:// or https://', 'error');
+                    return;
+                }
+
+                try {
+                    // Reset stats and UI
+                    crawlStats = { pages: 0, links: 0, images: 0 };
+                    updateStats();
+                    crawlButton.disabled = true;
+                    loader.style.display = 'block';
+                    progressBar.style.display = 'block';
+                    results.innerHTML = '';
+                    exportButton.style.display = 'none';
+
+                    const data = await crawlWebsite(url, depth);
+                    displayResults(data);
+                    showToast('Crawling completed successfully!');
+                } catch (error) {
+                    showToast(error.message, 'error');
+                } finally {
+                    crawlButton.disabled = false;
+                    loader.style.display = 'none';
+                    progressBar.style.display = 'none';
+                }
+            });
+
+            exportButton.addEventListener('click', () => {
+                const data = {
+                    timestamp: new Date().toISOString(),
+                    stats: crawlStats,
+                    results: Array.from(results.children).map(card => ({
+                        type: card.querySelector('h3').textContent.trim(),
+                        items: Array.from(card.querySelectorAll('li')).map(li => li.textContent)
+                    }))
+                };
+
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'crawl-results.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('Results exported successfully!');
+            });
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
