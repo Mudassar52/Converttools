@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>reponsive break point tester</title>
-    <meta name="description" content="Check how your website looks on different screen sizes instantly. ">
+    <title>PDF to PNG Converter – Extract High-Resolution Images from PDF</title>
+    <meta name="description" content="Seamlessly convert PNG images to JPG format while maintaining top-notch quality.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
 
@@ -171,6 +172,7 @@
 
 
 
+
         * {
             margin: 0;
             padding: 0;
@@ -179,14 +181,13 @@
         }
 
         body {
+            background: linear-gradient(135deg, #f6f8fb, #e9eef5);
             min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #fff;
-            padding-top: 5rem;
+            padding-top: 6rem;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
             padding-left: 2rem;
             padding-right: 2rem;
@@ -195,184 +196,196 @@
         .header {
             text-align: center;
             margin-bottom: 30px;
-            padding-top: 20px;
+            padding: 20px;
         }
 
         .header h1 {
+            color: #1e3a8a;
             font-size: 2.5rem;
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #00f2fe, #4facfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .control-panel {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+        .header p {
+            color: #4b5563;
+            font-size: 1.1rem;
+        }
+
+        .upload-container {
+            background: white;
             border-radius: 20px;
-            padding: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             margin-bottom: 30px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
         }
 
-        .input-group {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .url-input {
-            width: 100%;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 16px;
+        .drop-zone {
+            border: 3px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
             transition: all 0.3s ease;
-        }
-
-        .url-input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
-        }
-
-        .url-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .device-select {
-            width: 100%;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 16px;
+            background: #f8fafc;
             cursor: pointer;
         }
 
-        .device-select option {
-            background: #16213e;
-            color: #fff;
+        .drop-zone.dragover {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .drop-zone-text {
+            color: #64748b;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .select-button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+        }
+
+        .select-button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .convert-button {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            display: none;
+            box-shadow: 0 4px 6px rgba(5, 150, 105, 0.2);
+        }
+
+        .convert-button:hover {
+            background: #047857;
+            transform: translateY(-2px);
         }
 
         .preview-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 60vh;
-            perspective: 1000px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
 
-        .device-frame {
-            position: relative;
-            margin: 0 auto;
-            border: 12px solid #2a2a3a;
-            border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s ease;
-            transform-style: preserve-3d;
-            background: #fff;
+        .preview-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
         }
 
-        .device-frame::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 20px;
-            background: #2a2a3a;
-            border-radius: 0 0 20px 20px;
+        .preview-card:hover {
+            transform: translateY(-5px);
         }
 
-        .device-screen {
+        .preview-image {
             width: 100%;
-            height: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .download-button {
+            background: #3b82f6;
+            color: white;
             border: none;
-            border-radius: 28px;
-            display: block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .download-button:hover {
+            background: #2563eb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
         }
 
         .error-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ff4757;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
+            color: #dc2626;
+            background: #fee2e2;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
             display: none;
-            animation: slideIn 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+            text-align: center;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Device Sizes */
-        .iphone-13 {
-            width: 390px;
-            height: 844px;
-        }
-
-        .pixel-6 {
-            width: 412px;
-            height: 915px;
-        }
-
-        .ipad-pro {
-            width: 834px;
-            height: 1194px;
-        }
-
-        .galaxy-fold {
-            width: 280px;
-            height: 653px;
-        }
-
-        .surface-duo {
-            width: 540px;
-            height: 720px;
-        }
-
-        @media (max-width: 1200px) {
-            .device-frame {
-                transform: scale(0.8) rotateY(5deg);
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
-            .device-frame {
-                transform: scale(0.6) rotateY(5deg);
-            }
             .header h1 {
                 font-size: 2rem;
             }
-            .control-panel {
-                padding: 15px;
+            .upload-container {
+                padding: 20px;
+            }
+            .drop-zone {
+                padding: 30px 20px;
             }
         }
 
-        @media (max-width: 480px) {
-            .device-frame {
-                transform: scale(0.4) rotateY(5deg);
-            }
-            .header h1 {
-                font-size: 1.5rem;
-            }
+        .quality-control {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .quality-control label {
+            color: #4b5563;
+            margin-right: 10px;
+        }
+
+        .quality-control select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
         }
     </style>
 </head>
@@ -442,96 +455,45 @@
 
     <div class="container">
         <div class="header">
-            <h1>Device Preview Tool</h1>
+            <h1>PDF to PNG Converter</h1>
+            <p>Convert your PDF files to high-quality PNG images</p>
         </div>
 
-        <div class="control-panel">
-            <div class="input-group">
-                <input type="text" class="url-input" placeholder="Enter website URL (e.g., google.com)">
+        <div class="upload-container">
+            <div class="drop-zone" id="dropZone">
+                <p class="drop-zone-text">Drag & Drop your PDF file here</p>
+                <p class="drop-zone-text">or</p>
+                <button class="select-button" onclick="document.getElementById('fileInput').click()">
+                    Select PDF File
+                </button>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf">
             </div>
-            <div class="input-group">
-                <select class="device-select">
-                    <option value="iphone-13">iPhone 13</option>
-                    <option value="pixel-6">Pixel 6</option>
-                    <option value="galaxy-fold">Galaxy Fold</option>
-                    <option value="ipad-pro">iPad Pro</option>
-                    <option value="surface-duo">Surface Duo</option>
+
+            <div class="quality-control" id="qualityControl">
+                <label for="resolution">Output Resolution:</label>
+                <select id="resolution">
+                    <option value="1">Normal (1x)</option>
+                    <option value="1.5">High (1.5x)</option>
+                    <option value="2">Ultra High (2x)</option>
                 </select>
             </div>
-        </div>
-        
-        <div class="preview-section">
-            <div class="device-frame iphone-13">
-                <iframe class="device-screen" src="about:blank"></iframe>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Converting pages to PNG...</p>
             </div>
+
+            <button id="convertButton" class="convert-button">Convert to PNG</button>
+            <div class="error-message" id="errorMessage"></div>
         </div>
+
+        <div class="preview-section" id="previewSection"></div>
     </div>
 
-    <div class="error-message"></div>
-
     <script>
-        const urlInput = document.querySelector('.url-input');
-        const deviceSelect = document.querySelector('.device-select');
-        const deviceFrame = document.querySelector('.device-frame');
-        const deviceScreen = document.querySelector('.device-screen');
-        const errorMessage = document.querySelector('.error-message');
 
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 3000);
-        }
-
-        function updatePreview() {
-            let url = urlInput.value.trim();
-            
-            if (!url) {
-                showError('Please enter a URL');
-                return;
-            }
-
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
-
-            try {
-                new URL(url);
-                deviceScreen.src = url;
-            } catch {
-                showError('Please enter a valid URL');
-            }
-        }
-
-        function updateDeviceSize() {
-            deviceFrame.className = 'device-frame ' + deviceSelect.value;
-        }
-
-        urlInput.addEventListener('input', debounce(updatePreview, 1000));
-        urlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                updatePreview();
-            }
-        });
-
-        deviceSelect.addEventListener('change', updateDeviceSize);
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-
-
-        document.addEventListener('DOMContentLoaded', () => {
+        
+document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
             const navLinks = document.querySelectorAll('.nav-link');
@@ -571,6 +533,120 @@
                 }
             });
         });
+
+
+        
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const convertButton = document.getElementById('convertButton');
+        const previewSection = document.getElementById('previewSection');
+        const loading = document.getElementById('loading');
+        const errorMessage = document.getElementById('errorMessage');
+        const qualityControl = document.getElementById('qualityControl');
+        const resolutionSelect = document.getElementById('resolution');
+
+        // Drag and drop handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'application/pdf') {
+                fileInput.files = e.dataTransfer.files;
+                convertButton.style.display = 'block';
+                qualityControl.style.display = 'block';
+                errorMessage.style.display = 'none';
+            } else {
+                showError('Please upload a PDF file');
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                convertButton.style.display = 'block';
+                qualityControl.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        convertButton.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) {
+                showError('Please select a PDF file');
+                return;
+            }
+
+            try {
+                loading.style.display = 'block';
+                convertButton.style.display = 'none';
+                previewSection.innerHTML = '';
+                
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                const scale = parseFloat(resolutionSelect.value);
+                
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: scale });
+                    
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise;
+
+                    const imageUrl = canvas.toDataURL('image/png');
+                    
+                    const card = document.createElement('div');
+                    card.className = 'preview-card';
+                    
+                    const img = document.createElement('img');
+                    img.src = imageUrl;
+                    img.className = 'preview-image';
+                    
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.className = 'download-button';
+                    downloadBtn.innerHTML = `Download Page ${pageNum} <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>`;
+                    
+                    downloadBtn.onclick = () => {
+                        const link = document.createElement('a');
+                        link.href = imageUrl;
+                        link.download = `page_${pageNum}.png`;
+                        link.click();
+                    };
+                    
+                    card.appendChild(img);
+                    card.appendChild(downloadBtn);
+                    previewSection.appendChild(card);
+                }
+            } catch (error) {
+                showError('Error converting PDF: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+                convertButton.style.display = 'block';
+            }
+        });
+
+
     </script>
 </body>
 </html>

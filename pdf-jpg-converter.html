@@ -3,12 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>reponsive break point tester</title>
-    <meta name="description" content="Check how your website looks on different screen sizes instantly. ">
+    <title>Convert PDF to JPG – High-Quality PDF to Image Converter</title>
+    <meta name="description" content="Convert PDF pages into high-quality JPG images in seconds—perfect for easy viewing and sharing.">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-:root {
+        body {
+            background: #f5f7fa;
+            min-height: 100vh;
+            padding-top: 7rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2d3436;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #636e72;
+            font-size: 1.1rem;
+        }
+
+        .upload-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .drop-zone {
+            border: 2px dashed #b2bec3;
+            border-radius: 10px;
+            padding: 40px 20px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .drop-zone.dragover {
+            border-color: #0984e3;
+            background: #f1f9ff;
+        }
+
+        .drop-zone p {
+            color: #636e72;
+            margin: 10px 0;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .convert-btn {
+            background: #0984e3;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .convert-btn:hover {
+            background: #0773c5;
+        }
+
+        .preview-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .preview-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .preview-image {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .download-btn {
+            background: #00b894;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #00a382;
+        }
+
+        .loading {
+            display: none;
+            margin: 20px 0;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0984e3;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #d63031;
+            margin-top: 10px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .upload-section {
+                padding: 20px;
+            }
+        }
+
+
+        :root {
             --primary-color: #1a73e8;
             --secondary-color: #00e6b3;
             --text-color: #333;
@@ -168,212 +324,6 @@
             }
         }
 
-
-
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #fff;
-            padding-top: 5rem;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-top: 20px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #00f2fe, #4facfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .control-panel {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .input-group {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .url-input {
-            width: 100%;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .url-input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 20px rgba(79, 172, 254, 0.3);
-        }
-
-        .url-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .device-select {
-            width: 100%;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        .device-select option {
-            background: #16213e;
-            color: #fff;
-        }
-
-        .preview-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 60vh;
-            perspective: 1000px;
-        }
-
-        .device-frame {
-            position: relative;
-            margin: 0 auto;
-            border: 12px solid #2a2a3a;
-            border-radius: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            transition: all 0.5s ease;
-            transform-style: preserve-3d;
-            background: #fff;
-        }
-
-        .device-frame::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 20px;
-            background: #2a2a3a;
-            border-radius: 0 0 20px 20px;
-        }
-
-        .device-screen {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 28px;
-            display: block;
-        }
-
-        .error-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ff4757;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            display: none;
-            animation: slideIn 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Device Sizes */
-        .iphone-13 {
-            width: 390px;
-            height: 844px;
-        }
-
-        .pixel-6 {
-            width: 412px;
-            height: 915px;
-        }
-
-        .ipad-pro {
-            width: 834px;
-            height: 1194px;
-        }
-
-        .galaxy-fold {
-            width: 280px;
-            height: 653px;
-        }
-
-        .surface-duo {
-            width: 540px;
-            height: 720px;
-        }
-
-        @media (max-width: 1200px) {
-            .device-frame {
-                transform: scale(0.8) rotateY(5deg);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .device-frame {
-                transform: scale(0.6) rotateY(5deg);
-            }
-            .header h1 {
-                font-size: 2rem;
-            }
-            .control-panel {
-                padding: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .device-frame {
-                transform: scale(0.4) rotateY(5deg);
-            }
-            .header h1 {
-                font-size: 1.5rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -439,98 +389,34 @@
     </nav>
 
 
-
     <div class="container">
         <div class="header">
-            <h1>Device Preview Tool</h1>
+            <h1>PDF to JPG Converter</h1>
+            <p>Convert your PDF files to high-quality JPG images</p>
         </div>
 
-        <div class="control-panel">
-            <div class="input-group">
-                <input type="text" class="url-input" placeholder="Enter website URL (e.g., google.com)">
+        <div class="upload-section">
+            <div class="drop-zone" id="dropZone">
+                <p>Drag & Drop your PDF file here</p>
+                <p>or</p>
+                <button onclick="document.getElementById('fileInput').click()" class="convert-btn" style="display: inline-block;">
+                    Choose File
+                </button>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf">
             </div>
-            <div class="input-group">
-                <select class="device-select">
-                    <option value="iphone-13">iPhone 13</option>
-                    <option value="pixel-6">Pixel 6</option>
-                    <option value="galaxy-fold">Galaxy Fold</option>
-                    <option value="ipad-pro">iPad Pro</option>
-                    <option value="surface-duo">Surface Duo</option>
-                </select>
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Converting pages...</p>
             </div>
+            <button id="convertBtn" class="convert-btn">Convert to JPG</button>
+            <div class="error-message" id="errorMessage"></div>
         </div>
-        
-        <div class="preview-section">
-            <div class="device-frame iphone-13">
-                <iframe class="device-screen" src="about:blank"></iframe>
-            </div>
-        </div>
+
+        <div class="preview-section" id="previewSection"></div>
     </div>
 
-    <div class="error-message"></div>
-
     <script>
-        const urlInput = document.querySelector('.url-input');
-        const deviceSelect = document.querySelector('.device-select');
-        const deviceFrame = document.querySelector('.device-frame');
-        const deviceScreen = document.querySelector('.device-screen');
-        const errorMessage = document.querySelector('.error-message');
-
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            setTimeout(() => {
-                errorMessage.style.display = 'none';
-            }, 3000);
-        }
-
-        function updatePreview() {
-            let url = urlInput.value.trim();
-            
-            if (!url) {
-                showError('Please enter a URL');
-                return;
-            }
-
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                url = 'https://' + url;
-            }
-
-            try {
-                new URL(url);
-                deviceScreen.src = url;
-            } catch {
-                showError('Please enter a valid URL');
-            }
-        }
-
-        function updateDeviceSize() {
-            deviceFrame.className = 'device-frame ' + deviceSelect.value;
-        }
-
-        urlInput.addEventListener('input', debounce(updatePreview, 1000));
-        urlInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                updatePreview();
-            }
-        });
-
-        deviceSelect.addEventListener('change', updateDeviceSize);
-
-        function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        }
-
-
-
+        
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.querySelector('.hamburger');
             const navMenu = document.querySelector('.nav-menu');
@@ -571,6 +457,117 @@
                 }
             });
         });
+
+
+
+        
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const convertBtn = document.getElementById('convertBtn');
+        const previewSection = document.getElementById('previewSection');
+        const loadingElement = document.querySelector('.loading');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Drag and drop handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'application/pdf') {
+                fileInput.files = e.dataTransfer.files;
+                convertBtn.style.display = 'inline-block';
+                errorMessage.style.display = 'none';
+            } else {
+                showError('Please upload a PDF file');
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                convertBtn.style.display = 'inline-block';
+                errorMessage.style.display = 'none';
+            }
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        convertBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) {
+                showError('Please select a PDF file');
+                return;
+            }
+
+            try {
+                loadingElement.style.display = 'block';
+                convertBtn.style.display = 'none';
+                previewSection.innerHTML = '';
+                
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise;
+
+                    const imageUrl = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    // Create preview card
+                    const card = document.createElement('div');
+                    card.className = 'preview-card';
+                    
+                    const img = document.createElement('img');
+                    img.src = imageUrl;
+                    img.className = 'preview-image';
+                    
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.className = 'download-btn';
+                    downloadBtn.textContent = `Download Page ${pageNum}`;
+                    downloadBtn.onclick = () => {
+                        const link = document.createElement('a');
+                        link.href = imageUrl;
+                        link.download = `page_${pageNum}.jpg`;
+                        link.click();
+                    };
+                    
+                    card.appendChild(img);
+                    card.appendChild(downloadBtn);
+                    previewSection.appendChild(card);
+                }
+            } catch (error) {
+                showError('Error converting PDF: ' + error.message);
+            } finally {
+                loadingElement.style.display = 'none';
+                convertBtn.style.display = 'inline-block';
+            }
+        });
+
+
+
     </script>
 </body>
 </html>
