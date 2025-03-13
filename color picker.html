@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Picker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+            :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f7f9fc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 800px;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .header {
+      padding: 25px;
+      text-align: center;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .header h1 {
+      font-weight: 600;
+      font-size: 1.8rem;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    .header p {
+      color: #777;
+      font-size: 0.95rem;
+    }
+    
+    .color-display {
+      height: 180px;
+      transition: background-color 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .color-value {
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    
+    .color-value:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .color-value:active {
+      transform: translateY(0);
+    }
+    
+    .controls {
+      padding: 25px;
+      background-color: #fdfdfd;
+    }
+    
+    .sliders {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    .slider-label span {
+      width: 40px;
+      text-align: right;
+    }
+    
+    input[type="range"] {
+      width: 100%;
+      height: 5px;
+      -webkit-appearance: none;
+      appearance: none;
+      background-color: #eee;
+      border-radius: 5px;
+      outline: none;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    input[type="range"]:focus::-webkit-slider-thumb {
+      transform: scale(1.2);
+    }
+    
+    #red-slider::-webkit-slider-thumb {
+      background-color: #FF5252;
+    }
+    
+    #green-slider::-webkit-slider-thumb {
+      background-color: #4CAF50;
+    }
+    
+    #blue-slider::-webkit-slider-thumb {
+      background-color: #2196F3;
+    }
+    
+    #alpha-slider::-webkit-slider-thumb {
+      background-color: #9E9E9E;
+    }
+    
+    .color-formats {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+    
+    .format-btn {
+      border: none;
+      background-color: white;
+      border: 1px solid #e0e0e0;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .format-btn.active {
+      background-color: #333;
+      color: white;
+      border-color: #333;
+    }
+    
+    .format-btn:hover:not(.active) {
+      background-color: #f5f5f5;
+    }
+    
+    .history {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .history-color {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .history-color:hover {
+      transform: scale(1.1);
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #333;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    
+    .toast.show {
+      opacity: 1;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        width: 95%;
+      }
+      
+      .header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .color-value {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+        <a href="#" class="logo">
+            <i class="fas fa-file-pdf"></i>
+            ToolHub
+        </a>
+        <button class="hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-menu">
+            <li><a href="./index.html" class="nav-link">Home</a></li>
+            <li>
+                <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="./jpg to png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                    <a href="./png to jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                    <a href="./image to pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                    <a href="./pdf to image.html"><i class="fas fa-image"></i> PDF to Image</a>
+                    <a href="./image resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                    <a href="./thumbnail download.html"><i class="fas fa-download"></i> Thumbnail</a>
+                </div>
+            </li>
+            <li>
+                <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="./text to pdf.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                    <a href="./text to doc.html"><i class="fas fa-file-word"></i> Text to DOC</a>
+                    <a href="./doc to text.html"><i class="fas fa-file-alt"></i> DOC to Text</a>
+                    <a href="./code editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                    <a href="./table editor.html"><i class="fas fa-table"></i> Table Editor</a>
+                    <a href="./pdf split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                </div>
+            </li>
+            <li>
+                <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="./Merge Pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                    <a href="./pdf to text.html"><i class="fas fa-file-alt"></i> PDF to Text</a>
+                    <a href="./Pdf to Doc.html"><i class="fas fa-file-word"></i> PDF to DOC</a>
+                    <a href="./pdf to zip.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                    <a href="./zip extract.html"><i class="fas fa-file-pdf"></i> Zip Extract </a>
+                    <a href="./excel to pdf.html"><i class="fas fa-file-alt"></i> Excel to PDF</a>
+                </div>
+            </li>
+            <li>
+                <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown">
+                    <a href="./doc to pdf.html"><i class="fas fa-file-pdf"></i> DOC to PDF</a>
+                    <a href="./Svg to Pdf.html"><i class="fas fa-file-pdf"></i> SVG to PDF</a>
+                    <a href="./gif to pdf.html"><i class="fas fa-file-pdf"></i> GIF to PDF</a>
+                    <a href="./image compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                    <a href="./image converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                    <a href="./watermark to pdf.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                </div>
+            </li>
+            <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+
+
+  <div class="container">
+    <div class="header">
+      <h1>Modern Color Picker</h1>
+      <p>Adjust sliders to create your perfect color</p>
+    </div>
+    
+    <div id="color-display" class="color-display">
+      <div id="color-value" class="color-value">#FF5722</div>
+    </div>
+    
+    <div class="controls">
+      <div class="sliders">
+        <div class="slider-group">
+          <div class="slider-label">
+            <label for="red-slider">Red</label>
+            <span id="red-value">255</span>
+          </div>
+          <input type="range" id="red-slider" min="0" max="255" value="255" class="slider">
+        </div>
+        
+        <div class="slider-group">
+          <div class="slider-label">
+            <label for="green-slider">Green</label>
+            <span id="green-value">87</span>
+          </div>
+          <input type="range" id="green-slider" min="0" max="255" value="87" class="slider">
+        </div>
+        
+        <div class="slider-group">
+          <div class="slider-label">
+            <label for="blue-slider">Blue</label>
+            <span id="blue-value">34</span>
+          </div>
+          <input type="range" id="blue-slider" min="0" max="255" value="34" class="slider">
+        </div>
+        
+        <div class="slider-group">
+          <div class="slider-label">
+            <label for="alpha-slider">Alpha</label>
+            <span id="alpha-value">100%</span>
+          </div>
+          <input type="range" id="alpha-slider" min="0" max="100" value="100" class="slider">
+        </div>
+      </div>
+      
+      <div class="color-formats">
+        <button class="format-btn active" data-format="hex">HEX</button>
+        <button class="format-btn" data-format="rgb">RGB</button>
+        <button class="format-btn" data-format="rgba">RGBA</button>
+        <button class="format-btn" data-format="hsl">HSL</button>
+      </div>
+      
+      <div class="history" id="history">
+        <!-- Color history will be generated here -->
+      </div>
+    </div>
+  </div>
+  
+  <div id="toast" class="toast">Color copied to clipboard!</div>
+  
+  <script>
+    // DOM elements
+    const colorDisplay = document.getElementById('color-display');
+    const colorValue = document.getElementById('color-value');
+    const redSlider = document.getElementById('red-slider');
+    const greenSlider = document.getElementById('green-slider');
+    const blueSlider = document.getElementById('blue-slider');
+    const alphaSlider = document.getElementById('alpha-slider');
+    const redValue = document.getElementById('red-value');
+    const greenValue = document.getElementById('green-value');
+    const blueValue = document.getElementById('blue-value');
+    const alphaValue = document.getElementById('alpha-value');
+    const formatButtons = document.querySelectorAll('.format-btn');
+    const historyContainer = document.getElementById('history');
+    const toast = document.getElementById('toast');
+    
+    // State
+    let currentFormat = 'hex';
+    let colorHistory = [];
+    const maxHistoryItems = 12;
+    
+    // Initialize
+    updateColor();
+    
+    // Event listeners
+    redSlider.addEventListener('input', handleSliderChange);
+    greenSlider.addEventListener('input', handleSliderChange);
+    blueSlider.addEventListener('input', handleSliderChange);
+    alphaSlider.addEventListener('input', handleSliderChange);
+    
+    colorValue.addEventListener('click', () => {
+      navigator.clipboard.writeText(colorValue.textContent)
+        .then(() => showToast('Color copied to clipboard!'))
+        .catch(() => showToast('Failed to copy color'));
+    });
+    
+    formatButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        formatButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFormat = btn.dataset.format;
+        updateColor();
+      });
+    });
+    
+    // Functions
+    function handleSliderChange() {
+      updateColor();
+      
+      // Update labels
+      redValue.textContent = redSlider.value;
+      greenValue.textContent = greenSlider.value;
+      blueValue.textContent = blueSlider.value;
+      alphaValue.textContent = alphaSlider.value + '%';
+    }
+    
+    function updateColor() {
+      const r = parseInt(redSlider.value);
+      const g = parseInt(greenSlider.value);
+      const b = parseInt(blueSlider.value);
+      const a = parseInt(alphaSlider.value) / 100;
+      
+      // Update background
+      colorDisplay.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+      
+      // Update color value based on format
+      let displayValue;
+      switch(currentFormat) {
+        case 'hex':
+          displayValue = rgbToHex(r, g, b);
+          break;
+        case 'rgb':
+          displayValue = `rgb(${r}, ${g}, ${b})`;
+          break;
+        case 'rgba':
+          displayValue = `rgba(${r}, ${g}, ${b}, ${a.toFixed(2)})`;
+          break;
+        case 'hsl':
+          const hsl = rgbToHsl(r, g, b);
+          displayValue = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+          break;
+      }
+      
+      colorValue.textContent = displayValue;
+      
+      // Add to history if significantly different (and not transparent)
+      if (a > 0.1) {
+        const hexColor = rgbToHex(r, g, b);
+        if (!colorHistory.includes(hexColor)) {
+          addToHistory(hexColor);
+        }
+      }
+    }
+    
+    function addToHistory(hexColor) {
+      if (colorHistory.length >= maxHistoryItems) {
+        colorHistory.shift();
+      }
+      
+      colorHistory.push(hexColor);
+      renderHistory();
+    }
+    
+    function renderHistory() {
+      historyContainer.innerHTML = '';
+      
+      colorHistory.forEach(color => {
+        const colorEl = document.createElement('div');
+        colorEl.className = 'history-color';
+        colorEl.style.backgroundColor = color;
+        colorEl.title = color;
+        colorEl.addEventListener('click', () => {
+          const rgb = hexToRgb(color);
+          redSlider.value = rgb.r;
+          greenSlider.value = rgb.g;
+          blueSlider.value = rgb.b;
+          
+          redValue.textContent = rgb.r;
+          greenValue.textContent = rgb.g;
+          blueValue.textContent = rgb.b;
+          
+          updateColor();
+        });
+        
+        historyContainer.appendChild(colorEl);
+      });
+    }
+    
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+    
+    // Utility functions
+    function rgbToHex(r, g, b) {
+      return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+    }
+    
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+    
+    function rgbToHsl(r, g, b) {
+      r /= 255;
+      g /= 255;
+      b /= 255;
+      
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      
+      if (max === min) {
+        h = s = 0; // achromatic
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        
+        h /= 6;
+      }
+      
+      return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+      };
+    }
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+  </script>
+</body>
+</html>
