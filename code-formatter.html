@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Formatter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --success-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding-top: 5rem;
+        }
+
+
+
+          /* Navigation Styles */
+          .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 600;
+        }
+
+        .description {
+            margin-top: 10px;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .language-selector {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .language-selector label {
+            margin-right: 10px;
+            font-weight: 500;
+        }
+
+        select {
+            padding: 10px 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            background-color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        .code-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .code-container {
+                flex-direction: row;
+            }
+        }
+
+        .input-container, .output-container {
+            flex: 1;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .container-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .container-title svg {
+            margin-right: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 350px;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            resize: vertical;
+            background-color: white;
+            color: #333;
+            transition: var(--transition);
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+
+        #input-code {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        #output-code {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .button {
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 120px;
+        }
+
+        .button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button svg {
+            margin-right: 8px;
+        }
+
+        #format-btn {
+            background-color: var(--primary-color);
+        }
+
+        #clear-btn {
+            background-color: #6c757d;
+        }
+
+        #copy-btn {
+            background-color: var(--success-color);
+        }
+
+        .error {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            padding: 10px;
+            background-color: rgba(220, 53, 69, 0.1);
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .line-numbers {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 40px;
+            background-color: #252526;
+            color: #858585;
+            text-align: right;
+            padding: 15px 5px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            user-select: none;
+        }
+
+        .code-wrapper {
+            position: relative;
+        }
+
+        .status {
+            margin-top: 10px;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            text-align: center;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .theme-switch {
+            position: absolute;
+            top: 40px;
+            right: 90px;
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-switch label {
+            margin-right: 10px;
+            color: white;
+        }
+
+        .toggle {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: var(--transition);
+        }
+
+        .dark-mode .toggle::after {
+            left: 32px;
+        }
+
+        .dark-mode {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: white;
+        }
+
+        .dark-mode .container {
+            background-color: #1f2937;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .dark-mode .input-container, .dark-mode .output-container {
+            background-color: #111827;
+        }
+
+        .dark-mode select {
+            background-color: #374151;
+            color: white;
+            border-color: #4b5563;
+        }
+
+        .dark-mode textarea {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border-color: #4b5563;
+        }
+
+        @media (max-width: 767px) {
+            .code-container {
+                flex-direction: column;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+            
+            .button {
+                width: 100%;
+            }
+            
+            .theme-switch {
+                position: static;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            
+            .theme-switch label {
+                color: var(--dark-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ToolHub
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg to png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png to jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image to pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf to image.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./thumbnail download.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text to pdf.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./text to doc.html"><i class="fas fa-file-word"></i> Text to DOC</a>
+                        <a href="./doc to text.html"><i class="fas fa-file-alt"></i> DOC to Text</a>
+                        <a href="./code editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./table editor.html"><i class="fas fa-table"></i> Table Editor</a>
+                        <a href="./pdf split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./Merge Pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./pdf to text.html"><i class="fas fa-file-alt"></i> PDF to Text</a>
+                        <a href="./Pdf to Doc.html"><i class="fas fa-file-word"></i> PDF to DOC</a>
+                        <a href="./pdf to zip.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./zip extract.html"><i class="fas fa-file-pdf"></i> Zip Extract </a>
+                        <a href="./excel to pdf.html"><i class="fas fa-file-alt"></i> Excel to PDF</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./doc to pdf.html"><i class="fas fa-file-pdf"></i> DOC to PDF</a>
+                        <a href="./Svg to Pdf.html"><i class="fas fa-file-pdf"></i> SVG to PDF</a>
+                        <a href="./gif to pdf.html"><i class="fas fa-file-pdf"></i> GIF to PDF</a>
+                        <a href="./image compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./watermark to pdf.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <header>
+            <h1>Code Formatter</h1>
+            <p class="description">Format your HTML, CSS, and JavaScript code with ease</p>
+            <div class="theme-switch">
+                <label for="theme-toggle">Dark Mode</label>
+                <div class="toggle" id="theme-toggle"></div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="language-selector">
+                <label for="language">Select Language:</label>
+                <select id="language">
+                    <option value="html">HTML</option>
+                    <option value="css">CSS</option>
+                    <option value="javascript">JavaScript</option>
+                </select>
+            </div>
+            
+            <div class="code-container">
+                <div class="input-container">
+                    <h3 class="container-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2 1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0-.5.5z"/>
+                        </svg>
+                        Input Code
+                    </h3>
+                    <div class="code-wrapper">
+                        <textarea id="input-code" placeholder="Paste your unformatted code here..."></textarea>
+                    </div>
+                    <div id="input-error" class="error"></div>
+                </div>
+                
+                <div class="output-container">
+                    <h3 class="container-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M6.854 4.646a.5.5 0 0 1 0 .708L4.207 8l2.647 2.646a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 0 1 .708 0zm2.292 0a.5.5 0 0 0 0 .708L11.793 8l-2.647 2.646a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708 0z"/>
+                        </svg>
+                        Formatted Code
+                    </h3>
+                    <div class="code-wrapper">
+                        <textarea id="output-code" readonly></textarea>
+                    </div>
+                    <div id="status" class="status"></div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button id="format-btn" class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                    </svg>
+                    Format Code
+                </button>
+                <button id="clear-btn" class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                    </svg>
+                    Clear
+                </button>
+                <button id="copy-btn" class="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                    </svg>
+                    Copy Code
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Format your code with ease and improve readability</p>
+        </footer>
+    </div>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const inputCode = document.getElementById('input-code');
+    const outputCode = document.getElementById('output-code');
+    const formatBtn = document.getElementById('format-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const copyBtn = document.getElementById('copy-btn');
+    const languageSelect = document.getElementById('language');
+    const inputError = document.getElementById('input-error');
+    const statusElement = document.getElementById('status');
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+    
+    // Theme toggle
+    themeToggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+    
+    // Format HTML function
+    function formatHTML(code) {
+        let formatted = '';
+        let indent = 0;
+        const indentSize = 2;
+        
+        // Remove extra whitespace and line breaks
+        code = code.trim();
+        
+        // Split the code into individual characters
+        const chars = code.split('');
+        let inTag = false;
+        let inComment = false;
+        let inQuotes = false;
+        let quoteChar = '';
+        let lastChar = '';
+        
+        for (let i = 0; i < chars.length; i++) {
+            const char = chars[i];
+            const nextChar = chars[i + 1] || '';
+            
+            // Handle comments
+            if (!inComment && char === '<' && nextChar === '!') {
+                const commentStart = code.substr(i, 4);
+                if (commentStart === '<!--') {
+                    inComment = true;
+                    formatted += '\n' + ' '.repeat(indent) + '<!--';
+                    i += 3;
+                    continue;
+                }
+            }
+            
+            if (inComment) {
+                if (char === '-' && nextChar === '-' && chars[i + 2] === '>') {
+                    inComment = false;
+                    formatted += '-->';
+                    i += 2;
+                    continue;
+                }
+                formatted += char;
+                continue;
+            }
+            
+            // Handle quotes
+            if ((char === '"' || char === "'") && !inQuotes && lastChar !== '\\') {
+                inQuotes = true;
+                quoteChar = char;
+                formatted += char;
+                continue;
+            }
+            
+            if (char === quoteChar && inQuotes && lastChar !== '\\') {
+                inQuotes = false;
+                formatted += char;
+                continue;
+            }
+            
+            if (inQuotes) {
+                formatted += char;
+                continue;
+            }
+            
+            // Handle self-closing tags
+            if (char === '/' && nextChar === '>' && inTag) {
+                formatted += '/>';
+                inTag = false;
+                i++;
+                continue;
+            }
+            
+            // Handle opening tags
+            if (char === '<' && nextChar !== '/') {
+                // Check if it's a void element (doesn't need closing tag)
+                const voidElements = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+                let tagName = '';
+                let j = i + 1;
+                while (j < chars.length && chars[j] !== ' ' && chars[j] !== '>') {
+                    tagName += chars[j];
+                    j++;
+                }
+                
+                inTag = true;
+                formatted += '\n' + ' '.repeat(indent) + '<';
+                
+                // Don't increase indent for void elements
+                if (!voidElements.includes(tagName.toLowerCase())) {
+                    indent += indentSize;
+                }
+            } 
+            // Handle closing tags
+            else if (char === '<' && nextChar === '/') {
+                inTag = true;
+                indent -= indentSize;
+                formatted += '\n' + ' '.repeat(indent) + '<';
+            } 
+            // Handle end of tags
+            else if (char === '>' && inTag) {
+                inTag = false;
+                formatted += '>';
+            } 
+            // Handle space in tags
+            else if (char === ' ' && inTag) {
+                // Collapse multiple spaces
+                formatted += ' ';
+                while (i + 1 < chars.length && chars[i + 1] === ' ') {
+                    i++;
+                }
+            } 
+            // Handle text content
+            else if (char === '\n' && !inTag) {
+                // Collapse multiple newlines
+                while (i + 1 < chars.length && chars[i + 1] === '\n') {
+                    i++;
+                }
+                formatted += '\n' + ' '.repeat(indent);
+            } 
+            else {
+                formatted += char;
+            }
+            
+            lastChar = char;
+        }
+        
+        return formatted.trim();
+    }
+    
+    // Format CSS function
+    function formatCSS(code) {
+        let formatted = '';
+        let indent = 0;
+        const indentSize = 2;
+        
+        // Remove comments
+        code = code.replace(/\/\*[\s\S]*?\*\//g, '');
+        
+        // Remove extra whitespace
+        code = code.trim();
+        
+        // Process the code
+        let inSelector = true;
+        let inProperty = false;
+        let inValue = false;
+        let inBlock = false;
+        let inComment = false;
+        let buffer = '';
+        
+        for (let i = 0; i < code.length; i++) {
+            const char = code[i];
+            const nextChar = code[i + 1] || '';
+            
+            // Handle comments
+            if (char === '/' && nextChar === '*') {
+                inComment = true;
+                formatted += '/*';
+                i++;
+                continue;
+            }
+            
+            if (inComment) {
+                if (char === '*' && nextChar === '/') {
+                    inComment = false;
+                    formatted += '*/';
+                    i++;
+                } else {
+                    formatted += char;
+                }
+                continue;
+            }
+            
+            // Handle selectors and blocks
+            if (char === '{') {
+                inSelector = false;
+                inBlock = true;
+                formatted += ' {\n';
+                indent += indentSize;
+                continue;
+            }
+            
+            if (char === '}') {
+                inBlock = false;
+                inSelector = true;
+                indent -= indentSize;
+                formatted += '\n' + ' '.repeat(indent) + '}\n\n';
+                continue;
+            }
+            
+            // Handle properties and values
+            if (inBlock && char === ':') {
+                inProperty = false;
+                inValue = true;
+                formatted += ': ';
+                continue;
+            }
+            
+            if (inBlock && char === ';') {
+                inValue = false;
+                inProperty = true;
+                formatted += ';\n' + ' '.repeat(indent);
+                continue;
+            }
+            
+            // Handle whitespace
+            if (char === ' ' || char === '\t' || char === '\n') {
+                if (inSelector && buffer.trim()) {
+                    formatted += buffer.trim() + ' ';
+                    buffer = '';
+                } else if (inProperty && buffer.trim()) {
+                    formatted += buffer.trim();
+                    buffer = '';
+                } else if (inValue && buffer.trim()) {
+                    formatted += buffer.trim();
+                    buffer = '';
+                }
+                continue;
+            }
+            
+            // Start of a new property
+            if (inBlock && !inProperty && !inValue && char !== ' ' && char !== '\t' && char !== '\n') {
+                inProperty = true;
+                formatted += ' '.repeat(indent);
+            }
+            
+            // Start of a new selector
+            if (!inBlock && !inSelector && char !== ' ' && char !== '\t' && char !== '\n') {
+                inSelector = true;
+                formatted += '\n' + ' '.repeat(indent);
+            }
+            
+            buffer += char;
+        }
+        
+        // Add any remaining buffer
+        if (buffer.trim()) {
+            formatted += buffer.trim();
+        }
+        
+        return formatted.trim();
+    }
+    
+    // Format JavaScript function
+    function formatJavaScript(code) {
+        let formatted = '';
+        let indent = 0;
+        const indentSize = 2;
+        
+        // Remove comments
+        code = code.replace(/\/\*[\s\S]*?\*\//g, '');
+        code = code.replace(/\/\/.*$/gm, '');
+        
+        // Trim whitespace
+        code = code.trim();
+        
+        // Process the code
+        let inString = false;
+        let stringChar = '';
+        let inComment = false;
+        let inRegex = false;
+        let lastChar = '';
+        let nextChar = '';
+        
+        for (let i = 0; i < code.length; i++) {
+            const char = code[i];
+            nextChar = code[i + 1] || '';
+            
+            // Handle strings
+            if ((char === '"' || char === "'" || char === '`') && !inComment && !inRegex && lastChar !== '\\') {
+                if (!inString) {
+                    inString = true;
+                    stringChar = char;
+                } else if (char === stringChar) {
+                    inString = false;
+                }
+                formatted += char;
+                lastChar = char;
+                continue;
+            }
+            
+            // Skip if in string
+            if (inString) {
+                formatted += char;
+                lastChar = char;
+                continue;
+            }
+            
+            // Handle comments
+            if (char === '/' && nextChar === '/') {
+                inComment = true;
+                formatted += '//';
+                i++;
+                continue;
+            }
+            
+            if (char === '/' && nextChar === '*') {
+                inComment = true;
+                formatted += '/*';
+                i++;
+                continue;
+            }
+            
+            if (inComment && char === '\n') {
+                inComment = false;
+                formatted += '\n' + ' '.repeat(indent);
+                continue;
+            }
+            
+            if (inComment && char === '*' && nextChar === '/') {
+                inComment = false;
+                formatted += '*/';
+                i++;
+                continue;
+            }
+            
+            if (inComment) {
+                formatted += char;
+                continue;
+            }
+            
+            // Handle regex
+            if (char === '/' && !inString && !inComment && !inRegex && 
+                (lastChar === '(' || lastChar === '=' || lastChar === ',' || lastChar === ':' || lastChar === '[')) {
+                inRegex = true;
+                formatted += char;
+                lastChar = char;
+                continue;
+            }
+            
+            if (char === '/' && inRegex && lastChar !== '\\') {
+                inRegex = false;
+                formatted += char;
+                lastChar = char;
+                continue;
+            }
+            
+            if (inRegex) {
+                formatted += char;
+                lastChar = char;
+                continue;
+            }
+            
+            // Handle braces and indent
+            if (char === '{') {
+                formatted += ' {\n' + ' '.repeat(indent + indentSize);
+                indent += indentSize;
+            } else if (char === '}') {
+                indent -= indentSize;
+                formatted = formatted.trimEnd() + '\n' + ' '.repeat(indent) + '}';
+            } else if (char === ';') {
+                formatted += ';\n' + ' '.repeat(indent);
+            } else if (char === '\n') {
+                formatted += '\n' + ' '.repeat(indent);
+            } else {
+                // Handle operators with spacing
+                if ((char === '+' || char === '-' || char === '*' || char === '/' || char === '=' || char === '>' || char === '<') && 
+                    lastChar !== ' ' && formatted.slice(-1) !== ' ' && lastChar !== char) {
+                    formatted += ' ' + char + ' ';
+                } else if (char === ',') {
+                    formatted += ', ';
+                } else {
+                    formatted += char;
+                }
+            }
+            
+            lastChar = char;
+        }
+        
+        return formatted.trim();
+    }
+    
+    // Format code based on selected language
+    function formatCode() {
+        const code = inputCode.value.trim();
+        const language = languageSelect.value;
+        
+        if (!code) {
+            showError('Please enter some code to format.');
+            return;
+        }
+        
+        try {
+            let formattedCode = '';
+            
+            if (language === 'html') {
+                formattedCode = formatHTML(code);
+            } else if (language === 'css') {
+                formattedCode = formatCSS(code);
+            } else if (language === 'javascript') {
+                formattedCode = formatJavaScript(code);
+            }
+            
+            outputCode.value = formattedCode;
+            showStatus('Code formatted successfully!');
+            hideError();
+        } catch (error) {
+            showError('Error formatting code: ' + error.message);
+        }
+    }
+    
+    // Show error message
+    function showError(message) {
+        inputError.textContent = message;
+        inputError.classList.add('show');
+    }
+    
+    // Hide error message
+    function hideError() {
+        inputError.classList.remove('show');
+    }
+    
+    // Show status message
+    function showStatus(message) {
+        statusElement.textContent = message;
+        statusElement.classList.add('show');
+        
+        // Hide status after 3 seconds
+        setTimeout(function() {
+            statusElement.classList.remove('show');
+        }, 3000);
+    }
+    
+    // Clear code
+    function clearCode() {
+        inputCode.value = '';
+        outputCode.value = '';
+        hideError();
+        statusElement.classList.remove('show');
+    }
+    
+    // Copy formatted code
+    function copyCode() {
+        const formattedCode = outputCode.value;
+        
+        if (!formattedCode) {
+            showError('No formatted code to copy.');
+            return;
+        }
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(formattedCode)
+            .then(() => {
+                showStatus('Code copied to clipboard!');
+            })
+            .catch(err => {
+                showError('Failed to copy code: ' + err.message);
+            });
+    }
+    
+    // Event listeners
+    formatBtn.addEventListener('click', formatCode);
+    clearBtn.addEventListener('click', clearCode);
+    copyBtn.addEventListener('click', copyCode);
+    
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Format with Ctrl+Shift+F
+        if (e.ctrlKey && e.shiftKey && e.key === 'F') {
+            e.preventDefault();
+            formatCode();
+        }
+        
+        // Clear with Esc
+        if (e.key === 'Escape') {
+            clearCode();
+        }
+        
+        // Copy with Ctrl+Shift+C
+        if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+            e.preventDefault();
+            copyCode();
+        }
+    });
+    
+    // Add sample code for testing
+    const sampleCode = {
+        html: '<!DOCTYPE html><html><head><title>Example</title></head><body><div class="container"><h1>Hello World</h1><p>This is a sample HTML code.</p></div></body></html>',
+        css: 'body{margin:0;padding:0;font-family:Arial,sans-serif;}.container{max-width:1200px;margin:0 auto;padding:20px;}h1{color:#333;font-size:24px;}p{line-height:1.6;color:#666;}',
+        javascript: 'function greeting(name){const message="Hello, "+name+"!";console.log(message);return message;}const user="World";greeting(user);'
+    };
+    
+    // Load sample code if input is empty
+    languageSelect.addEventListener('change', function() {
+        const language = languageSelect.value;
+        if (!inputCode.value.trim()) {
+            inputCode.value = sampleCode[language] || '';
+        }
+    });
+});
+
+</script>
+</body>
+</html>
