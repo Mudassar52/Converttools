@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SERP Preview Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .preview-container {
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+        }
+        .preview-title {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .serp-preview {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+        }
+        .serp-title {
+            color: #1a0dab;
+            font-size: 18px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        .serp-title:hover {
+            text-decoration: underline;
+        }
+        .serp-url {
+            color: #006621;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .serp-description {
+            color: #545454;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .counter {
+            color: #777;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .red {
+            color: #e74c3c;
+        }
+        .button {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #3367d6;
+        }
+        .search-engine-select {
+            margin-bottom: 20px;
+        }
+        .search-engine-select label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        .search-engine-select input {
+            margin-right: 5px;
+        }
+        .google-preview .serp-title {
+            color: #1a0dab;
+        }
+        .google-preview .serp-url {
+            color: #006621;
+        }
+        .bing-preview .serp-title {
+            color: #0066c0;
+        }
+        .bing-preview .serp-url {
+            color: #006d21;
+        }
+        .mobile-preview {
+            max-width: 400px;
+        }
+        .mobile-preview .serp-title {
+            font-size: 16px;
+        }
+        .mobile-preview .serp-url,
+        .mobile-preview .serp-description {
+            font-size: 13px;
+        }
+        .view-select {
+            margin-bottom: 20px;
+        }
+        .view-select label {
+            display: inline-block;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>SERP Preview Tool</h1>
+        
+        <div class="search-engine-select">
+            <label><input type="radio" name="search-engine" value="google" checked> Google</label>
+            <label><input type="radio" name="search-engine" value="bing"> Bing</label>
+        </div>
+        
+        <div class="view-select">
+            <label><input type="radio" name="view" value="desktop" checked> Desktop</label>
+            <label><input type="radio" name="view" value="mobile"> Mobile</label>
+        </div>
+        
+        <div class="input-group">
+            <label for="page-title">Page Title:</label>
+            <input type="text" id="page-title" placeholder="Enter your page title" value="Example Page Title - Your Brand">
+            <div class="counter" id="title-counter">60 characters of 60 remaining</div>
+        </div>
+        
+        <div class="input-group">
+            <label for="page-url">Page URL:</label>
+            <input type="text" id="page-url" placeholder="Enter your page URL" value="https://www.example.com/page-url">
+        </div>
+        
+        <div class="input-group">
+            <label for="meta-description">Meta Description:</label>
+            <textarea id="meta-description" placeholder="Enter your meta description">This is an example meta description for your page. It should be concise and describe what users can expect when they visit your page.</textarea>
+            <div class="counter" id="description-counter">160 characters of 160 remaining</div>
+        </div>
+        
+        <button class="button" id="update-preview">Update Preview</button>
+        
+        <div class="preview-container">
+            <h2 class="preview-title">SERP Preview</h2>
+            <div class="serp-preview google-preview" id="serp-preview">
+                <a href="#" class="serp-title" id="preview-title">Example Page Title - Your Brand</a>
+                <div class="serp-url" id="preview-url">https://www.example.com/page-url</div>
+                <div class="serp-description" id="preview-description">This is an example meta description for your page. It should be concise and describe what users can expect when they visit your page.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const titleInput = document.getElementById('page-title');
+            const urlInput = document.getElementById('page-url');
+            const descriptionInput = document.getElementById('meta-description');
+            const previewTitle = document.getElementById('preview-title');
+            const previewUrl = document.getElementById('preview-url');
+            const previewDescription = document.getElementById('preview-description');
+            const titleCounter = document.getElementById('title-counter');
+            const descriptionCounter = document.getElementById('description-counter');
+            const updateButton = document.getElementById('update-preview');
+            const serpPreview = document.getElementById('serp-preview');
+            const searchEngineRadios = document.getElementsByName('search-engine');
+            const viewRadios = document.getElementsByName('view');
+            
+            const titleLimit = 60;
+            const descriptionLimit = 160;
+            
+            function updatePreview() {
+                // Update preview elements
+                previewTitle.textContent = titleInput.value;
+                previewUrl.textContent = urlInput.value;
+                previewDescription.textContent = descriptionInput.value;
+                
+                // Update counters
+                updateCounters();
+                
+                // Update search engine styling
+                updateSearchEngineStyle();
+                
+                // Update view (mobile/desktop)
+                updateViewStyle();
+            }
+            
+            function updateCounters() {
+                const titleLength = titleInput.value.length;
+                const descriptionLength = descriptionInput.value.length;
+                
+                const titleRemaining = titleLimit - titleLength;
+                const descriptionRemaining = descriptionLimit - descriptionLength;
+                
+                titleCounter.textContent = `${titleLength} characters of ${titleLimit} ${titleRemaining >= 0 ? 'remaining' : 'exceeded'}`;
+                descriptionCounter.textContent = `${descriptionLength} characters of ${descriptionLimit} ${descriptionRemaining >= 0 ? 'remaining' : 'exceeded'}`;
+                
+                if (titleRemaining < 0) {
+                    titleCounter.classList.add('red');
+                } else {
+                    titleCounter.classList.remove('red');
+                }
+                
+                if (descriptionRemaining < 0) {
+                    descriptionCounter.classList.add('red');
+                } else {
+                    descriptionCounter.classList.remove('red');
+                }
+            }
+            
+            function updateSearchEngineStyle() {
+                let selectedEngine = 'google';
+                for (const radio of searchEngineRadios) {
+                    if (radio.checked) {
+                        selectedEngine = radio.value;
+                        break;
+                    }
+                }
+                
+                serpPreview.className = `serp-preview ${selectedEngine}-preview`;
+            }
+            
+            function updateViewStyle() {
+                let selectedView = 'desktop';
+                for (const radio of viewRadios) {
+                    if (radio.checked) {
+                        selectedView = radio.value;
+                        break;
+                    }
+                }
+                
+                if (selectedView === 'mobile') {
+                    serpPreview.classList.add('mobile-preview');
+                } else {
+                    serpPreview.classList.remove('mobile-preview');
+                }
+            }
+            
+            // Initial update
+            updatePreview();
+            
+            // Add event listeners
+            titleInput.addEventListener('input', updatePreview);
+            urlInput.addEventListener('input', updatePreview);
+            descriptionInput.addEventListener('input', updatePreview);
+            updateButton.addEventListener('click', updatePreview);
+            
+            // Add event listeners for radio buttons
+            for (const radio of searchEngineRadios) {
+                radio.addEventListener('change', updatePreview);
+            }
+            
+            for (const radio of viewRadios) {
+                radio.addEventListener('change', updatePreview);
+            }
+        });
+    </script>
+</body>
+</html>
