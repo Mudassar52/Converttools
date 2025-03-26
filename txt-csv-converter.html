@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="TXT to CSV Converter – Convert Text Files to CSV Online">
+<meta name="description" content="Easily convert TXT files to CSV format online for free. Fast, accurate, and secure TXT to CSV conversion with proper formatting. No software required!">
+<meta name="keywords" content="TXT to CSV converter, convert TXT to CSV, text to CSV online, free TXT to CSV tool, online TXT to CSV converter, format text to CSV, structured data converter, text file to CSV, TXT to spreadsheet, convert text to table">
+<meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #2c3e50;
+            line-height: 1.6;
+            padding-top: 5rem;
+        }
+
+         /* Navigation Styles */
+         .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .converter-box {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .converter-content {
+            padding: 30px;
+        }
+
+        .file-upload {
+            border: 3px dashed #6a11cb;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background-color: rgba(106, 17, 203, 0.05);
+        }
+
+        .file-upload:hover {
+            background-color: rgba(106, 17, 203, 0.1);
+            border-color: #2575fc;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-label {
+            display: inline-block;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-upload-label:hover {
+            transform: scale(1.05);
+        }
+
+        .conversion-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .conversion-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            flex-grow: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #csvOutput {
+            width: 100%;
+            min-height: 350px;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f6f9;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .conversion-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn i {
+            margin-right: 5px;
+        }
+
+        .btn-convert {
+            background: linear-gradient(to right, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            box-shadow: 0 4px 6px rgba(46, 204, 113, 0.3);
+        }
+
+        .btn-convert:hover {
+            opacity: 0.9;
+        }
+
+        .btn-download {
+            background: linear-gradient(to right, #3498db 0%, #2980b9 100%);
+            color: white;
+            box-shadow: 0 4px 6px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-download:hover {
+            opacity: 0.9;
+        }
+
+        .btn-clear {
+            background: linear-gradient(to right, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 6px rgba(231, 76, 60, 0.3);
+        }
+
+        .btn-clear:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .converter-content {
+                padding: 15px;
+            }
+
+            .conversion-controls,
+            .conversion-options {
+                flex-direction: column;
+            }
+
+            .btn, 
+            .conversion-option,
+            .input-group input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ToolHub
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg to png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png to jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image to pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf to image.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./thumbnail download.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text to pdf.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./text to doc.html"><i class="fas fa-file-word"></i> Text to DOC</a>
+                        <a href="./doc to text.html"><i class="fas fa-file-alt"></i> DOC to Text</a>
+                        <a href="./code editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./table editor.html"><i class="fas fa-table"></i> Table Editor</a>
+                        <a href="./pdf split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./Merge Pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./pdf to text.html"><i class="fas fa-file-alt"></i> PDF to Text</a>
+                        <a href="./Pdf to Doc.html"><i class="fas fa-file-word"></i> PDF to DOC</a>
+                        <a href="./pdf to zip.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./zip extract.html"><i class="fas fa-file-pdf"></i> Zip Extract </a>
+                        <a href="./excel to pdf.html"><i class="fas fa-file-alt"></i> Excel to PDF</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./doc to pdf.html"><i class="fas fa-file-pdf"></i> DOC to PDF</a>
+                        <a href="./Svg to Pdf.html"><i class="fas fa-file-pdf"></i> SVG to PDF</a>
+                        <a href="./gif to pdf.html"><i class="fas fa-file-pdf"></i> GIF to PDF</a>
+                        <a href="./image compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./watermark to pdf.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="converter-box">
+            <div class="header">
+                <h1>TXT to CSV Converter</h1>
+            </div>
+            <div class="converter-content">
+                <div class="file-upload">
+                    <input type="file" id="txtFileInput" accept=".txt" />
+                    <label for="txtFileInput" class="file-upload-label">
+                        Choose TXT File
+                    </label>
+                </div>
+
+                <div class="conversion-options">
+                    <div class="conversion-option">
+                        <input type="radio" id="tabDelimited" name="delimiter" value="tab" checked>
+                        <label for="tabDelimited">Tab Delimited</label>
+                    </div>
+                    <div class="conversion-option">
+                        <input type="radio" id="pipeDelimited" name="delimiter" value="pipe">
+                        <label for="pipeDelimited">Pipe Delimited</label>
+                    </div>
+                    <div class="conversion-option">
+                        <input type="radio" id="semicolonDelimited" name="delimiter" value="semicolon">
+                        <label for="semicolonDelimited">Semicolon Delimited</label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" id="customDelimiterInput" placeholder="Or enter custom delimiter">
+                </div>
+
+                <textarea id="csvOutput" readonly placeholder="Converted CSV will appear here..."></textarea>
+
+                <div class="conversion-controls">
+                    <button id="convertBtn" class="btn btn-convert">
+                        <i class="fas fa-exchange-alt"></i> Convert
+                    </button>
+                    <button id="downloadBtn" class="btn btn-download" disabled>
+                        <i class="fas fa-download"></i> Download CSV
+                    </button>
+                    <button id="clearBtn" class="btn btn-clear">
+                        <i class="fas fa-trash-alt"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const txtFileInput = document.getElementById('txtFileInput');
+            const convertBtn = document.getElementById('convertBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const csvOutput = document.getElementById('csvOutput');
+            const customDelimiterInput = document.getElementById('customDelimiterInput');
+            
+            // Get selected delimiter
+            function getSelectedDelimiter() {
+                const delimiters = {
+                    'tab': '\t',
+                    'pipe': '|',
+                    'semicolon': ';'
+                };
+                
+                const customDelimiter = customDelimiterInput.value.trim();
+                if (customDelimiter) return customDelimiter;
+
+                const selectedDelimiter = document.querySelector('input[name="delimiter"]:checked').value;
+                return delimiters[selectedDelimiter];
+            }
+
+            // TXT to CSV conversion function
+            function txtToCSV(txt, delimiter) {
+                const lines = txt.split('\n');
+                const result = [];
+
+                lines.forEach((line) => {
+                    // Skip empty lines
+                    if (line.trim() === '') return;
+
+                    // Split line by delimiter and trim each value
+                    const values = line.split(delimiter).map(value => {
+                        // Wrap value in quotes if it contains commas
+                        const trimmedValue = value.trim();
+                        return trimmedValue.includes(',') ? `"${trimmedValue}"` : trimmedValue;
+                    });
+                    
+                    // Convert to comma-separated line
+                    result.push(values.join(','));
+                });
+
+                return result.join('\n');
+            }
+
+            // Convert button click handler
+            convertBtn.addEventListener('click', () => {
+                const file = txtFileInput.files[0];
+                if (!file) {
+                    alert('Please select a TXT file first!');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const txtText = e.target.result;
+                        const delimiter = getSelectedDelimiter();
+                        const csvText = txtToCSV(txtText, delimiter);
+                        csvOutput.value = csvText;
+                        
+                        // Enable download button
+                        downloadBtn.disabled = false;
+                    } catch (error) {
+                        alert('Error converting TXT: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            });
+
+            // Download button click handler
+            downloadBtn.addEventListener('click', () => {
+                if (!csvOutput.value) {
+                    alert('No CSV to download. Please convert a TXT file first.');
+                    return;
+                }
+
+                // Create a Blob with the CSV content
+                const blob = new Blob([csvOutput.value], { type: 'text/csv' });
+                
+                // Create a download link
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'converted.csv';
+                
+                // Trigger download
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            // Clear button click handler
+            clearBtn.addEventListener('click', () => {
+                txtFileInput.value = '';
+                csvOutput.value = '';
+                customDelimiterInput.value = '';
+                downloadBtn.disabled = true;
+            });
+        });
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
