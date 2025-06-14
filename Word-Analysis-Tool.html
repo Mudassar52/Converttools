@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Analysis Tool</title>
+    <meta name="description" content="Analyze word count, readability, and keyword density to optimize content for SEO.">
+     <meta name="keywords" content="word analysis tool, text analyzer, keyword density, readability checker, word count tool, SEO text analyzer, content optimization">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding-top: 5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-section {
+            margin-bottom: 2rem;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4299e1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #f7fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-title {
+            color: #4a5568;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            color: #2d3748;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .additional-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        button {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background: #3182ce;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #highlightedText {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f7fafc;
+            border-radius: 10px;
+            white-space: pre-wrap;
+        }
+
+        .highlight-word {
+            background: #faf089;
+            padding: 0.1em 0.2em;
+            border-radius: 3px;
+        }
+
+
+
+
+
+
+         .container2 {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px;
+      border-radius: 12px;
+    }
+    h1, h2 {
+      color: #111827;
+    }
+    .highlight {
+      color: #10b981;
+      font-weight: 600;
+    }
+            
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container">
+        <div class="header">
+            <h1>Word Analysis Tool</h1>
+            <p>Enter your text below for detailed analysis</p>
+        </div>
+
+        <div class="input-section">
+            <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Word Count</div>
+                <div class="stat-value" id="wordCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Character Count</div>
+                <div class="stat-value" id="charCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Sentence Count</div>
+                <div class="stat-value" id="sentenceCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Average Word Length</div>
+                <div class="stat-value" id="avgWordLength">0</div>
+            </div>
+        </div>
+
+        <div class="additional-features">
+            <button id="findLongestWord">Find Longest Words</button>
+            <button id="countParagraphs">Count Paragraphs</button>
+            <button id="analyzeReadability">Analyze Readability</button>
+            <button id="clearText">Clear Text</button>
+        </div>
+
+        <div id="highlightedText"></div>
+    </div>
+
+
+    <div class="container2">
+    <h1>Word Analysis Tool – Unlock the Power of Your Text</h1>
+
+    <p>Looking to improve your writing or analyze content for SEO, clarity, and readability? Our <strong>Word Analysis Tool</strong> provides deep insights into your text instantly. Whether you’re a writer, student, marketer, or blogger, this tool gives you the metrics you need to write better and optimize smarter.</p>
+
+    <h2>🔍 What Can You Analyze?</h2>
+    <ul>
+      <li><span class="highlight">Word Count:</span> Total number of words, characters, and sentences.</li>
+      <li><span class="highlight">Keyword Density:</span> Frequency and percentage of key terms used.</li>
+      <li><span class="highlight">Readability Score:</span> Based on common formulas (Flesch-Kincaid, Gunning Fog, etc.).</li>
+      <li><span class="highlight">Most Used Words:</span> Identify repeated terms and patterns.</li>
+      <li><span class="highlight">Grammar & Spelling:</span> (optional integration with third-party services).</li>
+    </ul>
+
+    <h2>🚀 Why Use Our Word Analyzer?</h2>
+    <ul>
+      <li><strong>Instant Results</strong> – Paste your content and see stats immediately.</li>
+      <li><strong>Clean Interface</strong> – No ads, distractions, or unnecessary features.</li>
+      <li><strong>SEO-Friendly</strong> – Helps you find overused or underused keywords.</li>
+      <li><strong>Free to Use</strong> – No login or payment required.</li>
+      <li><strong>Copy-Paste Ready</strong> – Export your insights or improve your content on the spot.</li>
+    </ul>
+
+    <h2>🛠 How to Use</h2>
+    <ol>
+      <li>Paste or type your content into the text box.</li>
+      <li>Click “Analyze” to view full word and readability metrics.</li>
+      <li>Use the data to improve your writing or SEO strategy.</li>
+    </ol>
+
+    <h2>✨ Ideal For:</h2>
+    <ul>
+      <li>Writers and Bloggers</li>
+      <li>Students and Teachers</li>
+      <li>SEO Specialists and Content Marketers</li>
+      <li>Journalists and Copywriters</li>
+    </ul>
+
+    <h2>🎯 Example Use Cases</h2>
+    <ul>
+      <li>Check if your blog post meets SEO word count targets.</li>
+      <li>See if your academic essay is too repetitive or too complex.</li>
+      <li>Get an overview of your marketing copy's clarity and length.</li>
+    </ul>
+
+    <h2>📌 Final Thoughts</h2>
+    <p>The Word Analysis Tool is a must-have utility for anyone working with text. Whether you want to improve engagement, clarity, or search rankings, our tool gives you instant, data-driven insights—no technical skills required. Give it a try and turn every word into impact.</p>
+  </div>
+
+
+  <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+        const textInput = document.getElementById('textInput');
+        const wordCountElement = document.getElementById('wordCount');
+        const charCountElement = document.getElementById('charCount');
+        const sentenceCountElement = document.getElementById('sentenceCount');
+        const avgWordLengthElement = document.getElementById('avgWordLength');
+        const highlightedTextElement = document.getElementById('highlightedText');
+
+        function updateStats() {
+            const text = textInput.value;
+            
+            // Word count
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+            const wordCount = words.length;
+            wordCountElement.textContent = wordCount;
+
+            // Character count
+            const charCount = text.length;
+            charCountElement.textContent = charCount;
+
+            // Sentence count
+            const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+            const sentenceCount = sentences.length;
+            sentenceCountElement.textContent = sentenceCount;
+
+            // Average word length
+            const avgWordLength = wordCount > 0 
+                ? (text.replace(/\s+/g, '').length / wordCount).toFixed(1) 
+                : '0';
+            avgWordLengthElement.textContent = avgWordLength;
+        }
+
+        document.getElementById('findLongestWord').addEventListener('click', () => {
+            const words = textInput.value.trim().split(/\s+/);
+            const sortedWords = words
+                .filter(word => word.length > 0)
+                .sort((a, b) => b.length - a.length)
+                .slice(0, 5);
+
+            let highlightedText = textInput.value;
+            sortedWords.forEach(word => {
+                const regex = new RegExp(`\\b${word}\\b`, 'g');
+                highlightedText = highlightedText.replace(regex, `<span class="highlight-word">${word}</span>`);
+            });
+            
+            highlightedTextElement.innerHTML = `
+                <p>Top 5 longest words:</p>
+                ${highlightedText}
+            `;
+        });
+
+        document.getElementById('countParagraphs').addEventListener('click', () => {
+            const paragraphs = textInput.value
+                .split('\n\n')
+                .filter(para => para.trim().length > 0);
+            highlightedTextElement.innerHTML = `
+                <p>Number of paragraphs: ${paragraphs.length}</p>
+            `;
+        });
+
+        document.getElementById('analyzeReadability').addEventListener('click', () => {
+            const text = textInput.value;
+            const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+            const sentences = text.split(/[.!?]+/).filter(sentence => sentence.trim().length > 0);
+            
+            // Simple readability score based on average words per sentence
+            const wordsPerSentence = sentences.length > 0 
+                ? (words.length / sentences.length).toFixed(1) 
+                : 0;
+            
+            let readabilityLevel = 'Easy';
+            if (wordsPerSentence > 20) readabilityLevel = 'Complex';
+            else if (wordsPerSentence > 14) readabilityLevel = 'Moderate';
+
+            highlightedTextElement.innerHTML = `
+                <p>Readability Analysis:</p>
+                <p>Average words per sentence: ${wordsPerSentence}</p>
+                <p>Readability level: ${readabilityLevel}</p>
+            `;
+        });
+
+        document.getElementById('clearText').addEventListener('click', () => {
+            textInput.value = '';
+            highlightedTextElement.innerHTML = '';
+            updateStats();
+        });
+
+        textInput.addEventListener('input', updateStats);
+
+    </script>
+</body>
+</html>

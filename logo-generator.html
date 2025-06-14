@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Logo Online - Free Logo Generator & Maker</title>
+<meta name="description" content="Design a professional logo online for free. Use our AI-powered logo generator to create unique, high-quality logos in seconds. No design skills needed!">
+<meta name="keywords" content="logo generator online, free logo maker, AI logo creator, create a logo online, best free logo generator, professional logo design tool, instant logo creator, online logo design, high-quality logo maker, easy logo creation tool">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <!-- 引入 Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 html2canvas 用于导出图片 -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&family=Pacifico&family=Abril+Fatface&family=Permanent+Marker&family=Montserrat:wght@400;700&family=Oswald:wght@400;700&family=Dancing+Script&family=Quicksand:wght@400;700&family=Raleway:wght@400;700&family=Lobster&family=Comfortaa:wght@400;700&family=Righteous&family=Sacramento&family=Monoton&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --candy-pink: #FF69B4;
+            --candy-purple: #DA70D6;
+        }
+
+        .theme-preview span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .color-picker-wrapper input[type="color"] {
+            -webkit-appearance: none;
+            appearance: none;
+            padding: 0;
+            border: none;
+            border-radius: 0.5rem;
+            height: 40px;
+            width: 40px;
+            cursor: pointer;
+        }
+
+        .color-picker-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker-wrapper input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 0.5rem;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        .max-h-60vh::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .max-h-60vh::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .max-h-60vh::-webkit-scrollbar-thumb {
+            background-color: #e5e7eb;
+            border-radius: 2px;
+        }
+
+        .max-h-60vh::-webkit-scrollbar-thumb:hover {
+            background-color: #d1d5db;
+        }
+
+        /* 美化滑块样式 */
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            background-image: linear-gradient(#ec4899, #ec4899);
+            background-repeat: no-repeat;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #ec4899;
+            cursor: pointer;
+            box-shadow: 0 0 2px 0 #555;
+            transition: background .3s ease-in-out;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            -webkit-appearance: none;
+            box-shadow: none;
+            border: none;
+            background: transparent;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #ec4899;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
+    <div id="app">
+        <!-- 语言切换按钮 -->
+        <header class="bg-gradient-to-r from-pink-500 to-purple-500 rounded-b-2xl md:rounded-b-3xl p-8 md:p-12 text-center mb-8 md:mb-12 relative">
+            <!-- 语言切换按钮 -->
+            <div class="flex justify-center mb-6">
+                <div class="inline-flex bg-white/20 backdrop-blur-sm rounded-full p-1 relative">
+                    <!-- 添加滑动背景 -->
+                    <div class="absolute h-[calc(100%-8px)] top-1 transition-all duration-300 rounded-full bg-white"
+                        :style="{
+                            left: currentLang === 'en' ? '4px' : '50%',
+                            width: 'calc(50% - 8px)'
+                        }">
+                    </div>
+                    
+                    <!-- 语言按钮 -->
+                    <button class="px-4 py-1.5 rounded-full text-sm transition-all relative z-10 w-24 text-center"
+                        :class="currentLang === 'en' ? 'text-pink-600' : 'text-white hover:bg-white/10'"
+                        @click="changeLang('en')">
+                        English
+                    </button>
+                    <button class="px-4 py-1.5 rounded-full text-sm transition-all relative z-10 w-24 text-center"
+                        :class="currentLang === 'zh' ? 'text-pink-600' : 'text-white hover:bg-white/10'"
+                        @click="changeLang('zh')">
+                        中文
+                    </button>
+                </div>
+            </div>
+
+            <!-- 原有的标题内容 -->
+            <h1 class="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-3">{{ t.title }}</h1>
+            <p class="text-base md:text-xl text-white/90">{{ t.subtitle }}</p>
+        </header>
+
+        <!-- 主内容区域 -->
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- 特性卡片 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12 px-4 md:px-0">
+                <div v-for="feature in t.features" 
+                    class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <div class="text-2xl md:text-3xl mb-3 md:mb-4">{{ feature.icon }}</div>
+                    <h3 class="text-base md:text-lg font-semibold mb-2">{{ feature.title }}</h3>
+                    <p class="text-sm md:text-base text-gray-600">{{ feature.desc }}</p>
+                </div>
+            </div>
+
+            <!-- Logo设计区域 -->
+            <h2 id="logoDesign" class="text-xl md:text-2xl font-bold text-pink-500 mb-4 md:mb-6 pl-4 border-l-4 border-pink-500">
+                {{ t.logoDesign }}
+            </h2>
+            <div class="flex flex-col lg:flex-row gap-4 lg:gap-8 mb-8 md:mb-12">
+                <!-- 控制面板 -->
+                <div class="w-full lg:w-1/4">
+                    <div class="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 h-full">
+                        <div class="space-y-6">  <!-- 添加整体间距 -->
+                            <!-- Logo文本 -->
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">{{ t.controls.text }}</label>
+                                <input type="text" v-model="logoText" 
+                                    class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                            </div>
+
+                            <!-- 尺寸和圆角放在一行 -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">{{ t.controls.size }}</label>
+                                    <input type="number" 
+                                        disabled
+                                        v-model.number="size" 
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">{{ t.controls.radius }}</label>
+                                    <input type="number" v-model="borderRadius" 
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                                </div>
+                            </div>
+
+                            <!-- 字体选择 -->
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">{{ t.controls.font }}</label>
+                                <select v-model="fontFamily" 
+                                    class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                                    <option v-for="font in fonts" :value="font.value" 
+                                        :style="{ fontFamily: font.value }"
+                                        class="py-2">
+                                        {{ font.label }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- 字体大小和加粗选项放在一行 -->
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">{{ t.controls.fontSize }}</label>
+                                    <input type="number" 
+                                        v-model.number="fontSize" 
+                                        min="12" 
+                                        max="300"  
+                                        step="1"
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">{{ t.controls.fontWeight }}</label>
+                                    <select v-model="fontWeight" 
+                                        class="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                                        <option value="normal">Normal</option>
+                                        <option value="bold">Bold</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- 颜色择器 -->
+                            <div class="space-y-4">  <!-- 增加颜色选择器之间的间距 -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">{{ t.controls.textColor }}</label>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" v-model="useTextGradient" 
+                                                class="w-4 h-4 text-pink-500 rounded border-gray-300 focus:ring-pink-500">
+                                            <span class="text-sm text-gray-600">{{ t.controls.useGradient }}</span>
+                                        </div>
+                                        <div v-if="!useTextGradient" class="flex gap-2">
+                                            <input type="color" v-model="textColor" class="w-10 h-10 rounded-lg cursor-pointer">
+                                            <input type="text" v-model="textColor" 
+                                                class="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                                        </div>
+                                        <div v-else class="space-y-2">
+                                            <div class="flex gap-2">
+                                                <input type="color" v-model="textGradientStart" class="w-10 h-10 rounded-lg cursor-pointer">
+                                                <input type="text" v-model="textGradientStart" 
+                                                    class="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all"
+                                                    placeholder="Start Color">
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <input type="color" v-model="textGradientEnd" class="w-10 h-10 rounded-lg cursor-pointer">
+                                                <input type="text" v-model="textGradientEnd" 
+                                                    class="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all"
+                                                    placeholder="End Color">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">{{ t.controls.bgColor }}</label>
+                                    <div class="flex flex-col gap-2">
+                                        <div class="flex items-center gap-2">
+                                            <input type="checkbox" v-model="useBgGradient" 
+                                                class="w-4 h-4 text-pink-500 rounded border-gray-300 focus:ring-pink-500">
+                                            <span class="text-sm text-gray-600">{{ t.controls.useGradient }}</span>
+                                        </div>
+                                        <div v-if="!useBgGradient" class="flex gap-2">
+                                            <input type="color" v-model="bgColor" class="w-10 h-10 rounded-lg cursor-pointer">
+                                            <input type="text" v-model="bgColor" 
+                                                class="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all">
+                                        </div>
+                                        <div v-else class="space-y-2">
+                                            <div class="flex gap-2">
+                                                <input type="color" v-model="bgGradientStart" class="w-10 h-10 rounded-lg cursor-pointer">
+                                                <input type="text" v-model="bgGradientStart" 
+                                                    class="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all"
+                                                    placeholder="Start Color">
+                                            </div>
+                                            <div class="flex gap-2">
+                                                <input type="color" v-model="bgGradientEnd" class="w-10 h-10 rounded-lg cursor-pointer">
+                                                <input type="text" v-model="bgGradientEnd" 
+                                                    class="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all"
+                                                    placeholder="End Color">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 修改垂直位置控制部分 -->
+                            <div class="space-y-2">
+                                <label class="block text-sm font-medium text-gray-700">{{ t.controls.verticalPosition }}</label>
+                                <div class="flex items-center gap-4">
+                                    <input type="range" 
+                                        v-model="verticalOffset" 
+                                        min="0" 
+                                        max="100" 
+                                        step="1"
+                                        class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-500">
+                                    <span class="text-sm text-gray-500 w-12">{{ verticalOffset }}%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预览区域 -->
+                <div class="w-full lg:w-3/4">
+                    <div class="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-8 h-full flex flex-col">
+                        <!-- 预览区域标题 -->
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 md:mb-6 gap-2">
+                            <h3 class="text-base md:text-lg font-semibold text-gray-800">{{ t.preview }}</h3>
+                            <div class="flex items-center gap-2 md:gap-4 w-full sm:w-auto">
+                                <button @click="applyRandomTheme" 
+                                    class="px-3 md:px-4 py-1.5 md:py-2 text-sm rounded-lg bg-pink-50 text-pink-600 hover:bg-pink-100 transition-colors flex items-center gap-2 flex-1 sm:flex-none justify-center">
+                                    <span>🎲</span> {{ t.actions.randomTheme }}
+                                </button>
+                                <div class="text-sm text-gray-500 hidden sm:block">{{ size }} x {{ size }} px</div>
+                            </div>
+                        </div>
+
+                        <!-- Logo预览区域 - 使用 flex-grow 确保占据剩余空间 -->
+                        <div class="bg-gray-50 rounded-lg md:rounded-xl p-4 md:p-8 flex items-center justify-center flex-grow">
+                            <div id="logoPreview" 
+                                :style="{
+                                    width: size + 'px',
+                                    height: size + 'px',
+                                    backgroundColor: !useBgGradient ? bgColor : undefined,
+                                    background: useBgGradient ? `linear-gradient(to right, ${bgGradientStart}, ${bgGradientEnd})` : bgColor,
+                                    borderRadius: borderRadius + 'px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: getJustifyContent,
+                                    position: 'relative'
+                                }" 
+                                class="shadow-lg transition-all duration-300">
+                                <span :style="{
+                                    color: !useTextGradient ? textColor : undefined,
+                                    background: useTextGradient ? `-webkit-linear-gradient(left, ${textGradientStart}, ${textGradientEnd})` : undefined,
+                                    WebkitBackgroundClip: useTextGradient ? 'text' : undefined,
+                                    WebkitTextFillColor: useTextGradient ? 'transparent' : undefined,
+                                    fontSize: fontSize + 'px',
+                                    fontFamily: fontFamily,
+                                    fontWeight: fontWeight,
+                                    position: 'absolute',
+                                    left: textPosition === 'left' ? '20px' : 
+                                          textPosition === 'right' ? 'auto' : '50%',
+                                    right: textPosition === 'right' ? '20px' : 'auto',
+                                    top: verticalOffset + '%',
+                                    transform: `translate(${textPosition === 'center' ? '-50%' : '0'}, -50%)`,
+                                    whiteSpace: 'nowrap'
+                                }">{{ logoText }}</span>
+                            </div>
+                        </div>
+
+                        <!-- 导出按钮 -->
+                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-4 mt-4 md:mt-6">
+                            <!-- PNG导出按钮改为拉式 -->
+                            <div class="relative" x-data="{ showSizes: false }">
+                                <button @click="showSizes = !showSizes" 
+                                    class="flex-1 bg-gradient-to-r from-pink-500 to-pink-600 text-white py-2 md:py-3 px-4 md:px-6 rounded-lg shadow hover:shadow-lg transition-all hover:-translate-y-0.5 text-sm md:text-base flex items-center justify-center gap-2 w-full">
+                                    {{ t.actions.exportPNG }}
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                
+                                <!-- 尺寸选择下拉菜单 -->
+                                <div v-if="showSizes" 
+                                    class="absolute bottom-full mb-2 right-0 bg-white rounded-lg shadow-lg p-2 min-w-[150px] z-10">
+                                    <div class="text-sm text-gray-500 px-3 py-2 border-b">{{ t.actions.selectSize }}</div>
+                                    <div class="space-y-1 mt-2">
+                                        <button v-for="size in [16, 32, 48, 64, 128, 256, 512]" 
+                                            @click="exportPngWithSize(size); showSizes = false"
+                                            class="w-full text-left px-3 py-2 hover:bg-pink-50 text-gray-700 text-sm rounded transition-colors">
+                                            {{ size }}x{{ size }} px
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SVG导出按钮保持不变 -->
+                            <button @click="exportLogo('svg')" 
+                                class="flex-1 bg-gradient-to-r from-pink-400 to-pink-500 text-white py-2 md:py-3 px-4 md:px-6 rounded-lg shadow hover:shadow-lg transition-all hover:-translate-y-0.5 text-sm md:text-base">
+                                {{ t.actions.exportSVG }}
+                            </button>
+
+                            <!-- ICO导出按钮改为简单按钮 -->
+                            <button @click="exportIco" 
+                                class="flex-1 bg-gradient-to-r from-pink-300 to-pink-400 text-white py-2 md:py-3 px-4 md:px-6 rounded-lg shadow hover:shadow-lg transition-all hover:-translate-y-0.5 text-sm md:text-base">
+                                {{ t.actions.exportICO }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 修改推荐主题部分 -->
+            <h2 class="text-xl md:text-2xl font-bold text-pink-500 mb-4 md:mb-6 pl-4 border-l-4 border-pink-500">
+                {{ t.recommended }}
+            </h2>
+            <div class="grid grid-cols-5 gap-4 md:gap-6">
+                <div v-for="theme in localizedThemes"
+                    class="flex flex-col items-center gap-3 cursor-pointer group"
+                    @click="applyThemeAndScroll(theme)">
+                    <!-- 主题预览 - 修改尺寸为 64x64 -->
+                    <div class="w-16 h-16 rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                        :style="{
+                            background: theme.bgGradient 
+                                ? `linear-gradient(to right, ${theme.bgGradientStart}, ${theme.bgGradientEnd})` 
+                                : theme.bgColor,
+                            borderRadius: (theme.borderRadius * 64/300) + 'px'
+                        }">
+                        <div class="w-full h-full flex items-center justify-center"
+                            :style="{
+                                fontFamily: theme.font
+                            }">
+                            <span class="transform transition-transform group-hover:scale-110"
+                                :style="{
+                                    color: !theme.textGradient ? theme.textColor : undefined,
+                                    background: theme.textGradient ? `-webkit-linear-gradient(left, ${theme.textGradientStart}, ${theme.textGradientEnd})` : undefined,
+                                    WebkitBackgroundClip: theme.textGradient ? 'text' : undefined,
+                                    WebkitTextFillColor: theme.textGradient ? 'transparent' : undefined,
+                                    fontSize: (theme.fontSize * 64/300) + 'px',
+                                    fontWeight: theme.fontWeight
+                                }">{{ theme.text }}</span>
+                        </div>
+                    </div>
+                    <!-- 主题名称 - 增加内边距 -->
+                    <span class="text-xs text-gray-600 text-center group-hover:text-pink-500 transition-colors py-1">
+                        {{ theme.name }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- 修改 FAQ 部分的展示方式 -->
+            <h2 class="text-xl md:text-2xl font-bold text-pink-500 mb-4 md:mb-6 pl-4 border-l-4 border-pink-500 mt-12">
+                {{ t.faq.title }}
+            </h2>
+            <div class="space-y-4">
+                <div v-for="(qa, index) in t.faq.items" 
+                    class="bg-white rounded-xl md:rounded-2xl shadow-lg overflow-hidden">
+                    <!-- 问题标题（可点击区域） -->
+                    <button @click="toggleFaq(index)" 
+                        class="w-full p-4 md:p-6 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                        <h3 class="text-lg font-semibold text-gray-800 text-left">{{ qa.q }}</h3>
+                        <!-- 箭头图标 -->
+                        <svg class="w-5 h-5 text-gray-500 transition-transform duration-300"
+                            :class="{ 'rotate-180': faqOpenState[index] }"
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" 
+                                stroke-linejoin="round" 
+                                stroke-width="2" 
+                                d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <!-- 答案内容（折叠面板） -->
+                    <div v-show="faqOpenState[index]" 
+                        class="px-4 md:px-6 pb-4 md:pb-6 text-gray-600 border-t border-gray-100">
+                        <p class="pt-4">{{ qa.a }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="text-center py-6 md:py-8 mt-8 md:mt-12 bg-white">
+            <p class="text-sm md:text-base text-pink-600">{{ t.footer.copyright.replace('{year}', new Date().getFullYear()) }}</p>
+            <!-- <p class="mt-1 md:mt-2 text-sm md:text-base text-pink-400">{{ t.footer.tagline }}</p> -->
+            <!-- 添加免责声明 -->
+            <div class="mt-4 max-w-2xl mx-auto px-4 text-xs text-gray-500">
+                <p class="mb-2">{{ t.footer.disclaimer.title }}</p>
+                <p>{{ t.footer.disclaimer.content }}</p>
+            </div>
+        </footer>
+
+    </div>
+
+
+
+    <script>
+        const { createApp, watch } = Vue
+
+        const i18n = {
+            en: {
+                title: 'Logo Generator',
+                subtitle: 'Create Professional Brand Identity',
+                features: {
+                    easy: {
+                        title: 'Easy to Use',
+                        desc: 'Intuitive interface for quick logo creation'
+                    },
+                    templates: {
+                        title: 'Multiple Templates',
+                        desc: 'Professional templates for different industries'
+                    },
+                    export: {
+                        title: 'Multiple Formats',
+                        desc: 'Export in PNG and SVG formats'
+                    }
+                },
+                recommended: 'Recommended Themes',
+                logoDesign: 'Logo Design',
+                preview: 'Live Preview',
+                controls: {
+                    text: 'Logo Text',
+                    size: 'Size',
+                    radius: 'Border Radius',
+                    font: 'Font',
+                    fontSize: 'Font Size',
+                    textColor: 'Text Color',
+                    bgColor: 'Background Color',
+                    position: 'Text Position',
+                    effects: 'Text Effects',
+                    center: 'Center',
+                    left: 'Left',
+                    right: 'Right',
+                    fontWeight: 'Font Weight',
+                    verticalPosition: 'Vertical Position',
+                    top: 'Top',
+                    center: 'Center',
+                    bottom: 'Bottom',
+                    useGradient: 'Use Gradient'
+                },
+                actions: {
+                    standardSize: 'Standard Size (300px)',
+                    circular: 'Circular Logo',
+                    exportPNG: 'Export PNG',
+                    exportSVG: 'Export SVG',
+                    randomTheme: 'Random Theme',
+                    exportICO: 'Export ICO',
+                    selectIcoSize: 'Select Icon Sizes',
+                    download: 'Download',
+                    cancel: 'Cancel',
+                    selectSize: 'Select Size'
+                },
+                footer: {
+                    copyright: '© {year} Logo Generator',
+                    tagline: 'Made with 💖',
+                    disclaimer: {
+                        title: 'Disclaimer',
+                        content: 'Users are responsible for ensuring they have the appropriate rights and licenses for any fonts used in their projects. We does not provide any font licenses and is not liable for any copyright infringement resulting from improper font usage. Users are encouraged to review and comply with the licensing terms of each font they use, especially for commercial applications.'
+                    }
+                },
+                seo: {
+                    title: 'Logo Generator - Create Professional Brand Logos Online',
+                    description: 'Free online logo generator. Create professional logos for your brand with customizable fonts, colors, and styles. Export in PNG and SVG formats.',
+                    keywords: 'logo generator, logo maker, brand logo, logo design, free logo, online logo, logo creator, professional logo, business logo, custom logo',
+                    structuredData: {
+                        name: 'Logo Generator',
+                        description: 'Create professional brand logos online',
+                        features: [
+                            'Multiple fonts and styles',
+                            'Customizable colors',
+                            'PNG and SVG export',
+                            'Professional templates',
+                            'Free to use'
+                        ]
+                    }
+                },
+                faq: {
+                    title: 'FAQ',
+                    items: [
+                        {
+                            q: 'How do I add favicon to my website?',
+                            a: 'You can download the favicon.ico file and upload it to your website root directory. Then, add the following code to the <head> section of the HTML file: <link rel="icon" href="/favicon.ico" type="image/x-icon">',
+                            isOpen: false
+                        },
+                        {
+                            q: 'What file formats are available for export?',
+                            a: 'We support PNG (various sizes), SVG (vector format), and ICO (favicon) exports. PNG is best for general use, SVG for scalable graphics, and ICO for website favicons.',
+                            isOpen: false
+                        },
+                        {
+                            q: 'Are the fonts free to use?',
+                            a: 'We use Google Fonts which are free for personal and commercial use. However, we recommend checking the specific license terms for each font you plan to use.',
+                            isOpen: false
+                        },
+                        {
+                            q: 'Can I save my logo designs?',
+                            a: 'Currently, we don\'t provide a save feature. We recommend downloading your logo designs and keeping them locally on your device.',
+                            isOpen: false
+                        },
+                        {
+                            q: 'How can SVG format be opened locally after export without font style?',
+                            a: 'This is because you do not have a local font style, when you open an SVG file in your browser, the browser will look for the font file according to the font name in the SVG file, if your local font file does not have these font files, it will be displayed as the default font.',
+                            isOpen: false
+                        }
+                    ]
+                }
+            },
+            zh: {
+                title: 'Logo生成器',
+                subtitle: '打造专属品牌标识',
+                features: {
+                    easy: {
+                        title: '简单易用',
+                        desc: '直观的界面设计，轻松调整字体、颜色、大小等属性，快速创建专业Logo'
+                    },
+                    templates: {
+                        title: '多种模板',
+                        desc: '精心设计的行业模板，为不同类型的品牌提供专业的设计方案'
+                    },
+                    export: {
+                        title: '多格式导出',
+                        desc: '支持PNG和SVG格式导出满足不同场景的使用需求'
+                    }
+                },
+                recommended: '推荐主题',
+                logoDesign: 'Logo设计',
+                preview: '实时预览',
+                controls: {
+                    text: 'Logo文本',
+                    size: '寸',
+                    radius: '圆角',
+                    font: '字体',
+                    fontSize: '字体大小',
+                    textColor: '文字颜色',
+                    bgColor: '背景颜色',
+                    position: '文字位置',
+                    effects: '字效果',
+                    center: '居中',
+                    left: '靠左',
+                    right: '靠右',
+                    fontWeight: '字体粗细',
+                    verticalPosition: '垂直位置',
+                    top: '顶部',
+                    center: '居中',
+                    bottom: '底部',
+                    useGradient: '使用渐变'
+                },
+                actions: {
+                    standardSize: '标准尺寸 (300px)',
+                    circular: '圆形Logo',
+                    exportPNG: '导出PNG',
+                    exportSVG: '导出SVG',
+                    randomTheme: '随机配',
+                    exportICO: '导出ICO',
+                    selectIcoSize: '选择图标尺寸',
+                    download: '下载',
+                    cancel: '取消',
+                    selectSize: '选择尺寸'
+                },
+                footer: {
+                    copyright: '© {year} Logo生成器',
+                    tagline: '用制作',
+                    disclaimer: {
+                        title: '免责声明',
+                        content: '用户有责任确保他们对项目中使用的任何字体拥有适当的权利和许可。我们不提供任何字体许可，也不对任何因不当使用字体而导致的版权侵权负责。鼓励用户审查并遵守他们使用的每种字体的许可条款，特别是对于商业应用程序。'
+                    }
+                },
+                seo: {
+                    title: 'Logo生成器 - 在线制作专业品牌标志',
+                    description: '免费在线Logo生成器。为您的品牌创建专业的Logo，支持自定义字体、颜色和样式。支持PNG和SVG格式导出。',
+                    keywords: 'logo生成器,logo制作,品牌logo,logo设计,免费logo,在线logo,logo创建,专业logo,企业logo,定制logo',
+                    structuredData: {
+                        name: 'Logo生成器',
+                        description: '在线制作专业品牌标志',
+                        features: [
+                            '多种字体和样式',
+                            '自定义颜色',
+                            'PNG和SVG导出',
+                            '专业模板',
+                            '免费使用'
+                        ]
+                    }
+                },
+                faq: {
+                    title: '常见问题',
+                    items: [
+                        {
+                            q: '如何将favicon添加到我的网站？',
+                            a: '您可以下载favicon.ico文件，并将其上传到您的网站根目录。然后，在HTML文件的<head>部分添加以下代码：<link rel="icon" href="/favicon.ico" type="image/x-icon">',
+                            isOpen: false
+                        },
+                        {
+                            q: '支持哪些导出格式？',
+                            a: '我们支持PNG（多种尺寸）、SVG（矢量格式）和ICO（网站图标）导出。PNG适合一般用途，SVG适合可缩放图形，ICO用于网站图标。',
+                            isOpen: false
+                        },
+                        {
+                            q: '字体是免费使用的吗？',
+                            a: '我们使用的是Google Fonts，可以免费用于个人和商业用途。但我们建议您查看计划使用的每种字体的具体许可条款。',
+                            isOpen: false
+                        },
+                        {
+                            q: '我可以保存我的Logo设计吗？',
+                            a: '目前我们不提供保存功能。我们建议您下载Logo设计并将其保存在本地设备上。',
+                            isOpen: false
+                        },
+                        {
+                            q: '导出后SVG格式本地打开怎么没有没有字体样式？',
+                            a: '这是由于您本地没有字体样式，在浏览器中打开SVG文件时，浏览器会根据SVG文件中的字体名称去查找字体文件，如果您的本地没有这些字体文件，就会显示为默认字体。',
+                            isOpen: false
+                        }
+                    ]
+                }
+            }
+        }
+
+        createApp({
+            data() {
+                return {
+                    currentLang: 'en',  // 默认英文
+                    logoText: 'LOGO',  // 修改默认文本为 LOGO
+                    size: 300,
+                    fontSize: 48,
+                    textColor: '#000000',
+                    bgColor: '#ffffff',
+                    textPosition: 'center',
+                    fontFamily: 'Roboto',
+                    textShadowBlur: 0,
+                    textShadowColor: '#000000',
+                    fonts: [
+                        { label: 'Roboto - 现代简约', value: 'Roboto' },
+                        { label: 'Playfair Display - 雅经典', value: 'Playfair Display' },
+                        { label: 'Pacifico - 手写艺术', value: 'Pacifico' },
+                        { label: 'Abril Fatface - 复古粗体', value: 'Abril Fatface' },
+                        { label: 'Permanent Marker - 马克笔', value: 'Permanent Marker' },
+                        { label: 'Montserrat - 现几何', value: 'Montserrat' },
+                        { label: 'Oswald - 时尚凝练', value: 'Oswald' },
+                        { label: 'Dancing Script - 优雅写', value: 'Dancing Script' },
+                        { label: 'Quicksand - 圆润现代', value: 'Quicksand' },
+                        { label: 'Raleway - 优雅细长', value: 'Raleway' },
+                        { label: 'Lobster - 复古手写', value: 'Lobster' },
+                        { label: 'Comfortaa - 圆润可爱', value: 'Comfortaa' },
+                        { label: 'Righteous - 未来科技', value: 'Righteous' },
+                        { label: 'Sacramento - 优雅签名', value: 'Sacramento' },
+                        { label: 'Monoton - 霓虹效果', value: 'Monoton' }
+                    ],
+                    themes: [
+                        {
+                            name: 'Minimalist',
+                            textColor: '#333333',
+                            bgColor: '#ffffff',
+                            font: 'Montserrat',
+                            text: 'M',
+                            borderRadius: 0,
+                            fontSize: 180,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Tech',
+                            textColor: '#00ff00',
+                            bgColor: '#1a1a1a',
+                            font: 'Roboto',
+                            text: '></>', 
+                            borderRadius: 8,
+                            fontSize: 120,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Creative',
+                            textColor: '#ffffff',
+                            bgColor: '#ff4d4d',
+                            font: 'Pacifico',
+                            text: 'C',
+                            borderRadius: 100,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Modern',
+                            textColor: '#ffffff',
+                            bgColor: '#2c3e50',
+                            font: 'Raleway',
+                            text: 'Mo',
+                            borderRadius: 12,
+                            fontSize: 150,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Nature',
+                            textColor: '#2ecc71',
+                            bgColor: '#f9f9f9',
+                            font: 'Quicksand',
+                            text: '🌿',
+                            borderRadius: 20,
+                            fontSize: 160,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Elegant',
+                            textColor: '#d4af37',
+                            bgColor: '#000000',
+                            font: 'Playfair Display',
+                            text: 'E',
+                            borderRadius: 0,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Playful',
+                            textColor: '#ffffff',
+                            bgColor: '#9b59b6',
+                            font: 'Comic Sans MS',
+                            text: '☺',
+                            borderRadius: 15,
+                            fontSize: 160,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Geometric',
+                            textColor: '#2980b9',
+                            bgColor: '#ecf0f1',
+                            font: 'Montserrat',
+                            text: '◆',
+                            borderRadius: 10,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Vintage',
+                            textColor: '#8b4513',
+                            bgColor: '#f5deb3',
+                            font: 'Abril Fatface',
+                            text: 'V',
+                            borderRadius: 0,
+                            fontSize: 170,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Digital',
+                            textColor: '#39ff14',
+                            bgColor: '#000000',
+                            font: 'Orbitron',
+                            text: '01',
+                            borderRadius: 5,
+                            fontSize: 140,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Neon',
+                            textColor: '#ff00ff',
+                            bgColor: '#000000',
+                            font: 'Monoton',
+                            text: 'N',
+                            borderRadius: 25,
+                            fontSize: 160,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Organic',
+                            textColor: '#3c763d',
+                            bgColor: '#dff0d8',
+                            font: 'Dancing Script',
+                            text: '∞',
+                            borderRadius: 50,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Bold',
+                            textColor: '#ffffff',
+                            bgColor: '#e74c3c',
+                            font: 'Oswald',
+                            text: 'B',
+                            borderRadius: 0,
+                            fontSize: 200,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Minimal',
+                            textColor: '#000000',
+                            bgColor: '#ffffff',
+                            font: 'Roboto',
+                            text: '−',
+                            borderRadius: 4,
+                            fontSize: 160,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Cosmic',
+                            textColor: '#ffffff',
+                            bgColor: '#2c3e50',
+                            font: 'Space Mono',
+                            text: '★',
+                            borderRadius: 100,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Zen',
+                            textColor: '#34495e',
+                            bgColor: '#f5f6fa',
+                            font: 'Quicksand',
+                            text: '○',
+                            borderRadius: 100,
+                            fontSize: 200,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Future',
+                            textColor: '#00ff00',
+                            bgColor: '#1a1a1a',
+                            font: 'Righteous',
+                            text: '>>',
+                            borderRadius: 8,
+                            fontSize: 140,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Retro',
+                            textColor: '#f1c40f',
+                            bgColor: '#8e44ad',
+                            font: 'Permanent Marker',
+                            text: 'R',
+                            borderRadius: 0,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Clean',
+                            textColor: '#3498db',
+                            bgColor: '#ecf0f1',
+                            font: 'Montserrat',
+                            text: '✓',
+                            borderRadius: 12,
+                            fontSize: 160,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Art',
+                            textColor: '#e056fd',
+                            bgColor: '#ffffff',
+                            font: 'Pacifico',
+                            text: '♥',
+                            borderRadius: 20,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Sharp',
+                            textColor: '#ffffff',
+                            bgColor: '#2d3436',
+                            font: 'Oswald',
+                            text: '△',
+                            borderRadius: 0,
+                            fontSize: 200,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Sweet',
+                            textColor: '#fd79a8',
+                            bgColor: '#fff0f5',
+                            font: 'Quicksand',
+                            text: '♡',
+                            borderRadius: 15,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Dark',
+                            textColor: '#a8e6cf',
+                            bgColor: '#3d3d3d',
+                            font: 'Raleway',
+                            text: 'D',
+                            borderRadius: 10,
+                            fontSize: 180,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Light',
+                            textColor: '#3d3d3d',
+                            bgColor: '#ffd3b6',
+                            font: 'Montserrat',
+                            text: 'L',
+                            borderRadius: 10,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Code',
+                            textColor: '#00ff00',
+                            bgColor: '#000000',
+                            font: 'Source Code Pro',
+                            text: '{ }',
+                            borderRadius: 5,
+                            fontSize: 140,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Soft',
+                            textColor: '#6c5ce7',
+                            bgColor: '#a8e6cf',
+                            font: 'Comfortaa',
+                            text: '~',
+                            borderRadius: 25,
+                            fontSize: 200,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Solid',
+                            textColor: '#ffffff',
+                            bgColor: '#0984e3',
+                            font: 'Roboto',
+                            text: '■',
+                            borderRadius: 0,
+                            fontSize: 200,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Fun',
+                            textColor: '#ff7675',
+                            bgColor: '#74b9ff',
+                            font: 'Pacifico',
+                            text: '☺',
+                            borderRadius: 100,
+                            fontSize: 160,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Wave',
+                            textColor: '#48dbfb',
+                            bgColor: '#1e3799',
+                            font: 'Dancing Script',
+                            text: '~',
+                            borderRadius: 15,
+                            fontSize: 220,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Edge',
+                            textColor: '#ff4757',
+                            bgColor: '#2f3542',
+                            font: 'Righteous',
+                            text: 'X',
+                            borderRadius: 0,
+                            fontSize: 180,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Sunset',
+                            textColor: '#ffffff',
+                            bgGradient: true,
+                            bgGradientStart: '#ff416c',
+                            bgGradientEnd: '#ff4b2b',
+                            font: 'Montserrat',
+                            text: 'S',
+                            borderRadius: 20,
+                            fontSize: 180,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Ocean',
+                            textColor: '#ffffff',
+                            bgGradient: true,
+                            bgGradientStart: '#2193b0',
+                            bgGradientEnd: '#6dd5ed',
+                            font: 'Quicksand',
+                            text: '~',
+                            borderRadius: 15,
+                            fontSize: 200,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Rainbow',
+                            textGradient: true,
+                            textGradientStart: '#8BD3BD',
+                            textGradientEnd: '#B874D2',
+                            bgColor: '#ffffff',
+                            font: 'Pacifico',
+                            text: 'LOGO',
+                            borderRadius: 100,
+                            fontSize: 80,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Aurora',
+                            textColor: '#ffffff',
+                            bgGradient: true,
+                            bgGradientStart: '#4facfe',
+                            bgGradientEnd: '#00f2fe',
+                            font: 'Raleway',
+                            text: 'A',
+                            borderRadius: 8,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Fire',
+                            textGradient: true,
+                            textGradientStart: '#f12711',
+                            textGradientEnd: '#f5af19',
+                            bgColor: '#000000',
+                            font: 'Righteous',
+                            text: '🔥',
+                            borderRadius: 0,
+                            fontSize: 160,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Galaxy',
+                            textColor: '#ffffff',
+                            bgGradient: true,
+                            bgGradientStart: '#654ea3',
+                            bgGradientEnd: '#eaafc8',
+                            font: 'Space Mono',
+                            text: '✧',
+                            borderRadius: 50,
+                            fontSize: 180,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Magic',
+                            textGradient: true,
+                            textGradientStart: '#b465da',
+                            textGradientEnd: '#cf6cc9',
+                            bgColor: '#28282B',
+                            font: 'Dancing Script',
+                            text: '✦',
+                            borderRadius: 30,
+                            fontSize: 200,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Forest',
+                            textColor: '#ffffff',
+                            bgGradient: true,
+                            bgGradientStart: '#134e5e',
+                            bgGradientEnd: '#71b280',
+                            font: 'Abril Fatface',
+                            text: 'F',
+                            borderRadius: 0,
+                            fontSize: 180,
+                            fontWeight: 'bold'
+                        },
+                        {
+                            name: 'Candy',
+                            textGradient: true,
+                            textGradientStart: '#ff758c',
+                            textGradientEnd: '#ff7eb3',
+                            bgColor: '#fff0f5',
+                            font: 'Comfortaa',
+                            text: '○',
+                            borderRadius: 100,
+                            fontSize: 160,
+                            fontWeight: 'normal'
+                        },
+                        {
+                            name: 'Cyber',
+                            textColor: '#00ff00',
+                            bgGradient: true,
+                            bgGradientStart: '#000428',
+                            bgGradientEnd: '#004e92',
+                            font: 'Orbitron',
+                            text: '[]',
+                            borderRadius: 5,
+                            fontSize: 140,
+                            fontWeight: 'bold'
+                        }
+                    ],
+                    borderRadius: 0,
+                    fontWeight: 'normal',  // 添加字体粗细属性
+                    themeNames: {
+                        en: {
+                            'Minimalist': 'Minimalist',
+                            'Tech': 'Tech',
+                            'Creative': 'Creative',
+                            'Modern': 'Modern',
+                            'Nature': 'Nature',
+                            'Elegant': 'Elegant',
+                            'Playful': 'Playful',
+                            'Geometric': 'Geometric',
+                            'Vintage': 'Vintage',
+                            'Digital': 'Digital',
+                            'Neon': 'Neon',
+                            'Organic': 'Organic',
+                            'Bold': 'Bold',
+                            'Minimal': 'Minimal',
+                            'Cosmic': 'Cosmic',
+                            'Zen': 'Zen',
+                            'Future': 'Future',
+                            'Retro': 'Retro',
+                            'Clean': 'Clean',
+                            'Art': 'Art',
+                            'Sharp': 'Sharp',
+                            'Sweet': 'Sweet',
+                            'Dark': 'Dark',
+                            'Light': 'Light',
+                            'Code': 'Code',
+                            'Soft': 'Soft',
+                            'Solid': 'Solid',
+                            'Fun': 'Fun',
+                            'Wave': 'Wave',
+                            'Edge': 'Edge',
+                            'Sunset': 'Sunset',
+                            'Ocean': 'Ocean',
+                            'Rainbow': 'Rainbow',
+                            'Aurora': 'Aurora',
+                            'Fire': 'Fire',
+                            'Galaxy': 'Galaxy',
+                            'Magic': 'Magic',
+                            'Forest': 'Forest',
+                            'Candy': 'Candy',
+                            'Cyber': 'Cyber'
+                        },
+                        zh: {
+                            'Minimalist': '极简',
+                            'Tech': '科技',
+                            'Creative': '创意',
+                            'Modern': '现代',
+                            'Nature': '自然',
+                            'Elegant': '优雅',
+                            'Playful': '趣味',
+                            'Geometric': '几何',
+                            'Vintage': '复古',
+                            'Digital': '数字',
+                            'Neon': '霓虹',
+                            'Organic': '有机',
+                            'Bold': '目',
+                            'Minimal': '简约',
+                            'Cosmic': '宇宙',
+                            'Zen': '禅意',
+                            'Future': '未来',
+                            'Retro': '怀旧',
+                            'Clean': '清新',
+                            'Art': '艺术',
+                            'Sharp': '锐利',
+                            'Sweet': '甜美',
+                            'Dark': '暗黑',
+                            'Light': '明亮',
+                            'Code': '代码',
+                            'Soft': '柔和',
+                            'Solid': '坚实',
+                            'Fun': '欢乐',
+                            'Wave': '波浪',
+                            'Edge': '锋锐',
+                            'Sunset': '晚霞',
+                            'Ocean': '海洋',
+                            'Rainbow': '彩虹',
+                            'Aurora': '极光',
+                            'Fire': '火焰',
+                            'Galaxy': '星系',
+                            'Magic': '魔法',
+                            'Forest': '森林',
+                            'Candy': '糖果',
+                            'Cyber': '赛博'
+                        }
+                    },
+                    showSizes: false,  // 控制下拉菜单显示
+                    verticalOffset: 50,  // 替换原来的 verticalPosition，默认居中 50%
+                    useTextGradient: false,
+                    textGradientStart: '#ff0000',
+                    textGradientEnd: '#00ff00',
+                    useBgGradient: false,
+                    bgGradientStart: '#ff0000',
+                    bgGradientEnd: '#00ff00',
+                    faqOpenState: {}  // 添加一个对象来跟踪FAQ的展开状态
+                }
+            },
+            computed: {
+                getJustifyContent() {
+                    const positions = {
+                        'left': 'flex-start',
+                        'center': 'center',
+                        'right': 'flex-end'
+                    }
+                    return positions[this.textPosition]
+                },
+                t() {
+                    return i18n[this.currentLang]
+                },
+                localizedThemes() {
+                    return this.themes.map(theme => ({
+                        ...theme,
+                        name: this.themeNames[this.currentLang][theme.name]
+                    }))
+                },
+                getTextTransform() {
+                    const translateX = this.textPosition === 'center' ? '-50%' : '0'
+                    return `translate(${translateX}, -50%)`  // 只保留水平方向的变换
+                }
+            },
+            methods: {
+                applyTheme(theme) {
+                    // 同步所有设置
+                    this.textColor = theme.textColor
+                    this.bgColor = theme.bgColor
+                    this.fontFamily = theme.font
+                    this.logoText = theme.text
+                    this.borderRadius = theme.borderRadius || 0
+                    this.size = 300  // 设置默认尺寸
+                    this.fontSize = theme.fontSize  // 根据比例计算实际字体大小
+                    this.fontWeight = theme.fontWeight || 'normal'  // 设置字重
+                    this.verticalOffset = 50  // 重置垂直位置为居中
+                    this.textPosition = 'center'  // 重置水平位置为居中
+
+                    // 重置渐变相关设置
+                    this.useTextGradient = false
+                    this.useBgGradient = false
+                    this.textGradientStart = '#ff0000'
+                    this.textGradientEnd = '#00ff00'
+                    this.bgGradientStart = '#ff0000'
+                    this.bgGradientEnd = '#00ff00'
+
+                    // 设置背景渐变
+                    this.useBgGradient = theme.bgGradient || false
+                    if (theme.bgGradient) {
+                        this.bgGradientStart = theme.bgGradientStart
+                        this.bgGradientEnd = theme.bgGradientEnd
+                    }
+
+                    // 设置文本渐变
+                    this.useTextGradient = theme.textGradient || false
+                    if (theme.textGradient) {
+                        this.textGradientStart = theme.textGradientStart
+                        this.textGradientEnd = theme.textGradientEnd
+                    }
+                },
+                async exportLogo(format) {
+                    const element = document.getElementById('logoPreview')
+                    try {
+                        if (format === 'png') {
+                            const canvas = await html2canvas(element, {
+                                backgroundColor: null,
+                                scale: 4,  // 增加缩放比例从2提高到4
+                                useCORS: true,
+                                allowTaint: true,
+                                removeContainer: true,
+                                logging: false,
+                                imageSmoothing: true,  // 启用图像平滑
+                                imageSmoothingQuality: 'high'  // 使用高质量图像平滑
+                            });
+                            
+                            // 创建一个新的高分率canvas
+                            const transparentCanvas = document.createElement('canvas');
+                            transparentCanvas.width = canvas.width;
+                            transparentCanvas.height = canvas.height;
+                            const ctx = transparentCanvas.getContext('2d', {
+                                alpha: true,
+                                antialias: true  // 启用抗锯齿
+                            });
+                            
+                            // 设置更好的图像平滑
+                            ctx.imageSmoothingEnabled = true;
+                            ctx.imageSmoothingQuality = 'high';
+                            
+                            // 确保新canvas的背景是透明的
+                            ctx.clearRect(0, 0, transparentCanvas.width, transparentCanvas.height);
+                            
+                            // 将原始canvas的内容绘制到新canvas上
+                            ctx.drawImage(canvas, 0, 0);
+                            
+                            // 使用最高质量导出PNG
+                            const link = document.createElement('a');
+                            link.download = 'logo.png';
+                            link.href = transparentCanvas.toDataURL('image/png', 1.0);
+                            link.click();
+                        } else if (format === 'svg') {
+                            // 创建渐变定义和滤镜效果
+                            const gradientDefs = `
+                                ${this.useBgGradient ? `
+                                    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:${this.bgGradientStart}"/>
+                                        <stop offset="100%" style="stop-color:${this.bgGradientEnd}"/>
+                                    </linearGradient>
+                                ` : ''}
+                                ${this.useTextGradient ? `
+                                    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:${this.textGradientStart}"/>
+                                        <stop offset="100%" style="stop-color:${this.textGradientEnd}"/>
+                                    </linearGradient>
+                                ` : ''}
+                            `;
+
+                            const svgData = `
+                                <svg width="${this.size}" height="${this.size}" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        ${gradientDefs}
+                                        
+                                        <style type="text/css">@import url(https://fonts.googleapis.com/css?family=${encodeURIComponent(this.fontFamily)});</style>
+                                    </defs>
+
+                                    <rect width="100%" height="100%" 
+                                        fill="${this.useBgGradient ? 'url(#bgGradient)' : this.bgColor}" 
+                                        rx="${this.borderRadius}" 
+                                        ry="${this.borderRadius}"/>
+                                    <text
+                                        x="${this.textPosition === 'center' ? '50%' : (this.textPosition === 'left' ? '20px' : (this.size - 20) + 'px')}"
+                                        y="${this.verticalOffset}%"
+                                        font-family="${this.fontFamily}"
+                                        font-size="${this.fontSize}px"
+                                        font-weight="${this.fontWeight}"
+                                        fill="${this.useTextGradient ? 'url(#textGradient)' : this.textColor}"
+                                        text-anchor="${this.textPosition === 'center' ? 'middle' : (this.textPosition === 'left' ? 'start' : 'end')}"
+                                        dominant-baseline="middle"
+                                    >${this.logoText}</text>
+                                </svg>`;
+
+                            const blob = new Blob([svgData], { type: 'image/svg+xml' })
+                            const url = URL.createObjectURL(blob)
+                            const link = document.createElement('a')
+                            link.download = 'logo.svg'
+                            link.href = url
+                            link.click()
+                            URL.revokeObjectURL(url)
+                        } else if (format === 'ico') {
+                            // 提高ICO导出质量
+                            const canvas = document.createElement('canvas')
+                            canvas.width = 32
+                            canvas.height = 32
+                            const ctx = canvas.getContext('2d', {
+                                alpha: true,
+                                antialias: true
+                            })
+                            
+                            // 设置更好的图像平滑
+                            ctx.imageSmoothingEnabled = true
+                            ctx.imageSmoothingQuality = 'high'
+
+                            // 使用更高的缩放比例捕获原始图像
+                            const originalCanvas = await html2canvas(element, {
+                                scale: 8,  // 增加缩放比例到8
+                                useCORS: true,
+                                backgroundColor: null,
+                                logging: false,
+                                imageSmoothing: true,
+                                imageSmoothingQuality: 'high'
+                            })
+
+                            // 使用高质量缩放算法
+                            ctx.drawImage(originalCanvas, 0, 0, 32, 32)
+                            
+                            // 使用最高质量导出
+                            canvas.toBlob((blob) => {
+                                const url = URL.createObjectURL(blob)
+                                const link = document.createElement('a')
+                                link.download = 'favicon.png'
+                                link.href = url
+                                link.click()
+                                URL.revokeObjectURL(url)
+                            }, 'image/png', 1.0)
+                        }
+                    } catch (error) {
+                        console.error('导出失败:', error)
+                    }
+                },
+                changeLang(lang) {
+                    this.currentLang = lang
+                },
+                resetSettings() {
+                    this.size = 300
+                    this.fontSize = 48
+                    this.borderRadius = 0
+                    this.logoText = 'LOGO'  // 重置为 LOGO
+                    this.fontWeight = 'normal'
+                    this.verticalOffset = 50  // 重置为居中位置
+                    this.applyRandomTheme()
+                },
+                applyRandomTheme() {
+                    const randomTheme = this.themes[Math.floor(Math.random() * this.themes.length)]
+                    const randomFont = this.fonts[Math.floor(Math.random() * this.fonts.length)]
+                    
+                    // 随机决定是否使用渐变
+                    this.useTextGradient = Math.random() > 0.7  // 30%概率使用文本渐变
+                    this.useBgGradient = Math.random() > 0.7    // 30%概率使用背景渐变
+
+                    // 设置基础颜色
+                    this.textColor = randomTheme.textColor
+                    this.bgColor = randomTheme.bgColor
+
+                    // 如果使用文本渐变，生成随机渐变色
+                    if (this.useTextGradient) {
+                        this.textGradientStart = this.getRandomColor()
+                        this.textGradientEnd = this.getRandomColor()
+                    }
+
+                    // 如果使用背景渐变，生成随机渐变色
+                    if (this.useBgGradient) {
+                        this.bgGradientStart = this.getRandomColor()
+                        this.bgGradientEnd = this.getRandomColor()
+                    }
+
+                    // 其他随机设置
+                    this.fontFamily = randomFont.value
+                    if (this.logoText !== 'LOGO') {
+                        this.logoText = 'LOGO'
+                    }
+                    this.fontSize = Math.floor(Math.random() * (72 - 36) + 36)
+                    const maxRadius = this.size / 2
+                    this.borderRadius = Math.floor(Math.random() * maxRadius)
+                    this.fontWeight = Math.random() > 0.5 ? 'bold' : 'normal'
+                },
+                getRandomColor() {
+                    const letters = '0123456789ABCDEF'
+                    let color = '#'
+                    for (let i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)]
+                    }
+                    return color
+                },
+                async exportIco() {
+                    try {
+                        const tempCanvas = document.createElement('canvas')
+                        const scale = 4
+                        tempCanvas.width = this.size * scale
+                        tempCanvas.height = this.size * scale
+                        const tempCtx = tempCanvas.getContext('2d')
+
+                        // 绘制背景（支持渐变）
+                        if (this.useBgGradient) {
+                            const gradient = tempCtx.createLinearGradient(0, 0, tempCanvas.width, 0)
+                            gradient.addColorStop(0, this.bgGradientStart)
+                            gradient.addColorStop(1, this.bgGradientEnd)
+                            tempCtx.fillStyle = gradient
+                        } else {
+                            tempCtx.fillStyle = this.bgColor
+                        }
+                        tempCtx.beginPath()
+                        tempCtx.roundRect(0, 0, tempCanvas.width, tempCanvas.height, this.borderRadius * scale)
+                        tempCtx.fill()
+
+                        // 绘制文本（支持渐变）
+                        if (this.useTextGradient) {
+                            const gradient = tempCtx.createLinearGradient(0, 0, tempCanvas.width, 0)
+                            gradient.addColorStop(0, this.textGradientStart)
+                            gradient.addColorStop(1, this.textGradientEnd)
+                            tempCtx.fillStyle = gradient
+                        } else {
+                            tempCtx.fillStyle = this.textColor
+                        }
+                        tempCtx.font = `${this.fontWeight} ${this.fontSize * scale}px ${this.fontFamily}`
+                        tempCtx.textAlign = this.textPosition === 'center' ? 'center' : 
+                                          this.textPosition === 'left' ? 'left' : 'right'
+                        tempCtx.textBaseline = 'middle'
+
+                        const x = this.textPosition === 'center' ? tempCanvas.width / 2 :
+                                 this.textPosition === 'left' ? 20 * scale :
+                                 tempCanvas.width - (20 * scale)
+                        const y = (tempCanvas.height * this.verticalOffset) / 100
+
+                        tempCtx.fillText(this.logoText, x, y)
+
+                        // 创32x32的最终canvas
+                        const finalCanvas = document.createElement('canvas')
+                        finalCanvas.width = 32
+                        finalCanvas.height = 32
+                        const finalCtx = finalCanvas.getContext('2d')
+                        
+                        finalCtx.imageSmoothingEnabled = true
+                        finalCtx.imageSmoothingQuality = 'high'
+
+                        finalCtx.drawImage(tempCanvas, 0, 0, 32, 32)
+
+                        finalCanvas.toBlob((blob) => {
+                            const url = URL.createObjectURL(blob)
+                            const link = document.createElement('a')
+                            link.download = 'favicon.ico'
+                            link.href = url
+                            link.click()
+                            URL.revokeObjectURL(url)
+                        }, 'image/x-icon')
+
+                    } catch (error) {
+                        console.error('导出失败:', error)
+                    }
+                },
+                async exportPngWithSize(size) {
+                    try {
+                        const scale = size > 256 ? 2 : 4
+                        const tempCanvas = document.createElement('canvas')
+                        tempCanvas.width = this.size * scale
+                        tempCanvas.height = this.size * scale
+                        const tempCtx = tempCanvas.getContext('2d')
+
+                        // 绘制背景（支持渐变）
+                        if (this.useBgGradient) {
+                            const gradient = tempCtx.createLinearGradient(0, 0, tempCanvas.width, 0)
+                            gradient.addColorStop(0, this.bgGradientStart)
+                            gradient.addColorStop(1, this.bgGradientEnd)
+                            tempCtx.fillStyle = gradient
+                        } else {
+                            tempCtx.fillStyle = this.bgColor
+                        }
+                        tempCtx.beginPath()
+                        tempCtx.roundRect(0, 0, tempCanvas.width, tempCanvas.height, this.borderRadius * scale)
+                        tempCtx.fill()
+
+                        // 绘制文本（支持渐变）
+                        if (this.useTextGradient) {
+                            const gradient = tempCtx.createLinearGradient(0, 0, tempCanvas.width, 0)
+                            gradient.addColorStop(0, this.textGradientStart)
+                            gradient.addColorStop(1, this.textGradientEnd)
+                            tempCtx.fillStyle = gradient
+                        } else {
+                            tempCtx.fillStyle = this.textColor
+                        }
+                        tempCtx.font = `${this.fontWeight} ${this.fontSize * scale}px ${this.fontFamily}`
+                        tempCtx.textAlign = this.textPosition === 'center' ? 'center' : 
+                                          this.textPosition === 'left' ? 'left' : 'right'
+                        tempCtx.textBaseline = 'middle'
+
+                        const x = this.textPosition === 'center' ? tempCanvas.width / 2 :
+                                 this.textPosition === 'left' ? 20 * scale :
+                                 tempCanvas.width - (20 * scale)
+                        const y = (tempCanvas.height * this.verticalOffset) / 100
+
+                        tempCtx.fillText(this.logoText, x, y)
+
+                        // 创建最终尺寸的canvas
+                        const finalCanvas = document.createElement('canvas')
+                        finalCanvas.width = size
+                        finalCanvas.height = size
+                        const finalCtx = finalCanvas.getContext('2d')
+                        
+                        finalCtx.imageSmoothingEnabled = true
+                        finalCtx.imageSmoothingQuality = 'high'
+
+                        finalCtx.drawImage(tempCanvas, 0, 0, size, size)
+
+                        finalCanvas.toBlob((blob) => {
+                            const url = URL.createObjectURL(blob)
+                            const link = document.createElement('a')
+                            link.download = `logo-${size}x${size}.png`
+                            link.href = url
+                            link.click()
+                            URL.revokeObjectURL(url)
+                        }, 'image/png', 1.0)
+
+                    } catch (error) {
+                        console.error('导出失败:', error)
+                    }
+                },
+                applyThemeAndScroll(theme) {
+                    // 应用主题
+                    this.applyTheme(theme)
+                    // 滚动到Logo设计区域
+                    const logoDesignSection = document.getElementById('logoDesign')
+                    if (logoDesignSection) {
+                        logoDesignSection.scrollIntoView({ behavior: 'smooth' })
+                    }
+                },
+                toggleFaq(index) {
+                    this.faqOpenState[index] = !this.faqOpenState[index]
+                }
+            },
+            created() {
+                this.changeLang('en')
+                this.applyRandomTheme()
+            },
+            mounted() {
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.relative')) {
+                        this.showSizes = false
+                    }
+                })
+            },
+            watch: {
+                size(newVal) {
+                    // 确保 size 在合理范围内
+                    if (newVal < 100) this.size = 100
+                    if (newVal > 600) this.size = 600
+                },
+                fontSize(newVal) {  // 添加对字体大小的监听
+                    // 确保字体大小在合理范围内
+                    if (newVal > 300) this.fontSize = 300
+                }
+            }
+        }).mount('#app')
+
+        // 添加结构化数据
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.innerHTML = JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Logo Generator",
+            "applicationCategory": "DesignApplication",
+            "operatingSystem": "Web Browser",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "featureList": [
+                "Multiple fonts and styles",
+                "Customizable colors",
+                "PNG and SVG export",
+                "Professional templates",
+                "Free to use"
+            ]
+        });
+        document.head.appendChild(script);
+    </script>
+</body>
+</html> 

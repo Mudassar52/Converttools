@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Gradient Generator – Create Beautiful CSS Gradients Online">
+<meta name="description" content="Generate stunning CSS gradients easily with our free Gradient Generator. Customize linear & radial gradients, copy CSS code, and enhance your web designs!">
+<meta name="keywords" content="gradient generator, CSS gradient maker, online gradient tool, create CSS gradients, linear gradient generator, radial gradient generator, color gradient creator, free gradient editor, web design tool, gradient background generator">
+<meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+        :root {
+            --primary: #4f46e5;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            padding-top: 6rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-workspace {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .gradient-workspace {
+                grid-template-columns: 1.5fr 1fr;
+            }
+        }
+
+        .preview-panel {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-preview {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .controls-panel {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .color-stops {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .color-stop {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #f1f5f9;
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .color-input {
+            width: 60px;
+            height: 30px;
+            padding: 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .position-input {
+            width: 60px;
+            padding: 0.25rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .gradient-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-type {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gradient-type.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .code-output {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .angle-control {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            position: relative;
+            margin: 1rem auto;
+        }
+
+        .angle-pointer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 40px;
+            background: var(--primary);
+            transform-origin: bottom center;
+            transform: translate(-50%, -100%) rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            background: #10b981;
+            color: white;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        @media (max-width: 640px) {
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .gradient-preview {
+                height: 200px;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+          .container2 {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px;
+      border-radius: 14px;
+    }
+    h1, h2 {
+      color: #111827;
+    }
+    .gradient-preview {
+      height: 150px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      transition: background 0.3s ease;
+    }
+    .color-pickers {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+  
+
+    pre {
+      background: #f3f4f6;
+      padding: 12px;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    .highlight {
+      color: #14b8a6;
+      font-weight: 600;
+    }
+       
+    </style>
+</head>
+<body>
+     <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="header">
+            <h1>Advanced Gradient Generator</h1>
+        </div>
+
+        <div class="gradient-workspace">
+            <div class="preview-panel">
+                <div class="gradient-preview" id="gradientPreview"></div>
+                <div class="code-output" id="codeOutput">
+                    background: linear-gradient(45deg, #4f46e5 0%, #ec4899 100%);
+                    <button class="copy-btn" onclick="copyCode()">Copy</button>
+                </div>
+            </div>
+
+            <div class="controls-panel">
+                <div class="gradient-types">
+                    <div class="gradient-type active" data-type="linear">Linear</div>
+                    <div class="gradient-type" data-type="radial">Radial</div>
+                    <div class="gradient-type" data-type="conic">Conic</div>
+                </div>
+
+                <div class="control-group" id="angleControl">
+                    <label>Angle</label>
+                    <div class="angle-control">
+                        <div class="angle-pointer"></div>
+                    </div>
+                    <input type="number" id="angleInput" value="45" min="0" max="360" 
+                           style="width: 80px; margin-top: 1rem;">
+                </div>
+
+                <div class="control-group">
+                    <label>Color Stops</label>
+                    <div class="color-stops" id="colorStops">
+                        <div class="color-stop">
+                            <input type="color" class="color-input" value="#4f46e5">
+                            <input type="number" class="position-input" value="0" min="0" max="100">%
+                        </div>
+                        <div class="color-stop">
+                            <input type="color" class="color-input" value="#ec4899">
+                            <input type="number" class="position-input" value="100" min="0" max="100">%
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" onclick="addColorStop()">Add Color Stop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+
+
+
+
+    <div class="container2">
+    <h1>Gradient Generator – Design Beautiful Backgrounds Instantly</h1>
+    <p>Create smooth, visually appealing gradients with our free <strong>CSS Gradient Generator</strong>. Whether you're a designer, developer, or beginner, this tool makes it simple to choose colors, preview gradients, and copy the CSS with one click.</p>
+
+
+    <h2>📄 Generated CSS</h2>
+    <pre id="cssCode">background: linear-gradient(to right, #4f46e5, #06b6d4);</pre>
+
+    <h2>🌈 Why Use a Gradient Background?</h2>
+    <ul>
+      <li>Enhance visual appeal without using images</li>
+      <li>Fast-loading and mobile-friendly design</li>
+      <li>Works across modern browsers and devices</li>
+      <li>Gives your site a polished, modern look</li>
+    </ul>
+
+    <h2>💡 How to Use</h2>
+    <ol>
+      <li>Select two colors using the color pickers</li>
+      <li>Choose a direction for your gradient</li>
+      <li>Click "Generate Gradient"</li>
+      <li>Copy the generated CSS and paste it into your stylesheet</li>
+    </ol>
+
+    <h2>🎯 Who This Tool Is For</h2>
+    <p>This tool is perfect for:</p>
+    <ul>
+      <li>Web designers & UI developers</li>
+      <li>Startup teams creating branding</li>
+      <li>Bloggers enhancing layouts</li>
+      <li>Landing pages and hero sections</li>
+    </ul>
+
+    <h2>🚀 Final Thoughts</h2>
+    <p>Our Gradient Generator makes it easy to explore creative backgrounds without writing a single line of code. It’s free, fast, and user-friendly. Experiment with color combos and get instant results!</p>
+  </div>
+ <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+
+        let currentGradientType = 'linear';
+        let currentAngle = 45;
+
+        // Initialize gradient types
+        document.querySelectorAll('.gradient-type').forEach(type => {
+            type.addEventListener('click', () => {
+                document.querySelectorAll('.gradient-type').forEach(t => t.classList.remove('active'));
+                type.classList.add('active');
+                currentGradientType = type.dataset.type;
+                updateGradient();
+            });
+        });
+
+        // Angle control
+        const angleControl = document.querySelector('.angle-control');
+        const anglePointer = document.querySelector('.angle-pointer');
+        const angleInput = document.getElementById('angleInput');
+
+        angleControl.addEventListener('mousedown', startDragging);
+        angleControl.addEventListener('touchstart', startDragging, { passive: true });
+
+        function startDragging(e) {
+            e.preventDefault();
+            document.addEventListener('mousemove', handleDrag);
+            document.addEventListener('touchmove', handleDrag);
+            document.addEventListener('mouseup', stopDragging);
+            document.addEventListener('touchend', stopDragging);
+        }
+
+        function handleDrag(e) {
+            const rect = angleControl.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+            const angle = Math.atan2(clientY - centerY, clientX - centerX) * 180 / Math.PI + 90;
+            currentAngle = (angle + 360) % 360;
+            
+            updateAngleVisuals();
+            updateGradient();
+        }
+
+        function stopDragging() {
+            document.removeEventListener('mousemove', handleDrag);
+            document.removeEventListener('touchmove', handleDrag);
+        }
+
+        angleInput.addEventListener('input', () => {
+            currentAngle = parseInt(angleInput.value) || 0;
+            updateAngleVisuals();
+            updateGradient();
+        });
+
+        function updateAngleVisuals() {
+            anglePointer.style.transform = `translate(-50%, -100%) rotate(${currentAngle}deg)`;
+            angleInput.value = Math.round(currentAngle);
+        }
+
+        // Color stops management
+        function addColorStop() {
+            const colorStops = document.getElementById('colorStops');
+            const newStop = document.createElement('div');
+            newStop.className = 'color-stop';
+            newStop.innerHTML = `
+                <input type="color" class="color-input" value="#4f46e5">
+                <input type="number" class="position-input" value="50" min="0" max="100">%
+                <button class="btn btn-outline" onclick="this.parentElement.remove(); updateGradient();">×</button>
+            `;
+            colorStops.appendChild(newStop);
+            
+            newStop.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', updateGradient);
+            });
+            
+            updateGradient();
+        }
+
+        // Update gradient
+        function updateGradient() {
+            const colorStops = Array.from(document.querySelectorAll('.color-stop')).map(stop => {
+                const color = stop.querySelector('.color-input').value;
+                const position = stop.querySelector('.position-input').value;
+                return `${color} ${position}%`;
+            }).join(', ');
+
+            let gradient;
+            if (currentGradientType === 'linear') {
+                gradient = `linear-gradient(${currentAngle}deg, ${colorStops})`;
+            } else if (currentGradientType === 'radial') {
+                gradient = `radial-gradient(circle at center, ${colorStops})`;
+            } else {
+                gradient = `conic-gradient(from ${currentAngle}deg at center, ${colorStops})`;
+            }
+
+            document.getElementById('gradientPreview').style.background = gradient;
+            document.getElementById('codeOutput').textContent = `background: ${gradient};`;
+        }
+
+        // Copy code
+        function copyCode() {
+            const code = document.getElementById('codeOutput').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.opacity = 1;
+                setTimeout(() => toast.style.opacity = 0, 2000);
+            });
+        }
+
+        // Initialize event listeners
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', updateGradient);
+        });
+
+        // Initial gradient
+        updateGradient();
+
+    </script>
+</body>
+</html>

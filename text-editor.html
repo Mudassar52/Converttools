@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online Text Editor - Write & Edit Instantly</title>
+<meta name="description" content="Edit and format text online with our free text editor. No installation required! Write, modify, and save text instantly with advanced editing tools.">
+<meta name="keywords" content="online text editor free, best text editing tool, format text online, simple notepad alternative, edit text without software, advanced text formatting tool, instant text editor, online notepad with features, web-based text editing, create and save text online">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --background: #f8f9fa;
+            --text: #212529;
+            --light: #e9ecef;
+            --dark: #343a40;
+            --success: #4cc9a6;
+            --error: #ef476f;
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 90px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            padding: 25px 30px 20px;
+            position: relative;
+        }
+        
+        .editor-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .toolbar-wrapper {
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .toolbar {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            position: relative;
+            min-width: max-content;
+        }
+        
+        .toolbar-group {
+            display: flex;
+            gap: 5px;
+            margin-right: 10px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding-right: 10px;
+        }
+        
+        .toolbar-group:last-child {
+            border-right: none;
+            margin-right: 0;
+        }
+        
+        .toolbar button {
+            width: 38px;
+            height: 38px;
+            background-color: rgba(255, 255, 255, 0.13);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .toolbar button:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .toolbar button.active {
+            background-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+        }
+        
+        .toolbar select, .toolbar input {
+            padding: 0 10px;
+            height: 38px;
+            background-color: rgba(255, 255, 255, 0.13);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .toolbar select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: a12px;
+            padding-right: 30px;
+        }
+        
+        .toolbar input[type="color"] {
+            padding: 2px;
+            width: 38px;
+        }
+        
+        .toolbar select:hover, .toolbar input:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+        
+        .toolbar select option {
+            background-color: #4a6bdf;
+            color: white;
+        }
+        
+        .content-area {
+            padding: 30px;
+            background-color: #f9fafc;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .file-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 3px 8px rgba(106, 17, 203, 0.2);
+        }
+        
+        .file-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(106, 17, 203, 0.3);
+        }
+        
+        .file-input {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .file-name {
+            height: 38px;
+            padding: 0 15px;
+            border: 1px solid #e0e5ee;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 200px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .file-name:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.1);
+        }
+        
+        .file-extension {
+            margin-left: 5px;
+            font-size: 14px;
+            color: #5a6d87;
+        }
+        
+        #editor {
+            width: 100%;
+            min-height: 350px;
+            padding: 20px;
+            border: 1px solid #e0e5ee;
+            border-radius: 8px;
+            outline: none;
+            resize: vertical;
+            font-size: 16px;
+            line-height: 1.6;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            transition: border-color 0.3s;
+            overflow-y: auto;
+        }
+        
+        #editor:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.1);
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 30px;
+            background-color: #f1f4f9;
+            border-top: 1px solid #e0e5ee;
+            font-size: 14px;
+            color: #5a6d87;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-item i {
+            color: #4a6bdf;
+        }
+        
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+        
+        /* Color picker positioning */
+        #textColor, #bgColor {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #textColorInput, #bgColorInput {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 150%;
+            height: 150%;
+            transform: translate(-25%, -25%);
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 50px 15px;
+            }
+            
+            .editor-header {
+                padding: 20px 15px 15px;
+                 padding-top: 4rem;
+            }
+            
+            .editor-title {
+                font-size: 22px;
+                margin-bottom: 12px;
+            }
+            
+            .toolbar {
+                padding: 8px;
+                gap: 5px;
+            }
+            
+            .toolbar-group {
+                margin-right: 5px;
+                padding-right: 5px;
+            }
+            
+            .toolbar button {
+                width: 34px;
+                height: 34px;
+                font-size: 14px;
+            }
+            
+            .toolbar select, .toolbar input {
+                height: 34px;
+                font-size: 14px;
+                padding: 0 8px;
+            }
+            
+            .toolbar select {
+                padding-right: 25px;
+                background-size: 10px;
+            }
+            
+            .content-area {
+                padding: 15px;
+            }
+            
+            .file-actions {
+                flex-wrap: wrap;
+            }
+            
+            .file-input {
+                width: 100%;
+                margin-top: 10px;
+                margin-left: 0;
+            }
+            
+            .file-name {
+                flex-grow: 1;
+            }
+            
+            #editor {
+                padding: 15px;
+                min-height: 300px;
+            }
+            
+            .status-bar {
+                padding: 12px 15px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 15px;
+            }
+            .editor-title {
+                font-size: 20px;
+            }
+            
+            .toolbar button {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .content-area {
+                padding: 10px;
+            }
+            
+            #editor {
+                padding: 12px;
+            }
+            
+            .file-btn {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+        }
+
+
+
+
+
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class="editor-header">
+            <h1 class="editor-title">Advanced Text Editor</h1>
+            <div class="toolbar-wrapper">
+                <div class="toolbar">
+                    <div class="toolbar-group">
+                        <button id="bold" class="tooltip" data-tooltip="Bold"><i class="fas fa-bold"></i></button>
+                        <button id="italic" class="tooltip" data-tooltip="Italic"><i class="fas fa-italic"></i></button>
+                        <button id="underline" class="tooltip" data-tooltip="Underline"><i class="fas fa-underline"></i></button>
+                        <button id="strikethrough" class="tooltip" data-tooltip="Strikethrough"><i class="fas fa-strikethrough"></i></button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button id="textColor" class="tooltip" data-tooltip="Text Color">
+                            <i class="fas fa-font"></i>
+                            <input type="color" id="textColorInput" value="#000000">
+                        </button>
+                        <button id="bgColor" class="tooltip" data-tooltip="Background Color">
+                            <i class="fas fa-fill-drip"></i>
+                            <input type="color" id="bgColorInput" value="#ffff00">
+                        </button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <select id="fontSize" class="tooltip" data-tooltip="Font Size">
+                            <option value="1">Small</option>
+                            <option value="3" selected>Normal</option>
+                            <option value="5">Large</option>
+                            <option value="7">Huge</option>
+                        </select>
+                        
+                        <select id="fontFamily" class="tooltip" data-tooltip="Font Family">
+                            <option value="'Segoe UI', sans-serif">Segoe UI</option>
+                            <option value="'Georgia', serif">Georgia</option>
+                            <option value="'Courier New', monospace">Courier</option>
+                            <option value="'Arial', sans-serif">Arial</option>
+                            <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
+                            <option value="'Times New Roman', serif">Times New Roman</option>
+                        </select>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button id="alignLeft" class="tooltip" data-tooltip="Align Left"><i class="fas fa-align-left"></i></button>
+                        <button id="alignCenter" class="tooltip" data-tooltip="Align Center"><i class="fas fa-align-center"></i></button>
+                        <button id="alignRight" class="tooltip" data-tooltip="Align Right"><i class="fas fa-align-right"></i></button>
+                        <button id="alignJustify" class="tooltip" data-tooltip="Justify"><i class="fas fa-align-justify"></i></button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button id="indent" class="tooltip" data-tooltip="Indent"><i class="fas fa-indent"></i></button>
+                        <button id="outdent" class="tooltip" data-tooltip="Outdent"><i class="fas fa-outdent"></i></button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button id="insertOrderedList" class="tooltip" data-tooltip="Numbered List"><i class="fas fa-list-ol"></i></button>
+                        <button id="insertUnorderedList" class="tooltip" data-tooltip="Bullet List"><i class="fas fa-list-ul"></i></button>
+                        <button id="insertHorizontalRule" class="tooltip" data-tooltip="Horizontal Line"><i class="fas fa-minus"></i></button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button id="createLink" class="tooltip" data-tooltip="Insert Link"><i class="fas fa-link"></i></button>
+                        <button id="unlink" class="tooltip" data-tooltip="Remove Link"><i class="fas fa-unlink"></i></button>
+                        <button id="insertImage" class="tooltip" data-tooltip="Insert Image"><i class="fas fa-image"></i></button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button id="subscript" class="tooltip" data-tooltip="Subscript"><i class="fas fa-subscript"></i></button>
+                        <button id="superscript" class="tooltip" data-tooltip="Superscript"><i class="fas fa-superscript"></i></button>
+                    </div>
+                    
+                    <div class="toolbar-group">
+                        <button id="removeFormat" class="tooltip" data-tooltip="Clear Formatting"><i class="fas fa-eraser"></i></button>
+                        <button id="undo" class="tooltip" data-tooltip="Undo"><i class="fas fa-undo"></i></button>
+                        <button id="redo" class="tooltip" data-tooltip="Redo"><i class="fas fa-redo"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <div class="file-actions">
+                <button id="downloadBtn" class="file-btn">
+                    <i class="fas fa-download"></i> Download
+                </button>
+                <button id="printBtn" class="file-btn">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button id="clearBtn" class="file-btn">
+                    <i class="fas fa-trash"></i> Clear
+                </button>
+                
+                <div class="file-input">
+                    <input type="text" id="fileName" class="file-name" placeholder="document" value="document">
+                    <span class="file-extension">.txt</span>
+                </div>
+            </div>
+            
+            <div id="editor" contenteditable="true">
+                <p>Welcome to the Advanced Text Editor! Try out the expanded formatting options above.</p>
+                <p>This editor now features:</p>
+                <ul>
+                    <li>File download functionality</li>
+                    <li>Text and background colors</li>
+                    <li>More text formatting options</li>
+                    <li>Improved usability with tooltips</li>
+                    <li>And much more!</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-item">
+                <i class="fas fa-file-alt"></i>
+                <span id="wordCount">Words: 30</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-font"></i>
+                <span id="charCount">Characters: 230</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-save"></i>
+                <span id="saveStatus">Auto-saved</span>
+            </div>
+        </div>
+
+
+
+
+
+   <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+    </div>
+
+
+
+
+   
+    
+    <script>
+        // Basic text formatting
+        document.getElementById('bold').addEventListener('click', function() {
+            document.execCommand('bold', false, null);
+            this.classList.toggle('active');
+        });
+        
+        document.getElementById('italic').addEventListener('click', function() {
+            document.execCommand('italic', false, null);
+            this.classList.toggle('active');
+        });
+        
+        document.getElementById('underline').addEventListener('click', function() {
+            document.execCommand('underline', false, null);
+            this.classList.toggle('active');
+        });
+        
+        document.getElementById('strikethrough').addEventListener('click', function() {
+            document.execCommand('strikeThrough', false, null);
+            this.classList.toggle('active');
+        });
+        
+        // Colors
+        document.getElementById('textColorInput').addEventListener('input', function() {
+            document.execCommand('foreColor', false, this.value);
+        });
+        
+        document.getElementById('bgColorInput').addEventListener('input', function() {
+            document.execCommand('hiliteColor', false, this.value);
+        });
+        
+        // Font settings
+        document.getElementById('fontSize').addEventListener('change', (e) => {
+            document.execCommand('fontSize', false, e.target.value);
+        });
+        
+        document.getElementById('fontFamily').addEventListener('change', (e) => {
+            document.execCommand('fontName', false, e.target.value);
+        });
+        
+        // Alignment
+        document.getElementById('alignLeft').addEventListener('click', function() {
+            document.execCommand('justifyLeft', false, null);
+            document.querySelectorAll('.toolbar button[id^="align"]').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+        
+        document.getElementById('alignCenter').addEventListener('click', function() {
+            document.execCommand('justifyCenter', false, null);
+            document.querySelectorAll('.toolbar button[id^="align"]').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+        
+        document.getElementById('alignRight').addEventListener('click', function() {
+            document.execCommand('justifyRight', false, null);
+            document.querySelectorAll('.toolbar button[id^="align"]').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+        
+        document.getElementById('alignJustify').addEventListener('click', function() {
+            document.execCommand('justifyFull', false, null);
+            document.querySelectorAll('.toolbar button[id^="align"]').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+        
+        // Indentation
+        document.getElementById('indent').addEventListener('click', () => {
+            document.execCommand('indent', false, null);
+        });
+        
+        document.getElementById('outdent').addEventListener('click', () => {
+            document.execCommand('outdent', false, null);
+        });
+        
+        // Lists and horizontal rule
+        document.getElementById('insertOrderedList').addEventListener('click', function() {
+            document.execCommand('insertOrderedList', false, null);
+            this.classList.toggle('active');
+        });
+        
+        document.getElementById('insertUnorderedList').addEventListener('click', function() {
+            document.execCommand('insertUnorderedList', false, null);
+            this.classList.toggle('active');
+        });
+        
+        document.getElementById('insertHorizontalRule').addEventListener('click', () => {
+            document.execCommand('insertHorizontalRule', false, null);
+        });
+        
+        // Links and images
+        document.getElementById('createLink').addEventListener('click', () => {
+            const url = prompt('Enter the URL:');
+            if (url) {
+                document.execCommand('createLink', false, url);
+            }
+        });
+        
+        document.getElementById('unlink').addEventListener('click', () => {
+            document.execCommand('unlink', false, null);
+        });
+        
+        document.getElementById('insertImage').addEventListener('click', () => {
+            const url = prompt('Enter the image URL:');
+            if (url) {
+                document.execCommand('insertImage', false, url);
+            }
+        });
+        
+        // Subscript and superscript
+        document.getElementById('subscript').addEventListener('click', function() {
+            document.execCommand('subscript', false, null);
+            this.classList.toggle('active');
+        });
+        
+        document.getElementById('superscript').addEventListener('click', function() {
+            document.execCommand('superscript', false, null);
+            this.classList.toggle('active');
+        });
+        
+        // Clear formatting, undo, redo
+        document.getElementById('removeFormat').addEventListener('click', () => {
+            document.execCommand('removeFormat', false, null);
+            document.querySelectorAll('.toolbar button').forEach(btn => {
+                if (!btn.id.startsWith('align')) {
+                    btn.classList.remove('active');
+                }
+            });
+        });
+        
+        document.getElementById('undo').addEventListener('click', () => {
+            document.execCommand('undo', false, null);
+        });
+        
+        document.getElementById('redo').addEventListener('click', () => {
+            document.execCommand('redo', false, null);
+        });
+        
+        // File operations
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const fileName = document.getElementById('fileName').value || 'document';
+            const content = document.getElementById('editor');
+            
+            // Extract plain text from editor
+            const plainText = content.innerText || content.textContent;
+            
+            // Create a Blob with plain text content
+            const blob = new Blob([plainText], { type: 'text/plain' });
+            
+            // Create link to download the file
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${fileName}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Update save status
+            updateSaveStatus('Downloaded');
+        });
+        
+        document.getElementById('printBtn').addEventListener('click', () => {
+            const content = document.getElementById('editor').innerHTML;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Print Document</title>
+                    <style>
+                        body { 
+                            font-family: Arial, sans-serif; 
+                            line-height: 1.6; 
+                            padding: 20px;
+                            max-width: 800px;
+                            margin: 0 auto;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${content}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 250);
+        });
+        
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all content?')) {
+                document.getElementById('editor').innerHTML = '';
+                updateCounts();
+                updateSaveStatus('Cleared');
+            }
+        });
+        
+        // Word and character count
+        const editor = document.getElementById('editor');
+        const wordCount = document.getElementById('wordCount');
+        const charCount = document.getElementById('charCount');
+        const saveStatus = document.getElementById('saveStatus');
+        
+        function updateCounts() {
+            let text = editor.innerText || '';
+            text = text.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            const chars = text.length;
+            
+            wordCount.textContent = `Words: ${words}`;
+            charCount.textContent = `Characters: ${chars}`;
+        }
+        
+        function updateSaveStatus(status) {
+            saveStatus.textContent = status || 'Auto-saved';
+            
+            // Reset back to auto-saved after 3 seconds
+            if (status) {
+                setTimeout(() => {
+                    saveStatus.textContent = 'Auto-saved';
+                }, 3000);
+            }
+        }
+        
+        // Save to local storage
+        let saveTimeout;
+        editor.addEventListener('input', () => {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                localStorage.setItem('editorContent', editor.innerHTML);
+                updateSaveStatus('Auto-saved');
+            }, 1000);
+            
+            updateCounts();
+        });
+        
+        // Load from local storage
+        const savedContent = localStorage.getItem('editorContent');
+        if (savedContent) {
+            editor.innerHTML = savedContent;
+            updateCounts();
+        }
+        
+        // Detect active formatting on selection
+        editor.addEventListener('mouseup', detectActiveFormatting);
+        editor.addEventListener('keyup', detectActiveFormatting);
+        
+        function detectActiveFormatting() {
+            // Reset all buttons
+            document.querySelectorAll('.toolbar button').forEach(btn => {
+                if (!btn.id.startsWith('align')) {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Check various states
+            if (document.queryCommandState('bold')) {
+                document.getElementById('bold').classList.add('active');
+            }
+            
+            if (document.queryCommandState('italic')) {
+                document.getElementById('italic').classList.add('active');
+            }
+            
+            if (document.queryCommandState('underline')) {
+                document.getElementById('underline').classList.add('active');
+            }
+            
+            if (document.queryCommandState('strikeThrough')) {
+                document.getElementById('strikethrough').classList.add('active');
+            }
+            
+            if (document.queryCommandState('subscript')) {
+                document.getElementById('subscript').classList.add('active');
+            }
+            
+            if (document.queryCommandState('superscript')) {
+                document.getElementById('superscript').classList.add('active');
+            }
+            
+            // Check alignment
+            document.querySelectorAll('.toolbar button[id^="align"]').forEach(btn => btn.classList.remove('active'));
+            if (document.queryCommandState('justifyLeft')) {
+                document.getElementById('alignLeft').classList.add('active');
+            } else if (document.queryCommandState('justifyCenter')) {
+                document.getElementById('alignCenter').classList.add('active');
+            } else if (document.queryCommandState('justifyRight')) {
+                document.getElementById('alignRight').classList.add('active');
+            } else if (document.queryCommandState('justifyFull')) {
+                document.getElementById('alignJustify').classList.add('active');
+            }
+            
+            // Check lists
+            if (document.queryCommandState('insertOrderedList')) {
+                document.getElementById('insertOrderedList').classList.add('active');
+            }
+            if (document.queryCommandState('insertUnorderedList')) {
+                document.getElementById('insertUnorderedList').classList.add('active');
+            }
+        }
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

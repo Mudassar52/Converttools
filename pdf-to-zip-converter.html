@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to ZIP Converter - Free Online Tool | Compress Multiple PDFs to ZIP</title>
+    <meta name="description" content="Free online PDF to ZIP converter. Compress multiple PDF documents into a single ZIP file. Fast, secure, and no registration required.">
+    <meta name="keywords" content="pdf to zip, pdf converter, zip pdfs, compress pdfs, bulk pdf converter, online tool PDF to ZIP Converter, Compress PDFs, Combine PDF Files, ZIP Archive Creator, Online PDF Compressor, Free PDF ZIP Tool, PDF Compression">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/pdf-to-zip-converter">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "PDF to ZIP Converter",
+    "url": "https://converttools.site/pdf-to-zip-converter",
+    "description": "Easily compress and combine multiple PDF files into a single ZIP archive using our free online PDF to ZIP Converter. Fast, secure, and no registration required.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "YourSiteName",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.example.com/logo.png"
+      }
+    },
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "PDF to ZIP Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "Utility Tool",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    }
+  }
+  </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 50%, #8e44ad 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 90px 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .main-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 70px rgba(0,0,0,0.15);
+        }
+
+        .upload-area {
+            border: 3px dashed #e74c3c;
+            border-radius: 16px;
+            padding: 60px 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #fdf2f2, #fce4e4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(231,76,60,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .upload-area:hover::before {
+            left: 100%;
+        }
+
+        .upload-area:hover {
+            border-color: #8e44ad;
+            background: linear-gradient(45deg, #fce4e4, #f8e1f8);
+            transform: scale(1.02);
+        }
+
+        .upload-area.dragover {
+            border-color: #27ae60;
+            background: linear-gradient(45deg, #f0fff4, #e8f8f0);
+            transform: scale(1.05);
+        }
+
+        .upload-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #e74c3c, #8e44ad);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .upload-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .upload-subtext {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .file-list {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .file-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .file-details h4 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .file-details p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .file-size {
+            font-weight: 600;
+            color: #e74c3c;
+        }
+
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .remove-btn:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+
+        .convert-section {
+            text-align: center;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .convert-btn {
+            background: linear-gradient(45deg, #e74c3c, #8e44ad);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(231,76,60,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .convert-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(231,76,60,0.4);
+        }
+
+        .convert-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .convert-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin: 25px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #e74c3c, #8e44ad);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .file-stats {
+            display: flex;
+            justify-content: space-between;
+            background: #f1f3f4;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: #e74c3c;
+        }
+
+       
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .main-card {
+                padding: 25px;
+            }
+
+            .upload-area {
+                padding: 40px 15px;
+            }
+
+            .file-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        .download-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(39,174,96,0.3);
+        }
+
+        .download-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(39,174,96,0.4);
+        }
+
+        .clear-all-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .clear-all-btn:hover {
+            background: #5a6268;
+            transform: scale(1.05);
+        }
+
+
+
+
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+         :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+
+
+
+
+        
+    .container2 {
+      max-width: 1160px;
+      margin: auto;
+      padding: 40px;
+    }
+    h1, h2 {
+      color: #0099ff;
+    }
+    p {
+      line-height: 1.7;
+    }
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>📄 PDF to ZIP Converter</h1>
+            <p class="subtitle">Combine multiple PDF documents into a single ZIP archive. Fast, secure, and completely free to use.</p>
+        </header>
+
+        <main>
+            <div class="main-card">
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Drop PDF files here or click to browse</div>
+                    <div class="upload-subtext">Supports all PDF documents up to 50MB each</div>
+                </div>
+                
+                <input type="file" id="fileInput" accept=".pdf,application/pdf" multiple>
+                
+                <div class="file-list" id="fileList">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: #333; margin: 0;">Selected PDF Files</h3>
+                        <button class="clear-all-btn" id="clearAllBtn" onclick="clearAllFiles()">🗑️ Clear All</button>
+                    </div>
+                    <div class="file-stats" id="fileStats"></div>
+                    <div id="fileItems"></div>
+                </div>
+                
+                <div class="convert-section" id="convertSection">
+                    <button class="convert-btn" id="convertBtn">🚀 Create ZIP Archive</button>
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                
+                <div class="status-message" id="statusMessage"></div>
+            </div>
+
+        </main>
+    </div>
+
+    <div class="container2">
+    <h1>PDF to ZIP Converter</h1>
+    <p>
+      Quickly compress and combine multiple PDF files into a single ZIP archive using our free online <strong>PDF to ZIP Converter</strong>. This tool simplifies your file management and sharing process by packaging PDFs into one easy-to-download file.
+    </p>
+
+    <h2>What is a PDF to ZIP Converter?</h2>
+    <p>
+      A PDF to ZIP Converter is an online utility that compresses and bundles multiple PDF documents into a single ZIP file, making it easier to share and store large numbers of PDFs efficiently.
+    </p>
+
+    <h2>Why Use Our PDF to ZIP Converter?</h2>
+    <ul>
+      <li>Combine several PDF files into one convenient ZIP archive</li>
+      <li>Reduce overall file size for easier upload and sharing</li>
+      <li>Fast and simple process with no software installation</li>
+      <li>Supports batch uploading of multiple PDFs</li>
+      <li>Secure and free to use without registration</li>
+    </ul>
+
+    <h2>How to Use PDF to ZIP Converter?</h2>
+    <ol>
+      <li>Upload your PDF files via the upload button</li>
+      <li>Click the “Convert” or “Create ZIP” button</li>
+      <li>Download the generated ZIP archive containing all your PDFs</li>
+    </ol>
+
+    <h2>Who Should Use This Tool?</h2>
+    <ul>
+      <li>Students and professionals managing multiple PDFs</li>
+      <li>Businesses that need to send several PDF documents at once</li>
+      <li>Anyone looking for quick and free PDF compression and packaging</li>
+      <li>Users who want to organize PDFs efficiently for storage or transfer</li>
+    </ul>
+
+    <h2>Get Started with PDF to ZIP Conversion Now – It’s Completely Free!</h2>
+    <p>
+      Use our <strong>PDF to ZIP Converter</strong> today to compress and organize your PDF files with ease. No downloads, no sign-ups — just fast, reliable, and free file packaging.
+    </p>
+  </div>
+
+
+   <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+
+         document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+        
+        let selectedFiles = [];
+
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const fileItems = document.getElementById('fileItems');
+        const fileStats = document.getElementById('fileStats');
+        const convertSection = document.getElementById('convertSection');
+        const convertBtn = document.getElementById('convertBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        const statusMessage = document.getElementById('statusMessage');
+        const uploadArea = document.querySelector('.upload-area');
+
+        // File input change handler
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Drag and drop handlers
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('drop', handleDrop);
+        uploadArea.addEventListener('dragleave', handleDragLeave);
+
+        // Convert button handler
+        convertBtn.addEventListener('click', createZipFile);
+
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            addFiles(files);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = Array.from(e.dataTransfer.files).filter(file => file.type === 'application/pdf');
+            addFiles(files);
+        }
+
+        function handleDragLeave(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        }
+
+        function addFiles(files) {
+            const validFiles = files.filter(file => file.type === 'application/pdf');
+            
+            if (validFiles.length !== files.length) {
+                showStatus('⚠️ Only PDF files are supported. Non-PDF files were ignored.', 'error');
+                setTimeout(() => hideStatus(), 3000);
+            }
+
+            validFiles.forEach(file => {
+                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            });
+            
+            updateFileList();
+            updateUI();
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileList();
+            updateUI();
+        }
+
+        function clearAllFiles() {
+            selectedFiles = [];
+            updateFileList();
+            updateUI();
+        }
+
+        function updateFileList() {
+            if (selectedFiles.length === 0) {
+                fileList.style.display = 'none';
+                return;
+            }
+
+            fileList.style.display = 'block';
+            
+            // Update stats
+            const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+            const avgSize = totalSize / selectedFiles.length;
+            
+            fileStats.innerHTML = `
+                <div class="stat-item">
+                    <span>📄 Files:</span>
+                    <span class="stat-value">${selectedFiles.length}</span>
+                </div>
+                <div class="stat-item">
+                    <span>📦 Total Size:</span>
+                    <span class="stat-value">${formatFileSize(totalSize)}</span>
+                </div>
+                <div class="stat-item">
+                    <span>📊 Average:</span>
+                    <span class="stat-value">${formatFileSize(avgSize)}</span>
+                </div>
+            `;
+            
+            // Update file items
+            fileItems.innerHTML = selectedFiles.map((file, index) => {
+                const size = formatFileSize(file.size);
+                const dateModified = file.lastModified ? new Date(file.lastModified).toLocaleDateString() : 'Unknown';
+                
+                return `
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-icon">PDF</div>
+                            <div class="file-details">
+                                <h4>${file.name}</h4>
+                                <p><span class="file-size">${size}</span> • Modified: ${dateModified}</p>
+                            </div>
+                        </div>
+                        <button class="remove-btn" onclick="removeFile(${index})">
+                            🗑️ Remove
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateUI() {
+            if (selectedFiles.length > 0) {
+                convertSection.style.display = 'block';
+                convertBtn.textContent = `🚀 Create ZIP with ${selectedFiles.length} PDF${selectedFiles.length > 1 ? 's' : ''}`;
+            } else {
+                convertSection.style.display = 'none';
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showStatus(message, type) {
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.innerHTML = message;
+            statusMessage.style.display = 'block';
+        }
+
+        function hideStatus() {
+            statusMessage.style.display = 'none';
+        }
+
+        async function createZipFile() {
+            if (selectedFiles.length === 0) return;
+
+            convertBtn.disabled = true;
+            convertBtn.textContent = 'Creating ZIP Archive...';
+            progressBar.style.display = 'block';
+            hideStatus();
+
+            try {
+                const zip = new JSZip();
+                const totalFiles = selectedFiles.length;
+
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const file = selectedFiles[i];
+                    
+                    // Update progress
+                    const progress = ((i + 1) / totalFiles) * 100;
+                    progressFill.style.width = progress + '%';
+
+                    // Add file to zip with original filename
+                    zip.file(file.name, file);
+                    
+                    // Small delay to show progress
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                }
+
+                // Generate ZIP file
+                const zipBlob = await zip.generateAsync({
+                    type: 'blob',
+                    compression: 'DEFLATE',
+                    compressionOptions: { level: 6 }
+                });
+
+                // Create download link
+                const url = URL.createObjectURL(zipBlob);
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                const filename = `PDF_Archive_${timestamp}.zip`;
+
+                // Show success message with download link
+                showStatus(`
+                    ✅ ZIP archive created successfully!<br>
+                    <strong>${selectedFiles.length} PDF files</strong> compressed into <strong>${formatFileSize(zipBlob.size)}</strong><br>
+                    <a href="${url}" download="${filename}" class="download-link">📥 Download ZIP Archive</a>
+                `, 'success');
+
+                // Auto-download
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+
+                // Clean up
+                setTimeout(() => URL.revokeObjectURL(url), 10000);
+
+            } catch (error) {
+                console.error('Error creating ZIP:', error);
+                showStatus('❌ Error creating ZIP archive. Please try again with smaller files.', 'error');
+            } finally {
+                convertBtn.disabled = false;
+                convertBtn.textContent = `🚀 Create ZIP with ${selectedFiles.length} PDF${selectedFiles.length > 1 ? 's' : ''}`;
+                progressBar.style.display = 'none';
+                progressFill.style.width = '0%';
+            }
+        }
+
+        // Add visual enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling
+            document.documentElement.style.scrollBehavior = 'smooth';
+            
+            // Add entrance animations
+            const cards = document.querySelectorAll('.feature-card, .main-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+
+            // Add file input validation
+            fileInput.addEventListener('change', function(e) {
+                const files = Array.from(e.target.files);
+                const oversizedFiles = files.filter(file => file.size > 50 * 1024 * 1024); // 50MB limit
+                
+                if (oversizedFiles.length > 0) {
+                    showStatus('⚠️ Some files are larger than 50MB and may cause performance issues.', 'error');
+                    setTimeout(() => hideStatus(), 4000);
+                }
+            });
+        });
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            document.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    </script>
+</body>
+</html>

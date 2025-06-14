@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNG to JPG Converter - Free Online Image Format Converter</title>
+    <meta name="description" content="Convert PNG to JPG online for free. High-quality image conversion with modern interface. Fast, secure, and easy to use PNG to JPG converter tool.">
+    <meta name="keywords" content="PNG to JPG, image converter, online converter, free image conversion, PNG converter, JPG converter">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://example.com/png-to-jpg-converter">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="PNG to JPG Converter - Free Online Tool">
+    <meta property="og:description" content="Convert PNG images to JPG format instantly. Free, fast, and secure online image converter.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/png-to-jpg-converter">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PNG to JPG Converter - Free Online Tool">
+    <meta name="twitter:description" content="Convert PNG images to JPG format instantly. Free, fast, and secure online image converter.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PNG to JPG Converter",
+  "url": "https://converttools.site/png-to-jpg",
+  "description": "Convert PNG to JPG instantly using this free and secure online tool. No login or registration needed.",
+  "applicationCategory": "PhotoApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 50%, #ff9ff3 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-top: 90px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.95);
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .converter-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(25px);
+            border-radius: 28px;
+            padding: 45px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            margin-bottom: 30px;
+        }
+
+        .upload-area {
+            border: 3px dashed #ffd93d;
+            border-radius: 20px;
+            padding: 70px 20px;
+            text-align: center;
+            background: linear-gradient(145deg, #fff9e6, #fff4cc);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover {
+            border-color: #ff6b6b;
+            background: linear-gradient(145deg, #fff5f5, #ffe6e6);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+        }
+
+        .upload-area.dragover {
+            border-color: #ff6b6b;
+            background: linear-gradient(145deg, #fff0f0, #ffe0e0);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.3);
+        }
+
+        .upload-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 38px;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .upload-text {
+            font-size: 1.3rem;
+            color: #374151;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .upload-subtext {
+            color: #6b7280;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .preview-section {
+            display: none;
+            margin-top: 35px;
+            padding: 35px;
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            border-radius: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .settings-panel {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .setting-group label {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .setting-group select, .setting-group input {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .setting-group select:focus, .setting-group input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .preview-item {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        .preview-item h3 {
+            color: #1f2937;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 220px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 3px solid #f3f4f6;
+            transition: transform 0.3s ease;
+        }
+
+        .image-preview:hover {
+            transform: scale(1.05);
+        }
+
+        .file-info {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #6b7280;
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .convert-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 14px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .convert-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .convert-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 14px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,255,255,0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .feature-card h3 {
+            color: #1f2937;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .converter-card {
+                padding: 30px 20px;
+            }
+            
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .upload-area {
+                padding: 50px 15px;
+            }
+        }
+
+        .processing {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f4f6;
+            border-top: 5px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .color-picker {
+            width: 50px;
+            height: 40px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+         :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>PNG to JPG Converter</h1>
+            <p class="subtitle">Transform your PNG images to JPG format with superior quality - Free, Fast & Secure</p>
+        </header>
+
+        <main class="converter-card">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">🖼️</div>
+                <div class="upload-text">Choose PNG files or drag and drop</div>
+                <div class="upload-subtext">Supports PNG files up to 15MB each</div>
+                <input type="file" id="fileInput" class="file-input" accept=".png" multiple>
+            </div>
+
+            <div class="preview-section" id="previewSection">
+                <div class="settings-panel">
+                    <h3 style="margin-bottom: 20px; color: #374151; font-weight: 700;">Conversion Settings</h3>
+                    <div class="settings-grid">
+                        <div class="setting-group">
+                            <label for="qualitySelect">JPG Quality:</label>
+                            <select id="qualitySelect">
+                                <option value="1.0">Maximum Quality (100%)</option>
+                                <option value="0.95">Excellent Quality (95%)</option>
+                                <option value="0.9" selected>High Quality (90%)</option>
+                                <option value="0.85">Very Good Quality (85%)</option>
+                                <option value="0.8">Good Quality (80%)</option>
+                                <option value="0.7">Medium Quality (70%)</option>
+                                <option value="0.6">Lower Quality (60%)</option>
+                            </select>
+                        </div>
+                        <div class="setting-group">
+                            <label for="backgroundColorPicker">Background Color:</label>
+                            <input type="color" id="backgroundColorPicker" class="color-picker" value="#ffffff">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-grid" id="previewGrid">
+                    <!-- Preview items will be added dynamically -->
+                </div>
+
+                <button class="convert-btn" id="convertBtn">Convert to JPG</button>
+                
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="processing" id="processing" style="display: none;">
+                    <div class="spinner"></div>
+                    <p style="color: #374151; font-weight: 600;">Converting your images...</p>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+   <section style="margin-top: 60px; padding: 50px;  border-radius: 20px; color: #ffffff; font-family: 'Poppins', sans-serif; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+  <h2 style="font-size: 2.6rem; margin-bottom: 25px; text-align: center;">PNG to JPG Converter – Convert PNG Images to JPEG Easily</h2>
+
+
+  <p style="font-size: 1.15rem; line-height: 1.9; max-width: 900px; margin: 0 auto 40px auto; text-align: center;">
+    Instantly convert your PNG images to high-quality JPG format using our free and fast <strong>PNG to JPG converter tool</strong>. No watermarks, no registration – just upload and download.
+  </p>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #facc15;">Why Use This PNG to JPG Tool?</h3>
+  <ul style="font-size: 1.05rem; padding-left: 20px; line-height: 1.8;">
+    <li>Quick and simple PNG to JPG conversion</li>
+    <li>Maintains image resolution and quality</li>
+    <li>Reduces file size for faster loading</li>
+    <li>Free to use – no login required</li>
+    <li>Works on all devices: mobile, tablet, and desktop</li>
+  </ul>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #34d399;">How to Convert PNG to JPG:</h3>
+  <ol style="font-size: 1.05rem; padding-left: 20px; line-height: 1.8;">
+    <li>Upload your PNG image file</li>
+    <li>Click on the <strong>“Convert to JPG”</strong> button</li>
+    <li>Download your converted JPG image</li>
+  </ol>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #60a5fa;">Who Can Use This Tool?</h3>
+  <p style="font-size: 1.1rem; line-height: 1.9;">
+    Perfect for web developers, designers, students, and anyone needing to convert .png files to .jpg for websites, emails, or documents.
+  </p>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #f472b6;">Fast, Free, and Secure PNG to JPG Converter</h3>
+  <p style="font-size: 1.1rem; line-height: 1.9;">
+    Your images are processed instantly in your browser – no data is stored, ensuring complete privacy and security.
+  </p>
+
+
+  <p style="font-size: 0.95rem; margin-top: 40px; color: #d1d5db; text-align: center;">
+    <strong>Tags:</strong> png to jpg, convert png to jpg, png to jpeg, free png to jpg converter, image format converter, transparent png to jpg, reduce png size, online png converter, fast image converter
+  </p>
+</section>
+
+
+ <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+    <script>
+
+         document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+        
+        class PNGtoJPGConverter {
+            constructor() {
+                this.files = [];
+                this.convertedFiles = [];
+                this.initializeElements();
+                this.bindEvents();
+            }
+
+            initializeElements() {
+                this.uploadArea = document.getElementById('uploadArea');
+                this.fileInput = document.getElementById('fileInput');
+                this.previewSection = document.getElementById('previewSection');
+                this.previewGrid = document.getElementById('previewGrid');
+                this.convertBtn = document.getElementById('convertBtn');
+                this.progressBar = document.getElementById('progressBar');
+                this.progressFill = document.getElementById('progressFill');
+                this.processing = document.getElementById('processing');
+                this.qualitySelect = document.getElementById('qualitySelect');
+                this.backgroundColorPicker = document.getElementById('backgroundColorPicker');
+            }
+
+            bindEvents() {
+                this.uploadArea.addEventListener('click', () => this.fileInput.click());
+                this.fileInput.addEventListener('change', (e) => this.handleFiles(e.target.files));
+                this.convertBtn.addEventListener('click', () => this.convertFiles());
+
+                // Drag and drop events
+                this.uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    this.uploadArea.classList.add('dragover');
+                });
+
+                this.uploadArea.addEventListener('dragleave', () => {
+                    this.uploadArea.classList.remove('dragover');
+                });
+
+                this.uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    this.uploadArea.classList.remove('dragover');
+                    this.handleFiles(e.dataTransfer.files);
+                });
+            }
+
+            handleFiles(fileList) {
+                const validFiles = Array.from(fileList).filter(file => {
+                    const validTypes = ['image/png'];
+                    const maxSize = 15 * 1024 * 1024; // 15MB
+                    
+                    if (!validTypes.includes(file.type)) {
+                        alert(`${file.name} is not a valid PNG file.`);
+                        return false;
+                    }
+                    
+                    if (file.size > maxSize) {
+                        alert(`${file.name} is too large. Maximum size is 15MB.`);
+                        return false;
+                    }
+                    
+                    return true;
+                });
+
+                if (validFiles.length > 0) {
+                    this.files = validFiles;
+                    this.displayPreviews();
+                    this.previewSection.style.display = 'block';
+                }
+            }
+
+            displayPreviews() {
+                this.previewGrid.innerHTML = '';
+                
+                this.files.forEach((file, index) => {
+                    const previewItem = document.createElement('div');
+                    previewItem.className = 'preview-item';
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        previewItem.innerHTML = `
+                            <h3>Original PNG</h3>
+                            <img src="${e.target.result}" alt="Preview" class="image-preview">
+                            <div class="file-info">
+                                <strong>${file.name}</strong><br>
+                                Size: ${this.formatFileSize(file.size)}<br>
+                                Type: ${file.type}<br>
+                                ${this.hasTransparency(e.target.result) ? '✨ Has Transparency' : '🎨 No Transparency'}
+                            </div>
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                    
+                    this.previewGrid.appendChild(previewItem);
+                });
+            }
+
+            hasTransparency(dataUrl) {
+                // This is a simplified check - in a real implementation, 
+                // you'd analyze the actual PNG data
+                return true; // Assume PNG files might have transparency
+            }
+
+            async convertFiles() {
+                this.convertBtn.disabled = true;
+                this.progressBar.style.display = 'block';
+                this.processing.style.display = 'block';
+                this.convertedFiles = [];
+
+                const quality = parseFloat(this.qualitySelect.value);
+                const backgroundColor = this.backgroundColorPicker.value;
+
+                for (let i = 0; i < this.files.length; i++) {
+                    const progress = ((i + 1) / this.files.length) * 100;
+                    this.progressFill.style.width = `${progress}%`;
+
+                    try {
+                        const convertedBlob = await this.convertPNGtoJPG(this.files[i], quality, backgroundColor);
+                        const fileName = this.files[i].name.replace(/\.png$/i, '.jpg');
+                        
+                        this.convertedFiles.push({
+                            blob: convertedBlob,
+                            name: fileName,
+                            originalFile: this.files[i]
+                        });
+
+                        // Add converted preview
+                        await this.addConvertedPreview(convertedBlob, fileName, i);
+                    } catch (error) {
+                        console.error('Conversion error:', error);
+                        alert(`Error converting ${this.files[i].name}`);
+                    }
+                }
+
+                this.processing.style.display = 'none';
+                this.addDownloadButtons();
+                this.convertBtn.disabled = false;
+            }
+
+            convertPNGtoJPG(file, quality, backgroundColor) {
+                return new Promise((resolve, reject) => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+
+                    img.onload = () => {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        
+                        // Fill with selected background color
+                        ctx.fillStyle = backgroundColor;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        
+                        // Draw the PNG image on top
+                        ctx.drawImage(img, 0, 0);
+                        
+                        canvas.toBlob((blob) => {
+                            if (blob) {
+                                resolve(blob);
+                            } else {
+                                reject(new Error('Conversion failed'));
+                            }
+                        }, 'image/jpeg', quality);
+                    };
+
+                    img.onerror = () => reject(new Error('Image loading failed'));
+                    img.src = URL.createObjectURL(file);
+                });
+            }
+
+            async addConvertedPreview(blob, fileName, index) {
+                const previewItems = this.previewGrid.children;
+                if (previewItems[index]) {
+                    const convertedPreview = document.createElement('div');
+                    convertedPreview.className = 'preview-item';
+                    
+                    const imageUrl = URL.createObjectURL(blob);
+                    const compressionRatio = (blob.size / this.files[index].size * 100).toFixed(1);
+                    
+                    convertedPreview.innerHTML = `
+                        <h3>Converted JPG</h3>
+                        <img src="${imageUrl}" alt="Converted Preview" class="image-preview">
+                        <div class="file-info">
+                            <strong>${fileName}</strong><br>
+                            Size: ${this.formatFileSize(blob.size)}<br>
+                            Type: image/jpeg<br>
+                            📊 Size: ${compressionRatio}% of original
+                        </div>
+                    `;
+                    
+                    this.previewGrid.appendChild(convertedPreview);
+                }
+            }
+
+            addDownloadButtons() {
+                // Single file download
+                if (this.convertedFiles.length === 1) {
+                    const downloadBtn = document.createElement('a');
+                    downloadBtn.className = 'download-btn';
+                    downloadBtn.textContent = '⬇️ Download JPG';
+                    downloadBtn.href = URL.createObjectURL(this.convertedFiles[0].blob);
+                    downloadBtn.download = this.convertedFiles[0].name;
+                    this.previewSection.appendChild(downloadBtn);
+                } else {
+                    // Multiple files
+                    const downloadAllBtn = document.createElement('button');
+                    downloadAllBtn.className = 'download-btn';
+                    downloadAllBtn.textContent = '📦 Download All JPG Files';
+                    downloadAllBtn.onclick = () => this.downloadAll();
+                    this.previewSection.appendChild(downloadAllBtn);
+                }
+            }
+
+            async downloadAll() {
+                // Download files individually with delay
+                this.convertedFiles.forEach((file, index) => {
+                    setTimeout(() => {
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(file.blob);
+                        a.download = file.name;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }, index * 300);
+                });
+            }
+
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        }
+
+        // Initialize the converter when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new PNGtoJPGConverter();
+        });
+    </script>
+</body>
+</html>

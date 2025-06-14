@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube AI Tag Generator</title>
+    <meta name="description" content="Generate relevant, keyword-rich tags to boost SEO and content visibility instantly. ">
+    <meta name="keywords" content="youtube tags generator, ai youtube tags, seo video keywords, youtube seo tool, smart tags, boost views, ai tools for youtubers">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e1e2e, #2d2b42);
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-top: 7rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .youtube-logo {
+            color: #ff0000;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.07);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ff6b6b;
+            font-weight: 500;
+        }
+
+        .input-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: #fff;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn.active {
+            background: #ff6b6b;
+        }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            color: #fff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .tags-output {
+            background: rgba(255, 255, 255, 0.07);
+            padding: 2rem;
+            border-radius: 1rem;
+            min-height: 200px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            margin: 0.5rem;
+            animation: fadeIn 0.5s ease;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .loading {
+            text-align: center;
+            color: #ff6b6b;
+            display: none;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+
+        @media (max-width: 768px) {
+
+            .container{
+                padding: 1.5rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .options {
+                flex-direction: column;
+            }
+
+            .option-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+
+
+
+
+         
+
+
+
+
+ .container2 {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px;
+      border-radius: 12px;
+    }
+    h1, h2 {
+      color: #ff0000;
+    }
+
+    .highlight {
+      color: #2563eb;
+      font-weight: 600;
+    }
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+
+    <div class="container">
+        <div class="header">
+            <div class="youtube-logo">▶</div>
+            <h1>YouTube Tag Generator</h1>
+            <p>Generate optimized tags for your YouTube videos using AI</p>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label>Video Title</label>
+                <textarea id="videoTitle" placeholder="Enter your video title"></textarea>
+            </div>
+            <div class="input-group">
+                <label>Video Description</label>
+                <textarea id="videoDescription" placeholder="Enter your video description"></textarea>
+            </div>
+            <div class="options">
+                <button class="option-btn active" data-category="general">General</button>
+                <button class="option-btn" data-category="gaming">Gaming</button>
+                <button class="option-btn" data-category="tech">Technology</button>
+                <button class="option-btn" data-category="education">Education</button>
+            </div>
+            <button class="generate-btn" onclick="generateTags()">Generate Tags</button>
+        </div>
+
+        <div class="loading">Generating optimized tags</div>
+        <div class="tags-output" id="tagsOutput"></div>
+    </div>
+
+
+
+    <div class="container">
+    <h1>YouTube AI Tags Generator – Boost Your Video's Reach</h1>
+
+    <p>Our <strong>YouTube AI Tags Generator</strong> helps you create optimized tags that make your videos more discoverable. Whether you're a content creator, vlogger, or brand, this tool delivers smart keyword suggestions to help your video rank higher and attract more views.</p>
+
+    <h2>🎯 Why Use AI for YouTube Tags?</h2>
+    <ul>
+      <li><span class="highlight">Auto-generate relevant tags</span> based on your video title or topic</li>
+      <li><span class="highlight">Boost visibility and SEO</span> with AI-curated keyword phrases</li>
+      <li><span class="highlight">Save time</span> and avoid guesswork</li>
+      <li><span class="highlight">Free and easy</span> to use—no sign-up required</li>
+    </ul>
+
+    <h2>🛠 How It Works</h2>
+    <ol>
+      <li>Enter your YouTube video title or topic</li>
+      <li>Click “Generate Tags”</li>
+      <li>Copy the suggested tags and paste into your video’s metadata</li>
+    </ol>
+
+    <h2>✨ Ideal For:</h2>
+    <ul>
+      <li>YouTube Creators</li>
+      <li>Digital Marketers</li>
+      <li>Vloggers & Educators</li>
+      <li>Business Channels</li>
+    </ul>
+
+    <h2>🚀 Results You Can Expect</h2>
+    <ul>
+      <li>Improved discoverability on YouTube</li>
+      <li>Higher video ranking on search and suggestions</li>
+      <li>Increased video engagement and views</li>
+    </ul>
+
+    <p>Let AI help you grow faster on YouTube. Try our YouTube AI Tags Generator now — and make your content reach the audience it deserves!</p>
+  </div>
+
+  <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+    // Deepseek API Configuration
+    const DEEPSEEK_API_KEY = 'sk-70ff2ab791884b1390af091dc00d2689';
+        const DEEPSEEK_ENDPOINT = 'https://api.deepseek.com/v1/tags';
+
+        let isGenerating = false;
+        let selectedCategory = 'general';
+
+        // Category selection
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedCategory = btn.dataset.category;
+            });
+        });
+
+        async function generateTags() {
+            const title = document.getElementById('videoTitle').value;
+            const description = document.getElementById('videoDescription').value;
+            const tagsOutput = document.getElementById('tagsOutput');
+            const loadingEl = document.querySelector('.loading');
+            const generateBtn = document.querySelector('.generate-btn');
+
+            if (!title || isGenerating) return;
+
+            isGenerating = true;
+            generateBtn.disabled = true;
+            loadingEl.style.display = 'block';
+            tagsOutput.innerHTML = '';
+
+            try {
+                // Generate tags based on category and content
+                const tags = await generateAITags(title, description, selectedCategory);
+                
+                displayTags(tags);
+                addCopyButton(tags);
+
+            } catch (error) {
+                console.error('Error:', error);
+                tagsOutput.innerHTML = `<span style="color: #ff4444;">Error generating tags. Please try again.</span>`;
+            } finally {
+                isGenerating = false;
+                generateBtn.disabled = false;
+                loadingEl.style.display = 'none';
+            }
+        }
+
+        async function generateAITags(title, description, category) {
+            // This is a demo implementation - in production, you would make an actual API call
+            const categoryTags = {
+                general: ['youtube', 'viral', 'trending', 'popular'],
+                gaming: ['gaming', 'gameplay', 'streamer', 'twitch'],
+                tech: ['technology', 'tech news', 'gadgets', 'review'],
+                education: ['tutorial', 'learning', 'education', 'how to']
+            };
+
+            const baseWords = title.toLowerCase().split(' ')
+                .concat(description.toLowerCase().split(' '))
+                .filter(word => word.length > 3);
+
+            const uniqueTags = new Set([
+                ...categoryTags[category],
+                ...baseWords.slice(0, 5),
+                `${category} content`,
+                `${category} channel`,
+                title.toLowerCase()
+            ]);
+
+            return Array.from(uniqueTags);
+        }
+
+        function displayTags(tags) {
+            const tagsOutput = document.getElementById('tagsOutput');
+            tagsOutput.innerHTML = '';
+            
+            tags.forEach(tag => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag';
+                tagEl.textContent = tag;
+                tagEl.onclick = () => copyToClipboard(tag);
+                tagsOutput.appendChild(tagEl);
+            });
+        }
+
+        function addCopyButton(tags) {
+            const tagsOutput = document.getElementById('tagsOutput');
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.textContent = 'Copy All Tags';
+            copyBtn.onclick = () => copyToClipboard(tags.join(', '));
+            tagsOutput.appendChild(copyBtn);
+        }
+
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                alert('Copied to clipboard!');
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'Enter') {
+                generateTags();
+            }
+        });
+    </script>
+</body>
+</html>

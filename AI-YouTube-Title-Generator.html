@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="title" content="AI YouTube Title Generator – Create Viral Video Titles Instantly">
+<meta name="description" content="Generate catchy and SEO-friendly YouTube video titles with our AI-powered YouTube Title Generator. Create engaging titles to boost views and rankings!">
+<meta name="keywords" content="SEO YouTube Titles, YouTube Video Title Generator, Catchy YouTube Titles, AI Video Title Tool, YouTube SEO Tool, YouTube Marketing ,AI YouTube title generator, YouTube title maker, generate video titles, catchy video titles, AI video title generator, YouTube SEO tool, best YouTube titles, viral video title creator, AI-powered title generator, video title optimizer">
+<meta name="robots" content="index, follow">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+     <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "AI YouTube Title Generator",
+    "url": "https://Converttools.site/AI-YouTube-Title-Generator",
+    "description": "Use our free AI YouTube Title Generator to create eye-catching, SEO-optimized video titles that boost views and engagement.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "YourSiteName",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.example.com/logo.png"
+      }
+    },
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "AI YouTube Title Generator",
+      "operatingSystem": "All",
+      "applicationCategory": "Creative Tool",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    }
+  }
+  </script>
+    <style>
+        :root {
+            --primary: #ff0000;
+            --primary-dark: #cc0000;
+            --secondary: #1a1a1a;
+            --accent: #606060;
+            --background: #f9f9f9;
+            --card: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            min-height: 100vh;
+            padding-top: 8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            color: var(--accent);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .generator-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .generate-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .generate-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .results-container {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-item {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .result-item:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .result-title {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+            padding-right: 2rem;
+        }
+
+        .result-stats {
+            display: flex;
+            gap: 1rem;
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            color: var(--primary);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--secondary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .generator-card, .results-container {
+                padding: 1.5rem;
+            }
+        }
+
+
+
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+
+
+        .container2 {
+      max-width: 1150px;
+      margin: auto;
+      padding: 40px;
+    }
+    h1, h2 {
+      color: #0073e6;
+    }
+    p {
+      line-height: 1.7;
+    }
+
+
+   
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container">
+        <header class="header">
+            <div class="logo2">
+                <i class="fab fa-youtube"></i>
+            </div>
+            <h1>AI YouTube Title Generator</h1>
+            <p>Generate engaging, clickable titles for your YouTube videos using advanced AI</p>
+        </header>
+
+        <div class="generator-card">
+            <div class="input-group">
+                <label for="video-topic">What's your video about?</label>
+                <input type="text" id="video-topic" class="input-field" placeholder="E.g., iPhone 15 review, cooking pasta, travel vlog in Paris...">
+            </div>
+
+            <div class="input-group">
+                <label>Popular Categories</label>
+                <div class="tags-container">
+                    <span class="tag">Tutorial</span>
+                    <span class="tag">Review</span>
+                    <span class="tag">Vlog</span>
+                    <span class="tag">Gaming</span>
+                    <span class="tag">Tech</span>
+                    <span class="tag">Lifestyle</span>
+                    <span class="tag">Education</span>
+                    <span class="tag">Entertainment</span>
+                </div>
+            </div>
+
+            <button class="generate-btn" id="generateBtn">
+                <i class="fas fa-magic"></i>
+                Generate Titles
+            </button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Generating creative titles...</p>
+        </div>
+
+        <div class="results-container" id="results">
+            <!-- Results will be dynamically added here -->
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+
+   
+     <div class="container2">
+    <h1>AI YouTube Title Generator</h1>
+    <p>
+      Struggling to come up with the perfect video title? Our <strong>AI YouTube Title Generator</strong> helps you create compelling, clickable, and SEO-optimized titles in seconds. Whether you're a content creator, vlogger, or marketer, this tool is your secret weapon to boost video performance.
+    </p>
+
+    <h2>Why Are Video Titles Important?</h2>
+    <p>
+      A great video title grabs attention, encourages clicks, and improves visibility in YouTube search results. It’s the first thing viewers notice, and it plays a key role in engagement and ranking.
+    </p>
+    <ul>
+      <li><strong>Boosts Click-Through Rates (CTR)</strong></li>
+      <li><strong>Improves SEO visibility on YouTube & Google</strong></li>
+      <li><strong>Increases Watch Time and Impressions</strong></li>
+    </ul>
+
+    <h2>Why Use This AI Title Generator?</h2>
+    <p>This tool is especially useful for:</p>
+    <ul>
+      <li>Generating high-performing YouTube title ideas using AI</li>
+      <li>Optimizing titles with trending keywords</li>
+      <li>Saving time on brainstorming catchy phrases</li>
+      <li>Customizing titles for different niches (vlogs, tutorials, reviews, etc.)</li>
+    </ul>
+
+    <h2>How It Works</h2>
+    <p>
+      Using the latest AI technology, our tool analyzes your video topic, suggests relevant keywords, and generates title ideas that are catchy and optimized for search.
+    </p>
+    <ol>
+      <li>Enter your video topic or idea</li>
+      <li>Click “Generate Title”</li>
+      <li>Choose from a list of smart, SEO-friendly titles</li>
+    </ol>
+
+    <h2>Who Should Use This Tool?</h2>
+    <ul>
+      <li>YouTube content creators</li>
+      <li>Vloggers and streamers</li>
+      <li>Marketing agencies</li>
+      <li>Businesses promoting video content</li>
+    </ul>
+
+    <h2>Try It Now – 100% Free!</h2>
+    <p>
+      No sign-up needed. Just type your idea and get the perfect YouTube title in seconds. Our <strong>AI YouTube Title Generator</strong> is the easiest way to enhance your video performance and grow your channel.
+    </p>
+  </div>
+
+   <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+    <script>
+        // Configuration
+        const API_KEY = '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'; // Replace with your API key
+        const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+
+        // DOM Elements
+        const generateBtn = document.getElementById('generateBtn');
+        const topicInput = document.getElementById('video-topic');
+        const loadingDiv = document.getElementById('loading');
+        const resultsDiv = document.getElementById('results');
+        const toast = document.getElementById('toast');
+        const tags = document.querySelectorAll('.tag');
+
+        // Event Listeners
+        generateBtn.addEventListener('click', generateTitles);
+        tags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                topicInput.value = `${tag.textContent} - ${topicInput.value}`;
+            });
+        });
+
+        async function generateTitles() {
+            const topic = topicInput.value.trim();
+            
+            if (!topic) {
+                showToast('Please enter a video topic');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: [{
+                            role: "system",
+                            content: "You are a YouTube title optimization expert. Generate 5 engaging, clickable titles that follow YouTube best practices."
+                        }, {
+                            role: "user",
+                            content: `Generate 5 engaging YouTube titles for a video about: ${topic}`
+                        }],
+                        temperature: 0.8
+                    })
+                });
+
+                const data = await response.json();
+                const titles = parseTitles(data.choices[0].message.content);
+                displayResults(titles);
+                showToast('Titles generated successfully!');
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Error generating titles. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function parseTitles(content) {
+            return content.split('\n')
+                .filter(line => line.trim())
+                .map(line => line.replace(/^\d+\.\s*/, ''));
+        }
+
+        function displayResults(titles) {
+            resultsDiv.innerHTML = titles.map(title => `
+                <div class="result-item">
+                    <h3 class="result-title">${title}</h3>
+                    <div class="result-stats">
+                        <span><i class="fas fa-chart-line"></i> High CTR Potential</span>
+                        <span><i class="fas fa-clock"></i> Optimal Length</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('${title}')">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => showToast('Title copied to clipboard!'))
+                .catch(() => showToast('Failed to copy title'));
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        function showLoading(show) {
+            loadingDiv.style.display = show ? 'block' : 'none';
+            generateBtn.disabled = show;
+        }
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

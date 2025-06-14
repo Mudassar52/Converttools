@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Download YouTube video thumbnails in high quality. Fast, free, and easy-to-use YouTube thumbnail downloader tool.">
+    <meta name="keywords" content="YouTube thumbnail downloader, video thumbnail, download YouTube images, thumbnail extracto , thumbnail pro, download YT thumbnail, get youtube image, hd thumbnail extractor, youtube image tool ,youtube thumbnail pro">
+    <meta name="author" content="Thumbnail Downloader ">
+    <title>YouTube Thumbnail Downloader Pro - Download High Quality Video Thumbnails</title>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="YouTube Thumbnail Downloader Pro">
+    <meta property="og:description" content="Download YouTube video thumbnails in high quality instantly">
+    <meta property="og:type" content="website">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+
+         :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            padding-top: 2rem;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(2deg); }
+            66% { transform: translateY(20px) rotate(-2deg); }
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 0 40px;
+            position: relative;
+        }
+
+        .logo2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 4px 20px rgba(255,255,255,0.3); }
+            to { text-shadow: 0 4px 30px rgba(255,255,255,0.6); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+        }
+
+        .main-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .main-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            gap: 15px;
+        }
+
+        .url-input {
+            flex: 1;
+            padding: 18px 25px;
+            font-size: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .url-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: scale(1.02);
+        }
+
+        .download-btn {
+            padding: 18px 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-section {
+            margin-top: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .results-section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-info {
+            background: rgba(255,255,255,0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .thumbnails-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .thumbnail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .thumbnail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .thumbnail-img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .thumbnail-card:hover .thumbnail-img {
+            transform: scale(1.05);
+        }
+
+        .quality-label {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .download-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .download-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+      
+
+        @media (max-width: 768px) {
+            .logo2 {
+                font-size: 2rem;
+            }
+            
+            .main-card {
+                padding: 30px 20px;
+                margin: 0 10px;
+            }
+            
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .thumbnails-grid {
+                grid-template-columns: 1fr;
+            }
+        
+        }
+
+
+
+
+
+
+
+
+
+          /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+
+
+
+
+        
+/* Footer Styles */
+
+:root {
+    --primary-color: #2196f3;
+    --text-color: #666;
+    --bg-color: #ffffff;
+    --hover-color: #1976d2;
+}
+
+.footer {
+    background: var(--bg-color);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+    padding: 4rem 0 2rem;
+    position: relative;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.brand-logo img {
+    width: 40px;
+    height: auto;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.brand-description {
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.footer-section h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    font-weight: 600;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 40px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-link {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.footer-link i {
+    font-size: 0.8rem;
+}
+
+.tool-grid2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.tool-item {
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    transform: translateZ(0);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tool-item:hover {
+    transform: translateZ(10px);
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .tool-grid2 {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        padding: 3rem 0 1.5rem;
+    }
+}
+
+/* 3D Effects */
+.hover-3d {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-3d:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* New Badge */
+.new-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+}
+
+
+
+
+
+
+ .faq-section {
+  margin-top: 60px;
+  padding: 40px 20px;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.faq-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 30px;
+  text-align: center;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.faq-item {
+  margin-bottom: 25px;
+}
+
+.faq-item h3 {
+  font-size: 1.2rem;
+  color: #dcec47;
+  margin-bottom: 8px;
+}
+
+.faq-item p {
+  font-size: 1rem;
+  color: #ffffff;
+  line-height: 1.6;
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="animated-bg"></div>
+    
+    <div class="container">
+        <header>
+            <h1 class="logo2">📺 Thumbnail Pro</h1>
+            <p class="subtitle">Download YouTube thumbnails pro in seconds - High quality, fast, and free</p>
+        </header>
+
+        <main>
+            <div class="main-card">
+                <div class="input-group">
+                    <label for="youtube-url" class="input-label">Enter YouTube Video URL</label>
+                    <div class="input-container">
+                        <input 
+                            type="url" 
+                            id="youtube-url" 
+                            class="url-input" 
+                            placeholder="https://www.youtube.com/watch?v=..."
+                            required
+                        >
+                        <button type="button" class="download-btn" onclick="getThumbnails()">
+                            <span class="btn-text">Get Thumbnails</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="results" class="results-section">
+                    <!-- Results will be populated here -->
+                </div>
+            </div>
+
+    <section style="margin-top: 60px; padding: 30px;  border-radius: 16px; color: #ffffff; font-family: 'Poppins', sans-serif;">
+  <h2 style="font-size: 2.5rem; margin-bottom: 15px;">YouTube Thumbnail Downloader Pro – Download HD Thumbnails Free</h2>
+  <p style="font-size: 1.1rem; line-height: 1.8;">
+ Use our free YouTube Thumbnail Downloader Pro to instantly download high-quality thumbnails from any YouTube video. Just paste the video URL and get the thumbnail image in HD, SD, or default resolution. Perfect for content creators, designers, and researchers!
+  </p>
+
+
+  <h3 style="font-size: 1.8rem; margin-top: 25px; color: #fcd34d;">Why Use This Tool?</h3>
+  <ul style="font-size: 1rem; padding-left: 20px;">
+    <li>Fast and free thumbnail downloader</li>
+    <li>No watermark, no login needed</li>
+    <li>Download HD, medium, and low-res thumbnails</li>
+    <li>Supports all public YouTube videos</li>
+    <li>Mobile and desktop friendly</li>
+  </ul>
+
+
+  <h3 style="font-size: 1.8rem; margin-top: 25px; color: #6ee7b7;">How to Use:</h3>
+  <ol style="font-size: 1rem; padding-left: 20px;">
+    <li>Copy the URL of any YouTube video</li>
+    <li>Paste it in the input box above</li>
+    <li>Click \"Download Thumbnail\"</li>
+    <li>Choose and save the thumbnail in your device</li>
+  </ol>
+
+
+  <p style="font-size: 0.95rem; margin-top: 30px; color: #d1d5db;">
+    Tags: YouTube thumbnail downloader, download YT thumbnail, get YouTube image, HD thumbnail extractor, YouTube image tool
+  </p>
+</section>
+
+
+ <section class="faq-section" id="faq">
+  <h2 class="faq-title">Frequently Asked Questions – YouTube Thumbnail Downloader</h2>
+
+  <div class="faq-item">
+    <h3>How do I download a YouTube thumbnail image?</h3>
+    <p>Simply paste the YouTube video URL in the input box above and click "Get Thumbnails". You'll be able to download the thumbnail in HD, SD, and other available formats instantly.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Can I download YouTube thumbnails in HD quality?</h3>
+    <p>Yes! Our tool extracts YouTube thumbnails in high definition (HD), including <strong>maxresdefault.jpg</strong> format if available.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Is it free to use this thumbnail downloader?</h3>
+    <p>Absolutely. Our YouTube thumbnail extractor is 100% free with no login, watermark, or subscription required.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Will it work on mobile and desktop?</h3>
+    <p>Yes, this tool is fully responsive and works seamlessly on smartphones, tablets, and desktop browsers.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>What other formats does this thumbnail tool support?</h3>
+    <p>We support multiple resolutions: Max, HQ (High Quality), MQ (Medium Quality), and SD thumbnails — perfect for designers and editors.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Can I use these thumbnails in my content?</h3>
+    <p>You can use the downloaded images for fair use, such as reviews, educational content, or thumbnails for your own projects. Be sure to follow YouTube's terms and copyright guidelines.</p>
+  </div>
+
+  <div class="faq-item">
+    <h3>Does this tool add any watermark?</h3>
+    <p>No, all thumbnail downloads are clean and watermark-free.</p>
+  </div>
+</section>
+        </main>
+
+        
+    </div>
+
+     <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzIxOTZmMyIgZD0iTTEyIDJsLTkgNHY2YzAgNS4xIDMuOSA5LjUgOSAxMXM5LTUuOSA5LTExdi02bC05LTR6Ii8+PC9zdmc+"
+                            alt="Box20 Logo">
+                        <span class="brand-name">ConvertTools</span>
+                    </div>
+                    <p class="brand-description">
+                        ConvertTools provides free online conversion, pdf, and other handy tools to help you solve problems
+                        of all types. All files both processed and unprocessed are deleted after 1 hour.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Navigate</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link hover-3d"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="./privacy-policy.html" class="footer-link hover-3d"><i class="fas fa-lock"></i>
+                                Privacy Policy</a></li>
+                        <li><a href="./terms-of-service.html" class="footer-link hover-3d"><i
+                                    class="fas fa-file-alt"></i> TOS</a></li>
+                        <li><a href="./contact-us.html" class="footer-link hover-3d"><i class="fas fa-robot"></i>
+                                Contact us</a></li>
+                        <li><a href="./ConvertFree-blog.html" class="footer-link hover-3d"><i class="fas fa-robot"></i>
+                                    Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Popular Tools</h3>
+                    <div class="tool-grid2">
+                        <a href="./Ai-Content-Writer.html" class="tool-item hover-3d">
+                            <i class="fas fa-pen-fancy"></i>
+                            Essay Writer
+                            <span class="new-badge">New</span>
+                        </a>
+                        <a href="./code-editor.html" class="tool-item hover-3d">
+                            <i class="fas fa-code"></i>
+                            Code Editor
+                        </a>
+                        <a href="./AI-paragraph-Writer.html" class="tool-item hover-3d">
+                            <i class="fas fa-paragraph"></i>
+                            AI Paragraph Writer
+                        </a>
+                        <a href="./image-compressor.html" class="tool-item hover-3d">
+                            <i class="fas fa-image"></i>
+                            Image compressor
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>PDF Tools</h3>
+                    <div class="tool-grid2">
+                        <a href="./pdf-split.html" class="tool-item hover-3d">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Split
+                        </a>
+                        <a href="./watermark-to-pdf.html" class="tool-item hover-3d">
+                            <i class="fas fa-compress"></i>
+                            WaterMarke to PDF
+                        </a>
+                        <a href="Merge-Pdf.html" class="tool-item hover-3d">
+                            <i class="fas fa-object-group"></i>
+                            Merge PDF
+                        </a>
+                        <a href="./pdf-to-image.html" class="tool-item hover-3d">
+                            <i class="fas fa-image"></i>
+                            PDF to Image
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                Made By. Mudassar Latif
+                <br>
+                <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+        let isLoading = false;
+
+        function extractVideoId(url) {
+            const patterns = [
+                /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+                /youtube\.com\/watch\?.*v=([^&\n?#]+)/
+            ];
+            
+            for (let pattern of patterns) {
+                const match = url.match(pattern);
+                if (match) {
+                    return match[1];
+                }
+            }
+            return null;
+        }
+
+        function showLoading() {
+            const btn = document.querySelector('.download-btn');
+            const btnText = btn.querySelector('.btn-text');
+            
+            btn.disabled = true;
+            btnText.innerHTML = '<span class="loading-spinner"></span>Loading...';
+            isLoading = true;
+        }
+
+        function hideLoading() {
+            const btn = document.querySelector('.download-btn');
+            const btnText = btn.querySelector('.btn-text');
+            
+            btn.disabled = false;
+            btnText.innerHTML = 'Get Thumbnails';
+            isLoading = false;
+        }
+
+        function showError(message) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `<div class="error-message">${message}</div>`;
+            resultsDiv.classList.add('show');
+        }
+
+        function displayThumbnails(videoId, videoTitle = '') {
+            const thumbnailQualities = [
+                { name: 'Maximum Quality', url: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`, filename: `${videoId}_maxres.jpg` },
+                { name: 'High Quality', url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`, filename: `${videoId}_hq.jpg` },
+                { name: 'Medium Quality', url: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`, filename: `${videoId}_mq.jpg` },
+                { name: 'Standard Quality', url: `https://img.youtube.com/vi/${videoId}/sddefault.jpg`, filename: `${videoId}_sd.jpg` }
+            ];
+
+            let html = '';
+            
+            if (videoTitle) {
+                html += `
+                    <div class="video-info">
+                        <h3 class="video-title">${videoTitle}</h3>
+                    </div>
+                `;
+            }
+
+            html += '<div class="thumbnails-grid">';
+            
+            thumbnailQualities.forEach(quality => {
+                html += `
+                    <div class="thumbnail-card">
+                        <div class="quality-label">${quality.name}</div>
+                        <img src="${quality.url}" alt="${quality.name} thumbnail" class="thumbnail-img" 
+                             onerror="this.parentElement.style.display='none'">
+                        <a href="${quality.url}" download="${quality.filename}" class="download-link">
+                            Download
+                        </a>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = html;
+            resultsDiv.classList.add('show');
+        }
+
+        async function getThumbnails() {
+            if (isLoading) return;
+
+            const urlInput = document.getElementById('youtube-url');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                showError('Please enter a YouTube URL');
+                return;
+            }
+
+            const videoId = extractVideoId(url);
+            
+            if (!videoId) {
+                showError('Invalid YouTube URL. Please enter a valid YouTube video URL.');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                // Simulate API call delay for better UX
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                // Try to get video title (this is a simple approach - in production you'd use YouTube API)
+                const videoTitle = `Video ID: ${videoId}`;
+                
+                displayThumbnails(videoId, videoTitle);
+                
+            } catch (error) {
+                showError('Failed to fetch thumbnails. Please try again.');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Allow Enter key to trigger download
+        document.getElementById('youtube-url').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                getThumbnails();
+            }
+        });
+
+        // Add smooth scrolling to results
+        function scrollToResults() {
+            const resultsSection = document.getElementById('results');
+            if (resultsSection.classList.contains('show')) {
+                resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Enhanced error handling for broken images
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add intersection observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe feature cards
+            document.querySelectorAll('.feature-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Blog Section</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+            :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .blog-section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            padding-top: 90px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover .card-img img {
+            transform: scale(1.05);
+        }
+
+        .card-category {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-content {
+            padding: 25px;
+        }
+
+        .card-date {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            color: #222;
+            transition: color 0.3s ease;
+        }
+
+        .card-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .card-title:hover {
+            color: #6a11cb;
+        }
+
+        .card-excerpt {
+            color: #666;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #444;
+        }
+
+        .read-more {
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .read-more:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .card-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+
+        
+/* Footer Styles */
+
+:root {
+    --primary-color: #2196f3;
+    --text-color: #666;
+    --bg-color: #ffffff;
+    --hover-color: #1976d2;
+}
+
+.footer {
+    background: var(--bg-color);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+    padding: 4rem 0 2rem;
+    position: relative;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.brand-logo img {
+    width: 40px;
+    height: auto;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.brand-description {
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.footer-section h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    font-weight: 600;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 40px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-link {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.footer-link i {
+    font-size: 0.8rem;
+}
+
+.tool-grid2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.tool-item {
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    transform: translateZ(0);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tool-item:hover {
+    transform: translateZ(10px);
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .tool-grid2 {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        padding: 3rem 0 1.5rem;
+    }
+}
+
+/* 3D Effects */
+.hover-3d {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-3d:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* New Badge */
+.new-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+}
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <section class="blog-section">
+            <div class="section-header">
+                <h2 class="section-title">Latest Blog Posts</h2>
+                <p class="section-subtitle">Discover our latest insights, tips, and updates from our blog</p>
+            </div>
+            
+            <div class="blog-grid">
+                <!-- Blog Card 1 -->
+                <article class="blog-card">
+                    <div class="card-img">
+                        <img src="./images/image  generate.png" alt="Web Design Trends">
+                    </div>
+                    <span class="card-category">Design</span>
+                    <div class="card-content">
+                        <span class="card-date">May 15, 2025</span>
+                        <h3 class="card-title">
+                            <a href="./online-file-merger-pdf.html">How to Combine PDF Files Easily for Free</a>
+                        </h3>
+                        <p class="card-excerpt">
+                            Combine multiple PDF documents into one file quickly, safely, and for free – no software installation needed!
+                        </p>
+                        <div class="card-footer">
+                            <div class="author">
+                                <div class="author-img">
+                                    <img src="./images/user.jpg" alt="Author">
+                                </div>
+                                <span class="author-name">Mudassar Latif</span>
+                            </div>
+                            <a href="./online-file-merger-pdf.html" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Blog Card 2 -->
+                <article class="blog-card">
+                    <div class="card-img">
+                        <img src="./images/image  generate.png" alt="JavaScript Framework">
+                    </div>
+                    <span class="card-category">Development</span>
+                    <div class="card-content">
+                        <span class="card-date">May 12, 2025</span>
+                        <h3 class="card-title">
+                            <a href="./pdf_tools_blog.html">The Ultimate Guide to PDF Tools</a>
+                        </h3>
+                        <p class="card-excerpt">
+                           Discover the power of professional PDF management with comprehensive tools for every need.
+                        </p>
+                        <div class="card-footer">
+                            <div class="author">
+                                <div class="author-img">
+                                    <img src="./images/user.jpg" alt="Author">
+                                </div>
+                                <span class="author-name">Mudassar Latif</span>
+                            </div>
+                            <a href="./pdf_tools_blog.html" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Blog Card 3 -->
+                <article class="blog-card">
+                    <div class="card-img">
+                        <img src="./images/image  generate.png" alt="Responsive Design">
+                    </div>
+                    <span class="card-category">UI/UX</span>
+                    <div class="card-content">
+                        <span class="card-date">May 8, 2025</span>
+                        <h3 class="card-title">
+                            <a href="./reduce-image-size-job-form.html"> Compress Images Without Losing Quality</a>
+                        </h3>
+                        <p class="card-excerpt">
+                        Easy and free methods to shrink your image files while keeping them clear for job applications.
+                        </p>
+                        <div class="card-footer">
+                            <div class="author">
+                                <div class="author-img">
+                                    <img src="./images/user.jpg" alt="Author">
+                                </div>
+                                <span class="author-name">Mudassar Latif</span>
+                            </div>
+                            <a href="./reduce-image-size-job-form.html" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Blog Card 4 -->
+                <article class="blog-card">
+                    <div class="card-img">
+                        <img src="./images/image  generate.png" alt="CSS Animation">
+                    </div>
+                    <span class="card-category">Animation</span>
+                    <div class="card-content">
+                        <span class="card-date">May 5, 2025</span>
+                        <h3 class="card-title">
+                            <a href="./convertfree article.html">Advanced CSS Animations That Boost User Engagement</a>
+                        </h3>
+                        <p class="card-excerpt">
+                            Subtle animations can significantly improve user experience. Explore advanced CSS animation techniques that keep users engaged without sacrificing performance.
+                        </p>
+                        <div class="card-footer">
+                            <div class="author">
+                                <div class="author-img">
+                                    <img src="./images/user.jpg" alt="Author">
+                                </div>
+                                <span class="author-name">Sunjava</span>
+                            </div>
+                            <a href="./convertfree article.html" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Blog Card 5 -->
+                <article class="blog-card">
+                    <div class="card-img">
+                        <img src="./images/image  generate.png" alt="Web Performance">
+                    </div>
+                    <span class="card-category">Performance</span>
+                    <div class="card-content">
+                        <span class="card-date">May 2, 2025</span>
+                        <h3 class="card-title">
+                            <a href="./convertfree article.html">Web Performance Optimization Techniques for 2025</a>
+                        </h3>
+                        <p class="card-excerpt">
+                            Site speed is more critical than ever. Learn about the latest techniques to optimize your website's performance and improve user experience.
+                        </p>
+                        <div class="card-footer">
+                            <div class="author">
+                                <div class="author-img">
+                                    <img src="./images/user.jpg" alt="Author">
+                                </div>
+                                <span class="author-name">Sunjava</span>
+                            </div>
+                            <a href="./convertfree article.html" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- Blog Card 6 -->
+                <article class="blog-card">
+                    <div class="card-img">
+                        <img src="./images/image  generate.png" alt="AI in Web Design">
+                    </div>
+                    <span class="card-category">Innovation</span>
+                    <div class="card-content">
+                        <span class="card-date">April 28, 2025</span>
+                        <h3 class="card-title">
+                            <a href="./convertfree article.html">How AI is Transforming Web Design and Development</a>
+                        </h3>
+                        <p class="card-excerpt">
+                            Artificial intelligence is changing how we design and develop websites. Discover the AI tools and techniques that are shaping the future of web development.
+                        </p>
+                        <div class="card-footer">
+                            <div class="author">
+                                <div class="author-img">
+                                    <img src="./images/user.jpg" alt="Author">
+                                </div>
+                                <span class="author-name">Sunjava</span>
+                            </div>
+                            <a href="./convertfree article.html" class="read-more">Read More</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzIxOTZmMyIgZD0iTTEyIDJsLTkgNHY2YzAgNS4xIDMuOSA5LjUgOSAxMXM5LTUuOSA5LTExdi02bC05LTR6Ii8+PC9zdmc+"
+                            alt="Box20 Logo">
+                        <span class="brand-name">ConvertTools</span>
+                    </div>
+                    <p class="brand-description">
+                        ConvertTools provides free online conversion, pdf, and other handy tools to help you solve problems
+                        of all types. All files both processed and unprocessed are deleted after 1 hour.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Navigate</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link hover-3d"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="./privacy policy.html" class="footer-link hover-3d"><i class="fas fa-lock"></i>
+                                Privacy Policy</a></li>
+                        <li><a href="./terms-of-service.html" class="footer-link hover-3d"><i
+                                    class="fas fa-file-alt"></i> TOS</a></li>
+                        <li><a href="./contact-us.html" class="footer-link hover-3d"><i class="fas fa-robot"></i>
+                                Contact us</a></li>
+                        <li><a href="./ConvertFree blog.html" class="footer-link hover-3d"><i class="fas fa-robot"></i>
+                                    Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Popular Tools</h3>
+                    <div class="tool-grid2">
+                        <a href="./Ai Content Writer.html" class="tool-item hover-3d">
+                            <i class="fas fa-pen-fancy"></i>
+                            Essay Writer
+                            <span class="new-badge">New</span>
+                        </a>
+                        <a href="./code editor.html" class="tool-item hover-3d">
+                            <i class="fas fa-code"></i>
+                            Code Editor
+                        </a>
+                        <a href="./AI paragraph Writer.html" class="tool-item hover-3d">
+                            <i class="fas fa-paragraph"></i>
+                            AI Paragraph Writer
+                        </a>
+                        <a href="./image compressor.html" class="tool-item hover-3d">
+                            <i class="fas fa-image"></i>
+                            Image compressor
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>PDF Tools</h3>
+                    <div class="tool-grid2">
+                        <a href="./pdf split.html" class="tool-item hover-3d">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Split
+                        </a>
+                        <a href="./watermark to pdf.html" class="tool-item hover-3d">
+                            <i class="fas fa-compress"></i>
+                            WaterMarke to PDF
+                        </a>
+                        <a href="Merge Pdf.html" class="tool-item hover-3d">
+                            <i class="fas fa-object-group"></i>
+                            Merge PDF
+                        </a>
+                        <a href="./pdf to image.html" class="tool-item hover-3d">
+                            <i class="fas fa-image"></i>
+                            PDF to Image
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                Made By. Mudassar Latif
+                <br>
+                <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for additional interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add smooth scrolling for in-page navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Initialize blog cards with animation delay
+            const blogCards = document.querySelectorAll('.blog-card');
+            blogCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+
+
+
+         document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="CSS Animation Generator – Create Custom Animations Online">
+<meta name="description" content="Generate custom CSS animations easily with our free online CSS Animation Generator. Create smooth transitions, keyframe effects, and dynamic animations!">
+<meta name="keywords" content="CSS animation generator, online CSS animation, create animations with CSS, CSS keyframes generator, free animation maker, web animation tool, CSS transition effects, generate CSS animations, custom animation generator, CSS motion effects">
+<meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-light: #334155;
+            --text: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+            padding-top: 5rem;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        @media (max-width: 1024px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .sidebar {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            height: calc(100vh - 4rem);
+            position: sticky;
+            top: 2rem;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .preview-card {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 2rem;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .code-card {
+            background: var(--surface);
+            border-radius: 1rem;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            color: var(--text);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--surface-light);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface);
+            transform: translateY(-1px);
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .preset-btn {
+            background: var(--surface-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .preset-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .keyframe-card {
+            background: var(--surface-light);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--error);
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0.25rem;
+            line-height: 1;
+        }
+
+        .preview-element {
+            width: 100px;
+            height: 100px;
+            background: var(--primary);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 0;
+        }
+
+        .code-preview {
+            background: var(--background);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--surface-light);
+            border: none;
+            color: var(--text);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .color-picker {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .color-preview {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.25rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 1rem;
+            }
+
+            .sidebar {
+                height: auto;
+                position: static;
+            }
+
+            .property-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preset-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface-light);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+
+
+
+        
+     
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <h2>Animation Controls</h2>
+            
+            <div class="preset-grid">
+                <button class="preset-btn" onclick="loadPreset('bounce')">Bounce</button>
+                <button class="preset-btn" onclick="loadPreset('shake')">Shake</button>
+                <button class="preset-btn" onclick="loadPreset('pulse')">Pulse</button>
+                <button class="preset-btn" onclick="loadPreset('flip')">Flip</button>
+                <button class="preset-btn" onclick="loadPreset('rotate3D')">Rotate 3D</button>
+                <button class="preset-btn" onclick="loadPreset('elastic')">Elastic</button>
+                <button class="preset-btn" onclick="loadPreset('fade')">Fade</button>
+                <button class="preset-btn" onclick="loadPreset('slide')">Slide</button>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Animation Name</label>
+                <input type="text" class="input-field" id="animationName" value="myAnimation">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Duration (seconds)</label>
+                <input type="number" class="input-field" id="duration" value="1" min="0.1" step="0.1">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Timing Function</label>
+                <select class="input-field" id="timingFunction">
+                    <option value="linear">Linear</option>
+                    <option value="ease">Ease</option>
+                    <option value="ease-in">Ease In</option>
+                    <option value="ease-out">Ease Out</option>
+                    <option value="ease-in-out">Ease In Out</option>
+                    <option value="cubic-bezier(0.68, -0.55, 0.265, 1.55)">Bounce</option>
+                    <option value="cubic-bezier(0.37, 0, 0.63, 1)">Smooth</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Iteration Count</label>
+                <select class="input-field" id="iterationCount">
+                    <option value="infinite">Infinite</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Direction</label>
+                <select class="input-field" id="direction">
+                    <option value="normal">Normal</option>
+                    <option value="reverse">Reverse</option>
+                    <option value="alternate">Alternate</option>
+                    <option value="alternate-reverse">Alternate Reverse</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="addKeyframe()">Add Keyframe</button>
+                <button class="btn btn-secondary" onclick="resetAnimation()">Reset</button>
+            </div>
+
+            <div id="keyframesList"></div>
+        </aside>
+
+        <main class="main-content">
+            <section class="preview-card">
+                <div class="grid-bg"></div>
+                <div class="preview-element" id="previewElement"></div>
+            </section>
+
+            <section class="code-card">
+                <h3>Generated CSS</h3>
+                <div class="code-preview" id="codeOutput">
+                    <button class="copy-btn" onclick="copyCode()">Copy</button>
+                </div>
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="previewAnimation()">Preview</button>
+                    <button class="btn btn-secondary" onclick="generatePDF()">Export PDF</button>
+                    <button class="btn btn-secondary" onclick="downloadTextFile()">Download CSS</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+
+
+    <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+
+ // Animation state management
+ let keyframes = [];
+
+// Animation presets
+const presets = {
+    bounce: [
+        { percentage: 0, properties: { transform: 'translate(-50%, -50%)', backgroundColor: '#6366f1' } },
+        { percentage: 50, properties: { transform: 'translate(-50%, -150%)', backgroundColor: '#ec4899' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%)', backgroundColor: '#6366f1' } }
+    ],
+    shake: [
+        { percentage: 0, properties: { transform: 'translate(-50%, -50%) rotate(0deg)', backgroundColor: '#6366f1' } },
+        { percentage: 25, properties: { transform: 'translate(-60%, -50%) rotate(-5deg)', backgroundColor: '#ec4899' } },
+        { percentage: 75, properties: { transform: 'translate(-40%, -50%) rotate(5deg)', backgroundColor: '#ec4899' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%) rotate(0deg)', backgroundColor: '#6366f1' } }
+    ],
+    pulse: [
+        { percentage: 0, properties: { transform: 'translate(-50%, -50%) scale(1)', backgroundColor: '#6366f1' } },
+        { percentage: 50, properties: { transform: 'translate(-50%, -50%) scale(1.2)', backgroundColor: '#ec4899' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%) scale(1)', backgroundColor: '#6366f1' } }
+    ],
+    flip: [
+        { percentage: 0, properties: { transform: 'translate(-50%, -50%) perspective(400px) rotateY(0deg)', backgroundColor: '#6366f1' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%) perspective(400px) rotateY(360deg)', backgroundColor: '#6366f1' } }
+    ],
+    rotate3D: [
+        { percentage: 0, properties: { transform: 'translate(-50%, -50%) rotate3d(1, 1, 1, 0deg)', backgroundColor: '#6366f1' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%) rotate3d(1, 1, 1, 360deg)', backgroundColor: '#6366f1' } }
+    ],
+    elastic: [
+        { percentage: 0, properties: { transform: 'translate(-50%, -50%) scale(1)', backgroundColor: '#6366f1' } },
+        { percentage: 30, properties: { transform: 'translate(-50%, -50%) scale(1.25)', backgroundColor: '#ec4899' } },
+        { percentage: 40, properties: { transform: 'translate(-50%, -50%) scale(0.75)', backgroundColor: '#ec4899' } },
+        { percentage: 50, properties: { transform: 'translate(-50%, -50%) scale(1.15)', backgroundColor: '#ec4899' } },
+        { percentage: 65, properties: { transform: 'translate(-50%, -50%) scale(0.95)', backgroundColor: '#ec4899' } },
+        { percentage: 75, properties: { transform: 'translate(-50%, -50%) scale(1.05)', backgroundColor: '#ec4899' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%) scale(1)', backgroundColor: '#6366f1' } }
+    ],
+    fade: [
+        { percentage: 0, properties: { transform: 'translate(-50%, -50%)', opacity: '1', backgroundColor: '#6366f1' } },
+        { percentage: 50, properties: { transform: 'translate(-50%, -50%)', opacity: '0.3', backgroundColor: '#ec4899' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%)', opacity: '1', backgroundColor: '#6366f1' } }
+    ],
+    slide: [
+        { percentage: 0, properties: { transform: 'translate(-150%, -50%)', backgroundColor: '#6366f1' } },
+        { percentage: 50, properties: { transform: 'translate(50%, -50%)', backgroundColor: '#ec4899' } },
+        { percentage: 100, properties: { transform: 'translate(-50%, -50%)', backgroundColor: '#6366f1' } }
+    ]
+};
+
+// Load animation preset
+function loadPreset(presetName) {
+    keyframes = JSON.parse(JSON.stringify(presets[presetName]));
+    updateKeyframesUI();
+    previewAnimation();
+    showToast(`Loaded ${presetName} preset`);
+}
+
+// Show toast notification
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    
+    // Remove any existing timeout
+    if (toast.timeoutId) {
+        clearTimeout(toast.timeoutId);
+    }
+    
+    // Set new timeout
+    toast.timeoutId = setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}
+
+// Add new keyframe
+function addKeyframe() {
+    const keyframe = {
+        percentage: keyframes.length === 0 ? 0 : 100,
+        properties: {
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: '#6366f1'
+        }
+    };
+    keyframes.push(keyframe);
+    updateKeyframesUI();
+    showToast('Added new keyframe');
+}
+
+// Update keyframes UI
+function updateKeyframesUI() {
+    const keyframesList = document.getElementById('keyframesList');
+    keyframesList.innerHTML = '';
+
+    keyframes.forEach((keyframe, index) => {
+        const keyframeElement = document.createElement('div');
+        keyframeElement.className = 'keyframe-card';
+        
+        // Extract transform values
+        const transform = keyframe.properties.transform;
+        const translateMatch = transform.match(/translate\(([-\d.]+)%, ([-\d.]+)%\)/);
+        const scaleMatch = transform.match(/scale\(([-\d.]+)\)/);
+        const rotateMatch = transform.match(/rotate\(([-\d.]+)deg\)/);
+        
+        const translateX = translateMatch ? translateMatch[1] : -50;
+        const translateY = translateMatch ? translateMatch[2] : -50;
+        const scale = scaleMatch ? scaleMatch[1] : 1;
+        const rotate = rotateMatch ? rotateMatch[1] : 0;
+
+        keyframeElement.innerHTML = `
+            <button class="remove-btn" onclick="removeKeyframe(${index})">×</button>
+            <div class="input-group">
+                <label class="input-label">Percentage</label>
+                <input type="number" class="input-field" value="${keyframe.percentage}" 
+                       min="0" max="100" onchange="updateKeyframePercentage(${index}, this.value)">
+            </div>
+            
+            <div class="property-grid">
+                <div class="input-group">
+                    <label class="input-label">Translate X (%)</label>
+                    <input type="number" class="input-field" value="${translateX}"
+                           onchange="updateTransform(${index}, 'translateX', this.value)">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Translate Y (%)</label>
+                    <input type="number" class="input-field" value="${translateY}"
+                           onchange="updateTransform(${index}, 'translateY', this.value)">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Scale</label>
+                    <input type="number" class="input-field" value="${scale}" step="0.1" min="0"
+                           onchange="updateTransform(${index}, 'scale', this.value)">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Rotate (deg)</label>
+                    <input type="number" class="input-field" value="${rotate}"
+                           onchange="updateTransform(${index}, 'rotate', this.value)">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label class="input-label">Background Color</label>
+                <div class="color-picker">
+                    <input type="color" class="input-field" value="${keyframe.properties.backgroundColor}"
+                           onchange="updateKeyframeProperty(${index}, 'backgroundColor', this.value)">
+                    <div class="color-preview" style="background-color: ${keyframe.properties.backgroundColor}"></div>
+                </div>
+            </div>
+        `;
+        keyframesList.appendChild(keyframeElement);
+    });
+}
+
+// Update transform properties
+function updateTransform(index, property, value) {
+    const keyframe = keyframes[index];
+    const currentTransform = keyframe.properties.transform;
+    
+    // Parse current transform values
+    const translateMatch = currentTransform.match(/translate\(([-\d.]+)%, ([-\d.]+)%\)/);
+    const scaleMatch = currentTransform.match(/scale\(([-\d.]+)\)/);
+    const rotateMatch = currentTransform.match(/rotate\(([-\d.]+)deg\)/);
+    
+    let translateX = translateMatch ? translateMatch[1] : -50;
+    let translateY = translateMatch ? translateMatch[2] : -50;
+    let scale = scaleMatch ? scaleMatch[1] : 1;
+    let rotate = rotateMatch ? rotateMatch[1] : 0;
+
+    // Update specific property
+    switch(property) {
+        case 'translateX':
+            translateX = value;
+            break;
+        case 'translateY':
+            translateY = value;
+            break;
+        case 'scale':
+            scale = value;
+            break;
+        case 'rotate':
+            rotate = value;
+            break;
+    }
+
+    // Construct new transform string
+    keyframe.properties.transform = `translate(${translateX}%, ${translateY}%) scale(${scale}) rotate(${rotate}deg)`;
+    previewAnimation();
+}
+
+// Remove keyframe
+function removeKeyframe(index) {
+    keyframes.splice(index, 1);
+    updateKeyframesUI();
+    previewAnimation();
+    showToast('Removed keyframe');
+}
+
+// Update keyframe percentage
+function updateKeyframePercentage(index, value) {
+    keyframes[index].percentage = parseInt(value);
+    previewAnimation();
+}
+
+// Update keyframe property
+function updateKeyframeProperty(index, property, value) {
+    keyframes[index].properties[property] = value;
+    if (property === 'backgroundColor') {
+        const colorPreview = document.querySelector(`#keyframesList .keyframe-card:nth-child(${index + 1}) .color-preview`);
+        if (colorPreview) {
+            colorPreview.style.backgroundColor = value;
+        }
+    }
+    previewAnimation();
+}
+
+// Generate CSS code
+function generateCSS() {
+    const name = document.getElementById('animationName').value;
+    const duration = document.getElementById('duration').value;
+    const timingFunction = document.getElementById('timingFunction').value;
+    const iterationCount = document.getElementById('iterationCount').value;
+    const direction = document.getElementById('direction').value;
+
+    let css = `@keyframes ${name} {\n`;
+    keyframes.forEach(keyframe => {
+        css += `  ${keyframe.percentage}% {\n`;
+        Object.entries(keyframe.properties).forEach(([property, value]) => {
+            css += `    ${property}: ${value};\n`;
+        });
+        css += `  }\n`;
+    });
+    css += `}\n\n`;
+    css += `.animated-element {\n`;
+    css += `  animation: ${name} ${duration}s ${timingFunction} ${iterationCount} ${direction};\n`;
+    css += `}`;
+
+    return css;
+}
+
+// Preview animation
+function previewAnimation() {
+    const css = generateCSS();
+    document.getElementById('codeOutput').innerHTML = `
+        <button class="copy-btn" onclick="copyCode()">Copy</button>
+        <pre>${css}</pre>
+    `;
+
+    const previewElement = document.getElementById('previewElement');
+    previewElement.style.animation = 'none';
+    previewElement.offsetHeight; // Trigger reflow
+    
+    const name = document.getElementById('animationName').value;
+    const duration = document.getElementById('duration').value;
+    const timingFunction = document.getElementById('timingFunction').value;
+    const iterationCount = document.getElementById('iterationCount').value;
+    const direction = document.getElementById('direction').value;
+
+    // Remove existing style element if it exists
+    const existingStyle = document.getElementById('animation-style');
+    if (existingStyle) {
+        existingStyle.remove();
+    }
+
+    // Create new style element
+    const styleSheet = document.createElement('style');
+    styleSheet.id = 'animation-style';
+    styleSheet.textContent = css;
+    document.head.appendChild(styleSheet);
+
+    previewElement.style.animation = 
+        `${name} ${duration}s ${timingFunction} ${iterationCount} ${direction}`;
+}
+
+// Copy code to clipboard
+function copyCode() {
+    const code = generateCSS();
+    navigator.clipboard.writeText(code).then(() => {
+        showToast('Code copied to clipboard');
+    }).catch(err => {
+        showToast('Failed to copy code');
+        console.error('Failed to copy code:', err);
+    });
+}
+
+// Download CSS file
+function downloadTextFile() {
+    const css = generateCSS();
+    const blob = new Blob([css], { type: 'text/css' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'animation.css';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('CSS file downloaded');
+}
+
+// Generate PDF
+function generatePDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    const css = generateCSS();
+    const lines = css.split('\n');
+    let y = 20;
+    
+    doc.setFontSize(16);
+    doc.text('CSS Animation Code', 20, y);
+    y += 10;
+    
+    doc.setFontSize(12);
+    lines.forEach(line => {
+        if (y > 280) {
+            doc.addPage();
+            y = 20;
+        }
+        doc.text(line, 20, y);
+        y += 7;
+    });
+    
+    doc.save('animation.pdf');
+    showToast('PDF file generated');
+}
+
+// Reset animation
+function resetAnimation() {
+    keyframes = [];
+    document.getElementById('animationName').value = 'myAnimation';
+    document.getElementById('duration').value = '1';
+    document.getElementById('timingFunction').value = 'ease';
+    document.getElementById('iterationCount').value = 'infinite';
+    document.getElementById('direction').value = 'normal';
+    
+    updateKeyframesUI();
+    previewAnimation();
+    showToast('Animation reset');
+}
+
+// Initialize with a default keyframe
+addKeyframe();
+
+    </script>
+</body>
+</html>

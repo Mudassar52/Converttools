@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="ConvertTools - All-in-One Free Online Tools for File Conversion, Text Editing & More">
+<meta name="description" content="ConvertTools offers 70+ free online tools, including file converters, text editors, image compressors, QR code generators, password generators, PDF tools, and more. Simplify your tasks with our powerful and easy-to-use web utilities!">
+<meta name="keywords" content="online conversion tools, file conversion software, convert files online, pdf to png free, canva pdf to png, convert to pdf, converting files, convert to prf, jpf converter, docx to pdf, convert word to pdf, pdf pdf to word, jpg to png converter, Compress PDF Online, photo into pdf, jpg into png, pdf converter, webp to jpg, pdf a converter, png topdf, convert pdf to jpg format, api convert, convert files app, file conversion to jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+        body {
+            background-color: #f8fafc;
+            min-height: 100vh;
+            position: relative;
+            padding-top: 6rem;
+        }
+
+        .geometric-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.5;
+        }
+
+        .shape-1 {
+            top: 5%;
+            left: 5%;
+            width: 50px;
+            height: 50px;
+            background: #ffd700;
+            transform: rotate(45deg);
+        }
+
+        .shape-2 {
+            top: 10%;
+            right: 10%;
+            width: 40px;
+            height: 40px;
+            background: #ff69b4;
+            border-radius: 8px;
+        }
+
+        .shape-3 {
+            bottom: 15%;
+            left: 15%;
+            width: 60px;
+            height: 60px;
+            background: #4169e1;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 4rem;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0077ff;
+            margin-bottom: 1rem;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 1rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 0.75rem;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-button:hover {
+            background: #1d4ed8;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .icon-writer { background: #38bdf8; }
+        .icon-improver { background: #4ade80; }
+        .icon-paragraph { background: #facc15; }
+        .icon-image { background: #f472b6; }
+        .icon-background { background: #fb923c; }
+        .icon-pdf { background: #a78bfa; }
+        .icon-Doc { background: #ff7979; }
+        .tool-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-category {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+           
+            .container{
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .title {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+        }
+        
+        
+        
+        
+     @media (max-width: 576px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .tools-grid {
+        grid-template-rows: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .tool-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    
+    .tool-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .tool-title {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .tool-category {
+        font-size: 0.75rem;
+    }
+    
+    .search-container {
+        padding: 0.3rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .search-input {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .search-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .nav-container {
+        height: 60px;
+    }
+    
+    .logo {
+        font-size: 20px;
+    }
+    
+    body {
+        padding-top: 5rem;
+    }
+    
+    .shape {
+        transform: scale(0.7);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* Footer Styles */
+
+:root {
+    --primary-color: #2196f3;
+    --text-color: #666;
+    --bg-color: #ffffff;
+    --hover-color: #1976d2;
+}
+
+.footer {
+    background: var(--bg-color);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+    padding: 4rem 0 2rem;
+    position: relative;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 3rem;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.brand-logo img {
+    width: 40px;
+    height: auto;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.brand-description {
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.footer-section h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    font-weight: 600;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 40px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-link {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.footer-link:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.footer-link i {
+    font-size: 0.8rem;
+}
+
+.tool-grid2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.tool-item {
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    transform: translateZ(0);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tool-item:hover {
+    transform: translateZ(10px);
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+    text-align: center;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .tool-grid2 {
+        grid-template-columns: 1fr;
+    }
+
+    .footer {
+        padding: 3rem 0 1.5rem;
+    }
+}
+
+/* 3D Effects */
+.hover-3d {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-3d:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* New Badge */
+.new-badge {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    margin-left: 0.5rem;
+}
+
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+
+    <div class="geometric-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Tools</h1>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search Tools" id="searchInput">
+                <button class="search-button" onclick="searchTools()">Search</button>
+            </div>
+        </header>
+
+        <div class="tools-grid" id="toolsGrid">
+            <a href="./ai-writer.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-writer">
+                    <i class="fas fa-pen-fancy"></i>
+                </div>
+                <h2 class="tool-title">Content Writer</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+            <a href="./Ai-Content-Enhancer.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h2 class="tool-title">Content Improver</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+            <a href="./AI-paragraph-Writer.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-paragraph"></i>
+                </div>
+                <h2 class="tool-title">Paragraph Writer</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+
+            <a href="./ai-image-background-remover.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-background">
+                    <i class="fas fa-cut"></i>
+                </div>
+                <h2 class="tool-title">Remove Background</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./jpg-to-png.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-image">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Jpg to Png</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./png-to-jpg.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-background">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Png to Jpg</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./image-to-pdf.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Image to Pdf</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./image_resizer.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Image Resizer</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./youtube-thumbnail-downloader.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-background">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Thumbnail</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+
+            <a href="./image_compressor.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-compress"></i>
+                </div>
+                <h2 class="tool-title">Image Compressor</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./pdf-to-image-converter.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Image Converter</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./heic-png-converter.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h2 class="tool-title">HEIC to PNG</h2>
+                <p class="tool-category">Image Tools</p>
+            </a>
+
+            <a href="./merge-pdf.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h2 class="tool-title">Merge PDF</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+            <a href="./pdf-to-image-converter.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                <h2 class="tool-title">PDF to Image</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+            <a href="./pdf-to-image-extractor.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                <h2 class="tool-title">PDF Image Extractor</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+
+            <a href="./pdf-split.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-image">
+                    <i class="fas fa-cut"></i>
+                </div>
+                <h2 class="tool-title">Pdf Split</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+
+            <a href="./pdf-to-image-converter.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-writer">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Pdf to Image</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+            <a href="./pdf-jpg-converter.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-image"></i>
+                </div>
+                <h2 class="tool-title">Pdf to Jpg</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+            <a href="./pdf-png-converter.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h2 class="tool-title">Pdf to Png</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+
+            <a href="./pdf-to-zip-converter.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-background">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h2 class="tool-title">pdf to zip</h2>
+                <p class="tool-category">PDF Tools</p>
+            </a>
+
+            <a href="./pdf-page-deleter.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
+                <h2 class="tool-title">Pdf Pages Deleter</h2>
+                <p class="tool-category">PDF tools</p>
+            </a>
+
+            <a href="./pdf_watermark.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-file-signature"></i>
+                </div>
+                <h2 class="tool-title">Watermark to Pdf</h2>
+                <p class="tool-category">PDF tools</p>
+            </a>
+
+
+
+            <a href="./text-editor.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <h2 class="tool-title">Text Editor</h2>
+                <p class="tool-category">Text tools</p>
+            </a>
+
+            <a href="./text-to-pdf-converter.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <h2 class="tool-title">Text to Pdf</h2>
+                <p class="tool-category">Text tools</p>
+            </a>
+
+            <a href="./image_zip_converter.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-image">
+                    <i class="fas fa-file-archive"></i>
+                </div>
+                <h2 class="tool-title">Zip Extract</h2>
+                <p class="tool-category">Zip Tools</p>
+            </a>
+
+            <a href="./ai-article-writer.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-writer">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h2 class="tool-title">Article Writer</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+            <a href="./article-rewriter.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-writer">
+                    <i class="fas fa-pen-fancy"></i>
+                </div>
+                <h2 class="tool-title">Article Rewriter</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+            <a href="./ai-cold-email-writer.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-writer">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h2 class="tool-title">Cold Email Writer</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+            <a href="./YouTube- AI-Tag-Generator.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-writer">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h2 class="tool-title">AI Tag Generator</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+            <a href="./AI-YouTube-Title-Generator.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-writer">
+                    <i class="fas fa-heading"></i>
+                </div>
+                <h2 class="tool-title">AI Title Generator</h2>
+                <p class="tool-category">AI Write</p>
+            </a>
+
+            <a href="./code-editor.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h2 class="tool-title">Code Editor</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+            <a href="./Code-Minifier-Pro.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h2 class="tool-title">Code Minifier</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+            <a href="./border-radius-generator.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-paragraph">
+                    <i class="fas fa-border-style"></i>
+                </div>
+                <h2 class="tool-title">Border Radius Generator</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+
+
+            <a href="./Word-Analysis-Tool.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-file-word"></i>
+                </div>
+                <h2 class="tool-title">Word Analysis</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+
+            <a href="./favicon-generator.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-image">
+                    <i class="fas fa-icons"></i>
+                </div>
+                <h2 class="tool-title">Favicon Generator</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+            <a href="./Gradient-Generator.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-image">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h2 class="tool-title">Gradient Generator</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+            <a href="./CSS-Animation-Generator.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-wave-square"></i>
+                </div>
+                <h2 class="tool-title">CSS Animation Generator</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+
+            <a href="./logo-generator.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-image">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h2 class="tool-title">Logo Generator</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+            <a href="./QR-Code-Generator.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <h2 class="tool-title">QR Code Generator</h2>
+                <p class="tool-category">Developer tools</p>
+            </a>
+
+
+
+
+            <a href="./robots-txt-generator (1).html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2 class="tool-title">Robots.Txt Generator</h2>
+                <p class="tool-category">Seo & Web Tools</p>
+            </a>
+
+            <a href="./ip-Address-finder.html" class="tool-card" data-category="AI Write">
+                <div class="tool-icon icon-improver">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h2 class="tool-title">Ip Address Finder</h2>
+                <p class="tool-category">Networking & Ip Tools</p>
+            </a>
+
+            <a href="./file-converter-tool.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-file-archive"></i>
+                </div>
+                <h2 class="tool-title">Image to Zip Converter</h2>
+                <p class="tool-category">Zip tools</p>
+            </a>
+
+
+            <a href="./meta_tag_analyzer.html" class="tool-card" data-category="Image Tools">
+                <div class="tool-icon icon-image">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <h2 class="tool-title">Meta Tag Analyzer</h2>
+                <p class="tool-category">Seo & Web Tools</p>
+            </a>
+
+            <a href="./page-load-time-checker.html" class="tool-card" data-category="PDF Tools">
+                <div class="tool-icon icon-pdf">
+                    <i class="fas fa-stopwatch"></i>
+                </div>
+                <h2 class="tool-title">Page Load Time Checker</h2>
+                <p class="tool-category">Seo & Web Tools</p>
+            </a>
+        </div>
+    </div>
+
+
+
+
+
+
+     <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="brand-logo">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzIxOTZmMyIgZD0iTTEyIDJsLTkgNHY2YzAgNS4xIDMuOSA5LjUgOSAxMXM5LTUuOSA5LTExdi02bC05LTR6Ii8+PC9zdmc+"
+                            alt="Box20 Logo">
+                        <span class="brand-name">ConvertTools</span>
+                    </div>
+                    <p class="brand-description">
+                        ConvertTools provides free online conversion, pdf, and other handy tools to help you solve problems
+                        of all types. All files both processed and unprocessed are deleted after 1 hour.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Navigate</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link hover-3d"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="./privacy-policy.html" class="footer-link hover-3d"><i class="fas fa-lock"></i>
+                                Privacy Policy</a></li>
+                        <li><a href="./terms-of-service.html" class="footer-link hover-3d"><i
+                                    class="fas fa-file-alt"></i> TOS</a></li>
+                        <li><a href="./contact-us.html" class="footer-link hover-3d"><i class="fas fa-robot"></i>
+                                Contact us</a></li>
+                        <li><a href="./ConvertFree-blog.html" class="footer-link hover-3d"><i class="fas fa-robot"></i>
+                                    Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Popular Tools</h3>
+                    <div class="tool-grid2">
+                        <a href="./ai-writer.html" class="tool-item hover-3d">
+                            <i class="fas fa-pen-fancy"></i>
+                            Essay Writer
+                            <span class="new-badge">New</span>
+                        </a>
+                        <a href="./code-editor.html" class="tool-item hover-3d">
+                            <i class="fas fa-code"></i>
+                            Code Editor
+                        </a>
+                        <a href="./AI-paragraph-Writer.html" class="tool-item hover-3d">
+                            <i class="fas fa-paragraph"></i>
+                            AI Paragraph Writer
+                        </a>
+                        <a href="./image_compressor.html" class="tool-item hover-3d">
+                            <i class="fas fa-image"></i>
+                            Image compressor
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>PDF Tools</h3>
+                    <div class="tool-grid2">
+                        <a href="./pdf-split.html" class="tool-item hover-3d">
+                            <i class="fas fa-file-pdf"></i>
+                            PDF Split
+                        </a>
+                        <a href="./pdf_watermark.html" class="tool-item hover-3d">
+                            <i class="fas fa-compress"></i>
+                            WaterMarke to PDF
+                        </a>
+                        <a href="merge-pdf.html" class="tool-item hover-3d">
+                            <i class="fas fa-object-group"></i>
+                            Merge PDF
+                        </a>
+                        <a href="./pdf-to-image-converter.html" class="tool-item hover-3d">
+                            <i class="fas fa-image"></i>
+                            PDF to Image
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                Made By. Mudassar Latif
+                <br>
+                <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+
+        function searchTools() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.toLowerCase();
+            const toolCards = document.querySelectorAll('.tool-card');
+
+            toolCards.forEach(card => {
+                const title = card.querySelector('.tool-title').textContent.toLowerCase();
+                const category = card.querySelector('.tool-category').textContent.toLowerCase();
+                const isMatch = title.includes(searchTerm) || category.includes(searchTerm);
+                card.style.display = isMatch ? 'block' : 'none';
+            });
+        }
+
+        // Search on enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchTools();
+            }
+        });
+
+        // Live search
+        document.getElementById('searchInput').addEventListener('input', function() {
+            searchTools();
+        });
+
+        // Add click handler for cards
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('href');
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+</body>
+</html>

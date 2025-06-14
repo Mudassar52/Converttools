@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to PDF Converter - Free Online Tool | Convert Text to PDF Document</title>
+    <meta name="description" content="Free online text to PDF converter. Transform plain text into professional PDF documents with custom formatting. Fast, secure, and no registration required.">
+    <meta name="keywords" content="text to pdf, Text2PDF, pdf converter, create pdf, text converter, document generator, online tool">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="canonical" href="https://example.com/text-to-pdf-converter">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 50%, #9b59b6 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 90px 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .editor-section {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .editor-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 70px rgba(0,0,0,0.15);
+        }
+
+        .settings-panel {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .text-editor {
+            width: 100%;
+            min-height: 400px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .text-editor:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+        }
+
+        .word-count {
+            text-align: right;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+        }
+
+        .color-input {
+            width: 60px;
+            height: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3498db;
+        }
+
+        .convert-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(52,152,219,0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .convert-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(52,152,219,0.4);
+        }
+
+        .convert-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .preview-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .preview-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 200px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.9);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .download-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(39,174,96,0.3);
+        }
+
+        .download-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(39,174,96,0.4);
+        }
+
+        .quick-templates {
+            margin-bottom: 20px;
+        }
+
+        .template-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .template-btn:hover {
+            background: #e9ecef;
+            border-color: #3498db;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-panel {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .editor-section, .settings-panel {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+
+
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+         :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+
+
+
+
+
+
+         .container2 {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .hero {
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+      border-radius: 12px;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+    .cta-button {
+      background: #facc15;
+      color: #1f2937;
+      padding: 12px 24px;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+    .features, .how-to-use {
+      margin-top: 40px;
+      padding: 40px 20px;
+      border-radius: 12px;
+    }
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>📄 Text2PDF Converter</h1>
+            <p class="subtitle">Transform your text into professional PDF documents with custom formatting and styling options.</p>
+        </header>
+
+        <div class="main-content">
+            <div class="editor-section">
+                <div class="section-title">
+                    ✏️ Text Editor
+                </div>
+                
+                <div class="quick-templates">
+                    <button class="template-btn" onclick="loadTemplate('letter')">📝 Letter</button>
+                    <button class="template-btn" onclick="loadTemplate('report')">📊 Report</button>
+                    <button class="template-btn" onclick="loadTemplate('resume')">👔 Resume</button>
+                    <button class="template-btn" onclick="loadTemplate('invoice')">💰 Invoice</button>
+                    <button class="template-btn" onclick="clearText()">🗑️ Clear</button>
+                </div>
+
+                <textarea 
+                    id="textEditor" 
+                    class="text-editor" 
+                    placeholder="Start typing your text here... You can paste content from Word, Google Docs, or any other text editor."
+                ></textarea>
+                
+                <div class="word-count" id="wordCount">
+                    Characters: 0 | Words: 0 | Lines: 0
+                </div>
+
+                <div class="preview-section">
+                    <div class="preview-header">
+                        <div class="preview-title">📋 Live Preview</div>
+                    </div>
+                    <div class="preview-content" id="previewContent">
+                        Your formatted text will appear here...
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-panel">
+                <div class="section-title">
+                    ⚙️ PDF Settings
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Document Title</label>
+                    <input type="text" class="form-input" id="docTitle" placeholder="My Document" value="My Document">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Font Family</label>
+                        <select class="form-select" id="fontFamily">
+                            <option value="helvetica">Helvetica</option>
+                            <option value="times">Times New Roman</option>
+                            <option value="courier">Courier</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Font Size</label>
+                        <input type="number" class="form-input" id="fontSize" min="8" max="72" value="12">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Text Color</label>
+                        <input type="color" class="color-input" id="textColor" value="#000000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Line Height</label>
+                        <select class="form-select" id="lineHeight">
+                            <option value="1">Single</option>
+                            <option value="1.5" selected>1.5x</option>
+                            <option value="2">Double</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Page Size</label>
+                    <select class="form-select" id="pageSize">
+                        <option value="a4" selected>A4</option>
+                        <option value="letter">Letter</option>
+                        <option value="legal">Legal</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Text Alignment</label>
+                    <select class="form-select" id="textAlign">
+                        <option value="left" selected>Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                        <option value="justify">Justify</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="addPageNumbers">
+                        <label for="addPageNumbers">Add Page Numbers</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="addTimestamp">
+                        <label for="addTimestamp">Add Timestamp</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="addMargins" checked>
+                        <label for="addMargins">Standard Margins</label>
+                    </div>
+                </div>
+
+                <button class="convert-btn" id="convertBtn">
+                    🚀 Generate PDF
+                </button>
+
+                <div class="status-message" id="statusMessage"></div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Rich Formatting</h3>
+                <p>Customize fonts, colors, alignment, and spacing. Create professional documents with advanced typography options.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>All text processing happens in your browser. Your content never leaves your device, ensuring complete privacy.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Friendly</h3>
+                <p>Works perfectly on all devices. Create PDFs on your phone, tablet, or desktop with the same great experience.</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <section class="hero">
+    <div class="container2">
+      <h1>Text2PDF - Convert Text to PDF Instantly</h1>
+      <p>Welcome to Text2PDF – your all-in-one solution to turn plain text into professional PDF files. Whether you're writing notes, compiling reports, or saving blog content, our tool offers a fast, reliable way to create clean PDF documents directly from your browser. No registration, no installation – just simple, efficient PDF creation in seconds.</p>
+      <a href="#" class="cta-button">Get Started</a>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2>Why Use Text2PDF?</h2>
+      <ul>
+        <li>✨ Clean and simple user interface that’s easy for everyone</li>
+        <li>⚡ Instant PDF generation with one click</li>
+        <li>🔐 Your data is never stored – full privacy guaranteed</li>
+        <li>📝 Great for bloggers, students, professionals, and teams</li>
+        <li>📄 High-quality PDFs ready for download or print</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="how-to-use" id="get-started">
+    <div class="container">
+      <h2>How It Works</h2>
+      <ol>
+        <li>Type or paste your content into the editor box</li>
+        <li>Click the <strong>“Convert to PDF”</strong> button to generate</li>
+        <li>Your new PDF is ready to save or share immediately</li>
+      </ol>
+    </div>
+  </section>
+     <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+
+
+ document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+        
+        const textEditor = document.getElementById('textEditor');
+        const wordCount = document.getElementById('wordCount');
+        const previewContent = document.getElementById('previewContent');
+        const convertBtn = document.getElementById('convertBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // Text editor handlers
+        textEditor.addEventListener('input', updatePreview);
+        textEditor.addEventListener('input', updateWordCount);
+
+        // Settings change handlers
+        document.getElementById('fontFamily').addEventListener('change', updatePreview);
+        document.getElementById('fontSize').addEventListener('change', updatePreview);
+        document.getElementById('textColor').addEventListener('change', updatePreview);
+        document.getElementById('lineHeight').addEventListener('change', updatePreview);
+        document.getElementById('textAlign').addEventListener('change', updatePreview);
+
+        // Convert button handler
+        convertBtn.addEventListener('click', generatePDF);
+
+        function updateWordCount() {
+            const text = textEditor.value;
+            const characters = text.length;
+            const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+            const lines = text.split('\n').length;
+            
+            wordCount.textContent = `Characters: ${characters} | Words: ${words} | Lines: ${lines}`;
+        }
+
+        function updatePreview() {
+            const text = textEditor.value || 'Your formatted text will appear here...';
+            const fontFamily = document.getElementById('fontFamily').value;
+            const fontSize = document.getElementById('fontSize').value;
+            const textColor = document.getElementById('textColor').value;
+            const lineHeight = document.getElementById('lineHeight').value;
+            const textAlign = document.getElementById('textAlign').value;
+
+            const fontMap = {
+                'helvetica': 'Arial, sans-serif',
+                'times': 'Times New Roman, serif',
+                'courier': 'Courier New, monospace'
+            };
+
+            previewContent.style.fontFamily = fontMap[fontFamily];
+            previewContent.style.fontSize = fontSize + 'px';
+            previewContent.style.color = textColor;
+            previewContent.style.lineHeight = lineHeight;
+            previewContent.style.textAlign = textAlign;
+            previewContent.textContent = text;
+        }
+
+        function loadTemplate(type) {
+            const templates = {
+                letter: `Dear [Recipient Name],
+
+I hope this letter finds you well. I am writing to [purpose of letter].
+
+[Main content of your letter goes here. You can elaborate on your thoughts, provide details, or make requests as needed.]
+
+Thank you for your time and consideration. I look forward to hearing from you soon.
+
+Best regards,
+[Your Name]
+[Your Title]
+[Contact Information]`,
+
+                report: `REPORT TITLE
+${new Date().toLocaleDateString()}
+
+EXECUTIVE SUMMARY
+[Brief overview of the report's key findings and recommendations]
+
+INTRODUCTION
+[Background information and purpose of the report]
+
+METHODOLOGY
+[How the information was gathered or analyzed]
+
+FINDINGS
+[Main results and observations]
+
+CONCLUSIONS
+[Summary of key insights]
+
+RECOMMENDATIONS
+[Suggested actions based on findings]`,
+
+                resume: `[YOUR NAME]
+[Phone Number] | [Email Address] | [City, State]
+
+PROFESSIONAL SUMMARY
+[Brief overview of your skills and experience]
+
+EXPERIENCE
+[Job Title] - [Company Name] ([Start Date] - [End Date])
+• [Key achievement or responsibility]
+• [Key achievement or responsibility]
+• [Key achievement or responsibility]
+
+EDUCATION
+[Degree] - [Institution Name] ([Graduation Year])
+
+SKILLS
+• [Skill 1]
+• [Skill 2]
+• [Skill 3]`,
+
+                invoice: `INVOICE
+
+Bill To:
+[Client Name]
+[Client Address]
+[City, State ZIP]
+
+Invoice #: [Invoice Number]
+Date: ${new Date().toLocaleDateString()}
+Due Date: [Due Date]
+
+DESCRIPTION                    QTY    RATE     AMOUNT
+[Service/Product Description]   1    $[Rate]   $[Amount]
+[Service/Product Description]   1    $[Rate]   $[Amount]
+
+                              SUBTOTAL: $[Subtotal]
+                                   TAX: $[Tax]
+                                 TOTAL: $[Total]
+
+Payment Terms: [Payment terms]
+Thank you for your business!`
+            };
+
+            textEditor.value = templates[type] || '';
+            updateWordCount();
+            updatePreview();
+        }
+
+        function clearText() {
+            textEditor.value = '';
+            updateWordCount();
+            updatePreview();
+        }
+
+        function showStatus(message, type) {
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.innerHTML = message;
+            statusMessage.style.display = 'block';
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function generatePDF() {
+            const text = textEditor.value.trim();
+            
+            if (!text) {
+                showStatus('❌ Please enter some text to convert to PDF.', 'error');
+                return;
+            }
+
+            convertBtn.disabled = true;
+            convertBtn.textContent = 'Generating PDF...';
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Get settings
+                const docTitle = document.getElementById('docTitle').value || 'Document';
+                const fontFamily = document.getElementById('fontFamily').value;
+                const fontSize = parseInt(document.getElementById('fontSize').value);
+                const textColor = document.getElementById('textColor').value;
+                const lineHeight = parseFloat(document.getElementById('lineHeight').value);
+                const textAlign = document.getElementById('textAlign').value;
+                const pageSize = document.getElementById('pageSize').value;
+                const addPageNumbers = document.getElementById('addPageNumbers').checked;
+                const addTimestamp = document.getElementById('addTimestamp').checked;
+                const addMargins = document.getElementById('addMargins').checked;
+
+                // Set document properties
+                doc.setProperties({
+                    title: docTitle,
+                    creator: 'Text to PDF Converter',
+                    producer: 'jsPDF'
+                });
+
+                // Set font
+                const fontMap = {
+                    'helvetica': 'helvetica',
+                    'times': 'times',
+                    'courier': 'courier'
+                };
+                doc.setFont(fontMap[fontFamily]);
+                doc.setFontSize(fontSize);
+
+                // Set text color
+                const hexColor = textColor.replace('#', '');
+                const r = parseInt(hexColor.substr(0, 2), 16);
+                const g = parseInt(hexColor.substr(2, 2), 16);
+                const b = parseInt(hexColor.substr(4, 2), 16);
+                doc.setTextColor(r, g, b);
+
+                // Page dimensions
+                const pageWidth = doc.internal.pageSize.width;
+                const pageHeight = doc.internal.pageSize.height;
+                const margin = addMargins ? 20 : 10;
+                const maxWidth = pageWidth - (margin * 2);
+                const maxHeight = pageHeight - (margin * 2);
+
+                // Split text into lines
+                const lines = doc.splitTextToSize(text, maxWidth);
+                
+                let yPosition = margin;
+                let currentPage = 1;
+
+                // Add timestamp if requested
+                if (addTimestamp) {
+                    const timestamp = new Date().toLocaleString();
+                    doc.setFontSize(8);
+                    doc.text(`Generated: ${timestamp}`, margin, yPosition);
+                    yPosition += 10;
+                    doc.setFontSize(fontSize);
+                }
+
+                // Add text content
+                for (let i = 0; i < lines.length; i++) {
+                    if (yPosition > maxHeight) {
+                        doc.addPage();
+                        currentPage++;
+                        yPosition = margin;
+                    }
+
+                    const line = lines[i];
+                    let xPosition = margin;
+
+                    // Handle text alignment
+                    if (textAlign === 'center') {
+                        xPosition = pageWidth / 2;
+                        doc.text(line, xPosition, yPosition, { align: 'center' });
+                    } else if (textAlign === 'right') {
+                        xPosition = pageWidth - margin;
+                        doc.text(line, xPosition, yPosition, { align: 'right' });
+                    } else {
+                        doc.text(line, xPosition, yPosition);
+                    }
+
+                    yPosition += fontSize * lineHeight;
+                }
+
+                // Add page numbers if requested
+                if (addPageNumbers) {
+                    const totalPages = doc.internal.getNumberOfPages();
+                    for (let i = 1; i <= totalPages; i++) {
+                        doc.setPage(i);
+                        doc.setFontSize(8);
+                        doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+                    }
+                }
+
+                // Generate filename
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                const filename = `${docTitle.replace(/[^a-z0-9]/gi, '_')}_${timestamp}.pdf`;
+
+                // Save PDF
+                doc.save(filename);
+
+                showStatus(`✅ PDF generated successfully!<br>Document: <strong>${docTitle}</strong><br>Pages: <strong>${doc.internal.getNumberOfPages()}</strong>`, 'success');
+
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                showStatus('❌ Error generating PDF. Please try again.', 'error');
+            } finally {
+                convertBtn.disabled = false;
+                convertBtn.textContent = '🚀 Generate PDF';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePreview();
+            updateWordCount();
+
+            // Add entrance animations
+            const cards = document.querySelectorAll('.feature-card, .editor-section, .settings-panel');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

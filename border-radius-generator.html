@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Border Radius Generator – Create Custom CSS Border Radius Easily</title>
+  <meta name="description" content="Generate custom CSS border-radius values quickly with our free online Border Radius Generator. Design perfect rounded corners for your web elements with live preview.">
+  <meta name="keywords" content="Border Radius Generator, CSS Border Radius, Rounded Corners Generator, CSS Border Radius Tool, Online CSS Generator, Web Design Tools, Free Border Radius Tool">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Border Radius Generator",
+    "url": "https://converttools.site/border-radius-generator",
+    "description": "Generate custom CSS border-radius values quickly with our free online Border Radius Generator. Design perfect rounded corners for your web elements with live preview.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "YourSiteName",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.example.com/logo.png"
+      }
+    },
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "Border Radius Generator",
+      "operatingSystem": "All",
+      "applicationCategory": "Design Tool",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD"
+      }
+    }
+  }
+  </script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+
+
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      min-height: 100vh;
+      padding-top: 5rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      color: #1a1a1a;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .generator-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .controls {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .preview {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .preview-box {
+      width: 200px;
+      height: 200px;
+      background: #0066ff;
+      margin: 0 auto;
+      transition: all 0.3s ease;
+    }
+
+    .control-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .control-group h3 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .radius-control {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .input-group label {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      -webkit-appearance: none;
+      background: #ddd;
+      border-radius: 3px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #0066ff;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 0.3rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .code-output {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .copy-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: #0066ff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .copy-button:hover {
+      background: #0052cc;
+    }
+
+    .preset-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .preset-button {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-button:hover {
+      background: #f0f2f5;
+      border-color: #999;
+    }
+
+    @media (max-width: 768px) {
+      .generator-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+
+
+     .container2 {
+      max-width: 1160px;
+      margin: auto;
+      padding: 40px;
+    }
+    h1, h2 {
+      color: #3182ce;
+    }
+    p {
+      line-height: 1.7;
+    }
+
+    
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+    <div class="container">
+        <div class="header">
+          <h1>Border Radius Generator</h1>
+          <p>Create perfect rounded corners with this interactive tool</p>
+        </div>
+    
+        <div class="generator-container">
+          <div class="controls">
+            <div class="control-group">
+              <h3>Presets</h3>
+              <div class="preset-buttons">
+                <button class="preset-button" onclick="applyPreset('circle')">Circle</button>
+                <button class="preset-button" onclick="applyPreset('capsule')">Capsule</button>
+                <button class="preset-button" onclick="applyPreset('custom')">Custom</button>
+              </div>
+            </div>
+    
+            <div class="control-group">
+              <h3>Corner Controls</h3>
+              <div class="radius-control">
+                <div class="input-group">
+                  <label>Top Left</label>
+                  <input type="range" id="topLeft" min="0" max="100" value="10" oninput="updateRadius()">
+                  <input type="number" id="topLeftNum" value="10" min="0" max="100" oninput="updateRadiusFromNumber(this)">
+                </div>
+                <div class="input-group">
+                  <label>Top Right</label>
+                  <input type="range" id="topRight" min="0" max="100" value="10" oninput="updateRadius()">
+                  <input type="number" id="topRightNum" value="10" min="0" max="100" oninput="updateRadiusFromNumber(this)">
+                </div>
+                <div class="input-group">
+                  <label>Bottom Left</label>
+                  <input type="range" id="bottomLeft" min="0" max="100" value="10" oninput="updateRadius()">
+                  <input type="number" id="bottomLeftNum" value="10" min="0" max="100" oninput="updateRadiusFromNumber(this)">
+                </div>
+                <div class="input-group">
+                  <label>Bottom Right</label>
+                  <input type="range" id="bottomRight" min="0" max="100" value="10" oninput="updateRadius()">
+                  <input type="number" id="bottomRightNum" value="10" min="0" max="100" oninput="updateRadiusFromNumber(this)">
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="preview">
+            <div class="preview-box" id="previewBox"></div>
+            <div class="code-output" id="codeOutput">
+              border-radius: 10px 10px 10px 10px;
+              <button class="copy-button" onclick="copyCode()">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+
+
+      <div class="container">
+    <h1>Border Radius Generator</h1>
+    <p>
+      Easily create custom CSS <code>border-radius</code> values with our free online <strong>Border Radius Generator</strong>. Design smooth, rounded corners for your web elements with a live preview and instant CSS code output.
+    </p>
+
+    <h2>What is a Border Radius Generator?</h2>
+    <p>
+      A Border Radius Generator is a simple tool that helps web designers and developers generate the CSS code needed to create rounded corners on HTML elements. You can customize the radius for each corner individually or apply a uniform radius.
+    </p>
+
+    <h2>Why Use Our Border Radius Generator?</h2>
+    <ul>
+      <li>Generate precise CSS border-radius values with ease</li>
+      <li>Customize each corner independently for unique designs</li>
+      <li>See live preview of your design as you adjust values</li>
+      <li>Copy the generated CSS code instantly</li>
+      <li>Free and easy-to-use tool with no sign-up required</li>
+    </ul>
+
+    <h2>How to Use the Border Radius Generator?</h2>
+    <ol>
+      <li>Adjust the sliders or input values for each corner’s radius</li>
+      <li>Watch the live preview update in real-time</li>
+      <li>Copy the generated CSS code</li>
+      <li>Paste the code into your website’s stylesheet</li>
+    </ol>
+
+    <h2>Who Can Benefit from This Tool?</h2>
+    <ul>
+      <li>Web designers looking to create custom UI elements</li>
+      <li>Front-end developers building responsive layouts</li>
+      <li>Beginners learning CSS styling</li>
+      <li>Anyone wanting to add smooth rounded corners easily</li>
+    </ul>
+
+    <h2>Start Designing Beautiful Rounded Corners Now!</h2>
+    <p>
+      Use our <strong>Border Radius Generator</strong> to speed up your web design workflow and create visually appealing elements with perfect curves. It’s free, fast, and reliable!
+    </p>
+  </div>
+
+
+
+
+   <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+
+
+        function updateRadius() {
+      const topLeft = document.getElementById('topLeft').value;
+      const topRight = document.getElementById('topRight').value;
+      const bottomLeft = document.getElementById('bottomLeft').value;
+      const bottomRight = document.getElementById('bottomRight').value;
+
+      // Update number inputs
+      document.getElementById('topLeftNum').value = topLeft;
+      document.getElementById('topRightNum').value = topRight;
+      document.getElementById('bottomLeftNum').value = bottomLeft;
+      document.getElementById('bottomRightNum').value = bottomRight;
+
+      // Update preview
+      const borderRadius = `${topLeft}px ${topRight}px ${bottomRight}px ${bottomLeft}px`;
+      document.getElementById('previewBox').style.borderRadius = borderRadius;
+      
+      // Update code output
+      document.getElementById('codeOutput').innerHTML = `border-radius: ${borderRadius};
+        <button class="copy-button" onclick="copyCode()">Copy</button>`;
+    }
+
+    function updateRadiusFromNumber(input) {
+      const sliderId = input.id.replace('Num', '');
+      document.getElementById(sliderId).value = input.value;
+      updateRadius();
+    }
+
+    function applyPreset(type) {
+      let values = {
+        topLeft: 10,
+        topRight: 10,
+        bottomLeft: 10,
+        bottomRight: 10
+      };
+
+      switch(type) {
+        case 'circle':
+          values = {
+            topLeft: 100,
+            topRight: 100,
+            bottomLeft: 100,
+            bottomRight: 100
+          };
+          break;
+        case 'capsule':
+          values = {
+            topLeft: 50,
+            topRight: 50,
+            bottomLeft: 50,
+            bottomRight: 50
+          };
+          break;
+      }
+
+      Object.keys(values).forEach(key => {
+        document.getElementById(key).value = values[key];
+        document.getElementById(key + 'Num').value = values[key];
+      });
+
+      updateRadius();
+    }
+
+    function copyCode() {
+      const code = document.getElementById('codeOutput').innerText.replace('Copy', '').trim();
+      navigator.clipboard.writeText(code);
+      
+      const button = document.querySelector('.copy-button');
+      button.textContent = 'Copied!';
+      setTimeout(() => {
+        button.textContent = 'Copy';
+      }, 2000);
+    }
+
+    </script>
+</body>
+</html>

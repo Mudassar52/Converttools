@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Content enhancer - Emprover & Rewrite Text Online</title>
+<meta name="description" content="Improve your content with AI! Rewrite, enhance, and optimize text for better readability, SEO, and engagement. Free AI-powered content improver tool.">
+<meta name="keywords" content=" ai content enhancer, rewrite content with ai, improve text quality, paragraph improver, sentence enhancer tool, fix grammar with ai, enhance writing free">
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "WebApplication",
+ "name": "AI Content Enhancer",
+ "url": "https://converttools.site/AI-Content-Enhancer",
+"description": "Improve your content with AI! Rewrite, enhance, and optimize text for better readability, SEO, and engagement. Free AI-powered content improver tool.",
+"applicationCategory": "UtilityApplication",
+ "operatingSystem": "All",
+ "offers": {
+ "@type": "Offer",
+ "price": "0",
+ "priceCurrency": "USD"
+ }
+}
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+        :root {
+            --primary-gradient2: linear-gradient(135deg, #6366f1, #8b5cf6);
+            --glass-bg2: rgba(255, 255, 255, 0.1);
+            --glass-border2: rgba(255, 255, 255, 0.2);
+            --card-shadow2: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            --text-primary2: #f8fafc;
+            --text-secondary2: #cbd5e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(45deg, #0f172a, #1e293b);
+            color: var(--text-primary2);
+            overflow-x: hidden;
+            padding-top: 5rem;
+        }
+
+        .background-shapes {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 15s infinite;
+        }
+
+        .shape-1 {
+            background: #6366f1;
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+        }
+
+        .shape-2 {
+            background: #8b5cf6;
+            width: 400px;
+            height: 400px;
+            bottom: -150px;
+            right: -150px;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, 50px) rotate(90deg); }
+            50% { transform: translate(0, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: slideDown 0.5s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--primary-gradient2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            color: var(--text-secondary2);
+            font-size: 1.1rem;
+        }
+
+        .modes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .mode-card {
+            background: var(--glass-bg2);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .mode-card:nth-child(2) { animation-delay: 0.2s; }
+        .mode-card:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes fadeIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .mode-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .mode-card.active {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+        }
+
+        .mode-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .mode-card p {
+            color: var(--text-secondary2);
+            font-size: 0.9rem;
+        }
+
+        .editors-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .editor-card {
+            background: var(--glass-bg2);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow2);
+            opacity: 0;
+            animation: slideUp 0.5s ease forwards 0.6s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .editor-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--glass-border2);
+            border-radius: 0.75rem;
+            color: var(--text-primary2);
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: slideUp 0.5s ease forwards 0.8s;
+        }
+
+        .button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .button-primary {
+            background: var(--primary-gradient2);
+            color: white;
+        }
+
+        .button-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .button-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary2);
+            border: 1px solid var(--glass-border2);
+        }
+
+        .button-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            color: #6366f1;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(99, 102, 241, 0.1);
+            border-top: 3px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-message {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .editors-container {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                justify-content: center;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="background-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>Ai Content Enhancer</h1>
+            <p>Transform your content with AI-powered intelligence</p>
+        </header>
+
+        <div class="modes-grid">
+            <div class="mode-card active" data-mode="professional">
+                <h3>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    Professional
+                </h3>
+                <p>Enhance clarity and professionalism</p>
+            </div>
+            <div class="mode-card" data-mode="creative">
+                <h3>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg>
+                    Creative
+                </h3>
+                <p>Add creative flair and engagement</p>
+            </div>
+            <div class="mode-card" data-mode="academic">
+                <h3>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
+                    </svg>
+                    Academic
+                </h3>
+                <p>Scholarly and research-oriented tone</p>
+            </div>
+        </div>
+
+        <div class="editors-container">
+            <div class="editor-card">
+                <div class="editor-header">
+                    <span class="editor-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                        </svg>
+                        Original Content
+                    </span>
+                </div>
+                <textarea id="inputText" placeholder="Enter your content here..."></textarea>
+            </div>
+
+            <div class="editor-card">
+                <div class="editor-header">
+                    <span class="editor-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Enhanced Content
+                    </span>
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <span>Enhancing...</span>
+                    </div>
+                </div>
+                <textarea id="outputText" placeholder="Enhanced content will appear here..." readonly></textarea>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="button button-primary" onclick="improveContent()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Enhance Content
+            </button>
+            <button class="button button-secondary" onclick="downloadText()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                Download
+            </button>
+            <button class="button button-secondary" onclick="clearText()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <div class="status-message" id="statusMessage"></div>
+
+
+    
+<section style="margin-top: 60px; padding: 50px;  border-radius: 20px; color: #ffffff; font-family: 'Poppins', sans-serif; box-shadow: 0 25px 50px rgba(0,0,0,0.3);">
+  <h2 style="font-size: 2.6rem; margin-bottom: 25px; text-align: center;">AI Content Enhancer – Make Your Writing Shine</h2>
+
+
+  <p style="font-size: 1.15rem; line-height: 1.9; max-width: 900px; margin: 0 auto 40px auto; text-align: center;">
+    Improve the clarity, style, and impact of your writing with our powerful <strong>AI Content Enhancer Tool</strong>. Whether you're editing an article, email, academic paper, or social media post, our AI instantly rewrites and refines your content to make it more polished, professional, and engaging.
+  </p>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #facc15;">What Can This Tool Do?</h3>
+  <ul style="font-size: 1.05rem; padding-left: 20px; line-height: 1.8;">
+    <li>Rewrites sentences with better structure and flow</li>
+    <li>Corrects grammar, spelling, and punctuation errors</li>
+    <li>Improves vocabulary and tone of voice</li>
+    <li>Makes content more engaging and professional</li>
+    <li>Perfect for blogs, emails, academic writing, and more</li>
+  </ul>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #34d399;">How to Use the AI Content Enhancer:</h3>
+  <ol style="font-size: 1.05rem; padding-left: 20px; line-height: 1.8;">
+    <li>Paste your text into the input box</li>
+    <li>Select enhancement level: soft, standard, or strong</li>
+    <li>Click <strong>“Enhance Content”</strong></li>
+    <li>Copy and use your improved text instantly</li>
+  </ol>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #60a5fa;">Who Should Use It?</h3>
+  <p style="font-size: 1.1rem; line-height: 1.9;">
+    Designed for students, writers, professionals, bloggers, and marketers who want their content to look more polished, persuasive, and impactful — without hiring an editor.
+  </p>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #f472b6;">Smart. Fast. Effective.</h3>
+  <p style="font-size: 1.1rem; line-height: 1.9;">
+    Our AI reads your content like a human editor and upgrades it for grammar, tone, and quality — all while keeping your message intact. It’s like having a professional proofreader in your pocket.
+  </p>
+
+
+  <p style="font-size: 0.95rem; margin-top: 40px; color: #d1d5db; text-align: center;">
+    <strong>Tags:</strong> ai content enhancer, rewrite content with ai, improve text quality, paragraph improver, sentence enhancer tool, fix grammar with ai, enhance writing free
+  </p>
+</section>
+ 
+
+
+ <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+
+// API Configuration
+const OPENAI_API_KEY = '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';
+const API_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions';
+const API_MODEL = 'llama-3.3-70b-versatile';
+
+// Global variables
+let selectedMode = 'professional';
+let lastAPICall = 0;
+const API_COOLDOWN = 1000;
+const MAX_CONTENT_LENGTH = 4000;
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', () => {
+    setupModeSelection();
+    setupAutoSave();
+    setupTextAreaEvents();
+    loadSavedContent();
+});
+
+// Mode selection setup
+function setupModeSelection() {
+    document.querySelectorAll('.mode-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+            card.classList.add('active');
+            selectedMode = card.dataset.mode;
+            showStatus(`Mode switched to ${selectedMode}`);
+        });
+    });
+}
+
+// Content improvement function
+async function improveContent() {
+    const inputText = document.getElementById('inputText').value;
+    
+    // Input validation
+    if (!validateInput(inputText)) return;
+    
+    showLoading(true);
+    try {
+        const improvedText = await callOpenAI(inputText);
+        document.getElementById('outputText').value = improvedText;
+        showStatus('Content enhanced successfully!', 'success');
+        saveToHistory(inputText, improvedText);
+    } catch (error) {
+        console.error('Enhancement error:', error);
+        showStatus(error.message || 'Failed to enhance content', 'error');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// OpenAI API call
+async function callOpenAI(text) {
+    const prompts = {
+        professional: "Enhance this text to make it more professional and formal while preserving its core meaning:",
+        creative: "Transform this text with creative and engaging language while maintaining its message:",
+        academic: "Convert this text into academic language with scholarly tone:"
+    };
+
+    try {
+        const response = await fetch(API_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: API_MODEL,
+                messages: [
+                    {
+                        "role": "system",
+                        "content": `You are an advanced content enhancement AI. ${prompts[selectedMode]}`
+                    },
+                    {
+                        "role": "user",
+                        "content": text
+                    }
+                ],
+                temperature: 0.7,
+                max_tokens: 2000,
+                presence_penalty: 0.3,
+                frequency_penalty: 0.3
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error?.message || 'API request failed');
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+
+    } catch (error) {
+        console.error('API Error:', error);
+        throw new Error('Failed to connect to enhancement service');
+    }
+}
+
+// Input validation
+function validateInput(text) {
+    if (!text) {
+        showStatus('Please enter content to enhance', 'error');
+        return false;
+    }
+
+    if (text.length > MAX_CONTENT_LENGTH) {
+        showStatus(`Content too long. Maximum ${MAX_CONTENT_LENGTH} characters allowed`, 'error');
+        return false;
+    }
+
+    const now = Date.now();
+    if (now - lastAPICall < API_COOLDOWN) {
+        showStatus('Please wait before making another request', 'error');
+        return false;
+    }
+
+    return true;
+}
+
+// UI Feedback Functions
+function showLoading(show) {
+    document.querySelector('.loading').style.display = show ? 'flex' : 'none';
+    const enhanceButton = document.querySelector('.button-primary');
+    enhanceButton.disabled = show;
+    enhanceButton.style.opacity = show ? '0.7' : '1';
+}
+
+function showStatus(message, type = 'info') {
+    const statusElement = document.getElementById('statusMessage');
+    statusElement.textContent = message;
+    statusElement.style.background = {
+        error: 'rgba(220, 38, 38, 0.9)',
+        success: 'rgba(34, 197, 94, 0.9)',
+        info: 'rgba(0, 0, 0, 0.8)'
+    }[type];
+    
+    statusElement.style.display = 'block';
+    statusElement.style.animation = 'slideIn 0.3s ease';
+    
+    setTimeout(() => {
+        statusElement.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            statusElement.style.display = 'none';
+        }, 300);
+    }, 3000);
+}
+
+// Content Management Functions
+function setupAutoSave() {
+    let saveTimeout;
+    document.getElementById('inputText').addEventListener('input', (e) => {
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            localStorage.setItem('savedContent', e.target.value);
+            showStatus('Content auto-saved', 'info');
+        }, 1000);
+    });
+}
+
+function loadSavedContent() {
+    const savedContent = localStorage.getItem('savedContent');
+    if (savedContent) {
+        document.getElementById('inputText').value = savedContent;
+    }
+}
+
+function setupTextAreaEvents() {
+    const textArea = document.getElementById('inputText');
+    textArea.addEventListener('input', () => {
+        updateCharacterCount(textArea.value);
+        adjustTextAreaHeight(textArea);
+    });
+}
+
+function updateCharacterCount(text) {
+    const remaining = MAX_CONTENT_LENGTH - text.length;
+    if (remaining < 500) {
+        showStatus(`${remaining} characters remaining`, remaining < 0 ? 'error' : 'info');
+    }
+}
+
+function adjustTextAreaHeight(element) {
+    element.style.height = 'auto';
+    element.style.height = (element.scrollHeight) + 'px';
+}
+
+// Content History Management
+function saveToHistory(original, improved) {
+    const history = JSON.parse(localStorage.getItem('enhancementHistory') || '[]');
+    history.unshift({
+        original,
+        improved,
+        mode: selectedMode,
+        timestamp: new Date().toISOString()
+    });
+    
+    // Keep only last 10 entries
+    if (history.length > 10) history.pop();
+    localStorage.setItem('enhancementHistory', JSON.stringify(history));
+}
+
+// Utility Functions
+function downloadText() {
+    const text = document.getElementById('outputText').value;
+    if (!text) {
+        showStatus('No content to download', 'error');
+        return;
+    }
+
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `enhanced-content-${selectedMode}-${new Date().toISOString().slice(0,10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showStatus('Content downloaded successfully!', 'success');
+}
+
+function clearText() {
+    document.getElementById('inputText').value = '';
+    document.getElementById('outputText').value = '';
+    showStatus('Content cleared');
+    adjustTextAreaHeight(document.getElementById('inputText'));
+}
+
+function copyToClipboard() {
+    const outputText = document.getElementById('outputText').value;
+    if (!outputText) {
+        showStatus('No content to copy', 'error');
+        return;
+    }
+
+    navigator.clipboard.writeText(outputText)
+        .then(() => showStatus('Copied to clipboard!', 'success'))
+        .catch(() => showStatus('Failed to copy', 'error'));
+}
+    </script>
+</body>
+</html>

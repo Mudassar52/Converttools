@@ -1,0 +1,647 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Free Robots.txt Generator - SEO Optimized Crawling</title>
+<meta name="description" content="Create a perfectly optimized robots.txt file for your website. Improve SEO rankings, control search engine crawlers, and enhance website visibility.">
+<meta name="keywords" content="robots.txt SEO tool, best robots.txt generator, website crawling settings, block bots in robots.txt, robots.txt for WordPress, how to use robots.txt, online robots.txt creator, search engine bot management, custom robots.txt settings, optimize website indexing">
+<meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #f4f6f7;
+            --text-color: #2c3e50;
+            --card-background: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background-color);
+            line-height: 1.6;
+            color: var(--text-color);
+            padding-top: 5rem;
+        }
+
+         /* Navigation Styles */
+         .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .generator-card {
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .generator-header {
+            background: linear-gradient(135deg, var(--primary-color), #8e44ad);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .generator-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .generator-content {
+            padding: 2rem;
+        }
+
+        .form-section {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .output-section {
+            background-color: #f1f3f4;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .output-textarea {
+            width: 100%;
+            min-height: 200px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            background-color: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .generator-content {
+                padding: 1rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+
+
+
+
+
+
+         .container2 {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px;
+      border-radius: 12px;
+    }
+    h1, h2, h3 {
+      color: #111827;
+    }
+    code, pre {
+      background: #f3f4f6;
+      padding: 12px;
+      display: block;
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+    .highlight {
+      color: #2563eb;
+      font-weight: 600;
+    }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="generator-card">
+            <div class="generator-header">
+                <h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3a7.5 7.5 0 1 1 -7.5 7.5"/>
+                        <path d="M12 3a7.5 7.5 0 0 0 7.5 7.5"/>
+                        <path d="M12 3v5.5"/>
+                        <path d="M18.5 16.5a7.5 7.5 0 1 1 -13 -5"/>
+                        <path d="M22 22c-2.5 -1.5 -4 -3.5 -4 -6.5"/>
+                    </svg>
+                    Robots.txt Generator
+                </h1>
+            </div>
+            
+            <div class="generator-content">
+                <form id="robotsForm" class="form-section">
+                    <div class="form-group">
+                        <label for="siteName">Website Name</label>
+                        <input type="text" id="siteName" class="input-field" placeholder="Enter your website name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="siteUrl">Website URL</label>
+                        <input type="url" id="siteUrl" class="input-field" placeholder="https://www.example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <h3>Crawl Settings</h3>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="allowAll" name="crawlSetting">
+                            <label for="allowAll">Allow All Crawlers</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="blockAll" name="crawlSetting">
+                            <label for="blockAll">Block All Crawlers</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Disallow Paths</label>
+                        <input type="text" id="disallowPaths" class="input-field" placeholder="/private/ /admin/">
+                    </div>
+
+                    <button type="button" onclick="generateRobotsTxt()" class="btn">
+                        Generate Robots.txt
+                    </button>
+                </form>
+
+                <div class="output-section">
+                    <textarea id="robotsOutput" class="output-textarea" readonly placeholder="Your generated robots.txt will appear here..."></textarea>
+                    <div class="button-group">
+                        <button onclick="copyToClipboard()" class="btn">
+                            Copy to Clipboard
+                        </button>
+                        <button onclick="downloadRobotsTxt()" class="btn">
+                            Download robots.txt
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<div class="container2">
+    <h1>Robots.txt Generator – Create Your Robots.txt File in Seconds</h1>
+
+    <p>The <strong>Robots.txt Generator Tool</strong> is the simplest way to create a <code>robots.txt</code> file for your website. Whether you're a developer, blogger, or business owner, this tool helps you define how search engine bots interact with your site. No need to write code manually—just input your preferences, and generate a perfectly formatted robots.txt file instantly.</p>
+
+    <h2>🔍 What is a Robots.txt File?</h2>
+    <p>A <code>robots.txt</code> file is a standard used by websites to communicate with web crawlers (bots). It tells search engines which parts of your website can or cannot be indexed. This helps with:</p>
+    <ul>
+      <li>Improving crawl efficiency</li>
+      <li>Protecting sensitive content</li>
+      <li>Managing duplicate content</li>
+      <li>Directing bots to important resources</li>
+    </ul>
+
+    <h2>🚀 Why Use Our Robots.txt Generator?</h2>
+    <ul>
+      <li><span class="highlight">User-Friendly Interface</span> – Just fill in a few fields and click “Generate”</li>
+      <li><span class="highlight">Instant Results</span> – No waiting, no errors</li>
+      <li><span class="highlight">Secure and Private</span> – We never store your inputs</li>
+      <li><span class="highlight">Sitemap Integration</span> – Optional XML sitemap support</li>
+      <li><span class="highlight">Clean Output</span> – Professional syntax ready to upload</li>
+    </ul>
+
+    <h2>🛠 How to Use the Tool</h2>
+    <ol>
+      <li>Enter User-Agent (like <code>*</code> for all bots)</li>
+      <li>Add allowed and disallowed paths</li>
+      <li>Optionally add a sitemap URL</li>
+      <li>Click Generate and copy the output</li>
+    </ol>
+
+    <h2>📂 Example Output</h2>
+    <pre><code>User-agent: *
+Allow: /
+Disallow: /private
+Sitemap: https://example.com/sitemap.xml</code></pre>
+
+    <h2>👨‍💻 Who Should Use This Tool?</h2>
+    <p>This tool is perfect for:</p>
+    <ul>
+      <li>Website Owners</li>
+      <li>Developers</li>
+      <li>SEO Specialists</li>
+      <li>Bloggers</li>
+      <li>eCommerce Managers</li>
+    </ul>
+
+    <h2>🎯 Final Thoughts</h2>
+    <p>The Robots.txt Generator helps you gain better visibility and control over your website's SEO performance. It's fast, free, and built for anyone who wants to manage search engine behavior without learning complicated syntax. Try it today and ensure your site is crawled <strong>exactly how you want it to be</strong>.</p>
+  </div>
+
+
+
+
+   <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+
+    <script>
+        function generateRobotsTxt() {
+            const siteName = document.getElementById('siteName').value;
+            const siteUrl = document.getElementById('siteUrl').value;
+            const disallowPaths = document.getElementById('disallowPaths').value;
+            const allowAll = document.getElementById('allowAll').checked;
+            const blockAll = document.getElementById('blockAll').checked;
+
+            let robotsTxt = `# Robots.txt for ${siteName || 'Website'}\n`;
+            robotsTxt += `# Generated on ${new Date().toLocaleDateString()}\n\n`;
+
+            if (blockAll) {
+                robotsTxt += "User-agent: *\nDisallow: /\n";
+            } else if (allowAll) {
+                robotsTxt += "User-agent: *\nAllow: /\n";
+            } else {
+                robotsTxt += "User-agent: *\n";
+                if (disallowPaths) {
+                    disallowPaths.split(' ').forEach(path => {
+                        robotsTxt += `Disallow: ${path}\n`;
+                    });
+                }
+            }
+
+            robotsTxt += `\nSitemap: ${siteUrl}/sitemap.xml`;
+
+            document.getElementById('robotsOutput').value = robotsTxt;
+        }
+
+        function copyToClipboard() {
+            const robotsOutput = document.getElementById('robotsOutput');
+            robotsOutput.select();
+            robotsOutput.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(robotsOutput.value);
+            alert('Robots.txt copied to clipboard!');
+        }
+
+function downloadRobotsTxt() {
+    const robotsOutput = document.getElementById('robotsOutput');
+    
+    if (!robotsOutput.value) {
+        alert('Please generate a robots.txt file first!');
+        return;
+    }
+
+    const blob = new Blob([robotsOutput.value], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'robots.txt';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+        // Prevent multiple checkbox selections
+        document.getElementById('allowAll').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('blockAll').checked = false;
+            }
+        });
+
+        document.getElementById('blockAll').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('allowAll').checked = false;
+            }
+        });
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create engaging, original, and SEO-friendly content quickly with our AI Writer tool. Perfect for blogs, articles, marketing copy, and more. Free to use with no signup required.
+">
+    <meta name="keywords" content="AI content writer, content generation, AI writing tool, blog writer, article generator, copywriting, Llama 3.3">
+    <meta name="author" content="AI Content Writer">
+    <meta property="og:title" content="AI Content Writer - Generate Professional Content Instantly">
+    <meta property="og:description" content="Create engaging articles, blogs, marketing copy and more with advanced AI. Powered by Llama 3.3 70B model.">
+    <meta property="og:type" content="website">
+    <title>AI Writer – Generate High-Quality Content Instantly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "AI Writer",
+  "url": "https://converttools.site/ai-writer",
+  "description": "Generate original, SEO-friendly content quickly using our AI Writer tool. Ideal for bloggers, marketers, and content creators.",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #00e6b3;
+            --text-color: #333;
+            --bg-color: #f5f5f5;
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --white: #ffffff;
+            --shadow: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        
+        /* Navigation Styles */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            background: rgba(26, 115, 232, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown a {
+            display: block;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-color);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: 0.3s;
+                overflow-y: auto;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-left: 1rem;
+                margin-top: 0.5rem;
+                display: none;
+            }
+
+            .nav-menu li.active .dropdown {
+                display: block;
+            }
+
+            .nav-menu a {
+                display: block;
+                padding: 1rem;
+                width: 100%;
+            }
+        }
+
+
+       
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 2rem;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-top: 4rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Main Content Area */
+        .content-area {
+            background: var(--white);
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 80vh;
+        }
+
+        /* Input Section */
+        .input-section {
+            padding: 2rem;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f3f4f6;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .section-header .icon {
+            font-size: 1.5rem;
+        }
+
+        /* Content Type Selection */
+        .content-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .content-type {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .content-type:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .content-type.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+        }
+
+        .content-type .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .content-type .label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        /* Settings */
+        .settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .setting-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .setting-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e5e7eb;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Generate Button */
+        .generate-btn {
+            background: var(--gradient);
+            color: var(--white);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            margin-top: auto;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Output Section */
+        .output-section {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            background: #fafafa;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .output-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--primary);
+            background: var(--white);
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Output Content */
+        .output-content {
+            flex: 1;
+            background: var(--white);
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 2rem;
+            min-height: 400px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            overflow-y: auto;
+        }
+
+        .output-placeholder {
+            color: var(--gray);
+            text-align: center;
+            padding: 4rem 2rem;
+            font-style: italic;
+        }
+
+        .output-placeholder .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            opacity: 0.3;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .message.success {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .message.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: rgba(139, 92, 246, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .input-section {
+                border-right: none;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .settings {
+                grid-template-columns: 1fr;
+            }
+
+            .content-types {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 2rem 0 1rem;
+            }
+
+            .input-section,
+            .output-section {
+                padding: 1.5rem;
+            }
+
+            .content-types {
+                grid-template-columns: 1fr;
+            }
+
+            .output-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-file-pdf"></i>
+                ConvertTools
+            </a>
+            <button class="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="./index.html" class="nav-link">Home</a></li>
+                <li>
+                    <a href="#" class="nav-link">Img Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./jpg-to-png.html"><i class="fas fa-file-alt"></i> Jpg to Png</a>
+                        <a href="./png-to-jpg.html"><i class="fas fa-file-alt"></i> Png to Jpg</a>
+                        <a href="./image-to-pdf.html"><i class="fas fa-image"></i> Image to PDF</a>
+                        <a href="./pdf-to-image-converter.html"><i class="fas fa-image"></i> PDF to Image</a>
+                        <a href="./image_resizer.html"><i class="fas fa-image"></i> image resizer</a>
+                        <a href="./youtube-thumbnail-downloader.html"><i class="fas fa-download"></i> Thumbnail</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">Text Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./text-to-pdf-converter.html"><i class="fas fa-file-pdf"></i> Text to PDF</a>
+                        <a href="./Code-Minifier-Pro.html"><i class="fas fa-file-word"></i> Code Minifier</a>
+                        <a href="./QR-Code-Generator.html"><i class="fas fa-file-alt"></i> QR Code Generator</a>
+                        <a href="./code-editor.html"><i class="fas fa-code"></i> Code Editor</a>
+                        <a href="./robots-txt-generator (1).html"><i class="fas fa-table"></i> Robots Txt Generator</a>
+                        <a href="./pdf-split.html"><i class="fas fa-file-pdf"></i> PDF Split</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">PDF Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./merge-pdf.html"><i class="fas fa-file-alt"></i> Merge PDF</a>
+                        <a href="./meta_tag_analyzer.html"><i class="fas fa-file-alt"></i> Tag Analyzer</a>
+                        <a href="./ip-Address-finder.html"><i class="fas fa-file-word"></i> Ip Finder</a>
+                        <a href="./pdf-to-zip-converter.html"><i class="fas fa-file-pdf"></i> PDF to Zip</a>
+                        <a href="./pdf-to-image-extractor.html"><i class="fas fa-file-pdf"></i> Image Extractor </a>
+                        <a href="./article-rewriter.html"><i class="fas fa-file-alt"></i> Article Rewriter</a>
+                    </div>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">DOC Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown">
+                        <a href="./ai-article-writer.html"><i class="fas fa-file-pdf"></i> Article writer</a>
+                        <a href="./ai-cold-email-writer.html"><i class="fas fa-file-pdf"></i> Email Writer</a>
+                        <a href="./ai-image-background-remover.html"><i class="fas fa-file-pdf"></i> Background Remover</a>
+                        <a href="./image_compressor.html"><i class="fas fa-image"></i> Image compressor</a>
+                        <a href="./image_converter.html"><i class="fas fa-image"></i> Image Converter</a>
+                        <a href="./pdf_watermark.html"><i class="fas fa-file-pdf"></i> WaterMarke to PDF</a>
+                    </div>
+                </li>
+                <li><a href="./tools-dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Professional AI Content Writer</h1>
+                <p>Generate high-quality content instantly with Llama 3.3 70B. Create articles, blogs, marketing copy, creative writing, and more with advanced AI assistance.</p>
+            </div>
+        </section>
+
+        <section class="container">
+            <div class="content-area">
+                <div class="content-grid">
+                    <!-- Input Section -->
+                    <div class="input-section">
+                        <div class="section-header">
+                            <span class="icon">⚙️</span>
+                            <h2>Content Settings</h2>
+                        </div>
+
+                        <!-- Content Type Selection -->
+                        <div class="form-group">
+                            <label>Content Type</label>
+                            <div class="content-types">
+                                <div class="content-type active" data-type="blog">
+                                    <span class="icon">📝</span>
+                                    <div class="label">Blog Post</div>
+                                </div>
+                                <div class="content-type" data-type="article">
+                                    <span class="icon">📰</span>
+                                    <div class="label">Article</div>
+                                </div>
+                                <div class="content-type" data-type="marketing">
+                                    <span class="icon">📢</span>
+                                    <div class="label">Marketing</div>
+                                </div>
+                                <div class="content-type" data-type="creative">
+                                    <span class="icon">🎨</span>
+                                    <div class="label">Creative</div>
+                                </div>
+                                <div class="content-type" data-type="technical">
+                                    <span class="icon">⚙️</span>
+                                    <div class="label">Technical</div>
+                                </div>
+                                <div class="content-type" data-type="social">
+                                    <span class="icon">📱</span>
+                                    <div class="label">Social Media</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Topic Input -->
+                        <div class="form-group">
+                            <label for="topic">Content Topic/Title</label>
+                            <input type="text" id="topic" class="form-control" placeholder="Enter your content topic or title...">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="form-group">
+                            <label for="description">Description/Brief</label>
+                            <textarea id="description" class="form-control" placeholder="Provide additional context, key points, or specific requirements..."></textarea>
+                        </div>
+
+                        <!-- Target Audience -->
+                        <div class="form-group">
+                            <label for="audience">Target Audience</label>
+                            <input type="text" id="audience" class="form-control" placeholder="e.g., Business professionals, Students, General audience...">
+                        </div>
+
+                        <!-- Tone Selection -->
+                        <div class="form-group">
+                            <label for="tone">Tone of Voice</label>
+                            <select id="tone" class="form-control">
+                                <option value="professional">Professional</option>
+                                <option value="casual">Casual & Friendly</option>
+                                <option value="formal">Formal</option>
+                                <option value="conversational">Conversational</option>
+                                <option value="persuasive">Persuasive</option>
+                                <option value="informative">Informative</option>
+                                <option value="creative">Creative</option>
+                                <option value="humorous">Humorous</option>
+                            </select>
+                        </div>
+
+                        <!-- Settings -->
+                        <div class="settings">
+                            <div class="setting-group">
+                                <label for="wordCount">Word Count: <span id="wordCountValue">500</span></label>
+                                <input type="range" id="wordCount" class="slider" min="100" max="2000" value="500">
+                            </div>
+                            <div class="setting-group">
+                                <label for="creativity">Creativity: <span id="creativityValue">0.7</span></label>
+                                <input type="range" id="creativity" class="slider" min="0.1" max="1.0" step="0.1" value="0.7">
+                            </div>
+                        </div>
+
+                        <!-- Generate Button -->
+                        <button id="generateBtn" class="generate-btn">
+                            ✨ Generate Content
+                        </button>
+
+                        <div class="message" id="messageBox"></div>
+                    </div>
+
+                    <!-- Output Section -->
+                    <div class="output-section">
+                        <div class="output-header">
+                            <div class="section-header">
+                                <span class="icon">📄</span>
+                                <h2>Generated Content</h2>
+                            </div>
+                            <div class="output-actions">
+                                <button class="action-btn" id="copyBtn">
+                                    📋 Copy
+                                </button>
+                                <button class="action-btn" id="downloadBtn">
+                                    💾 Download
+                                </button>
+                                <button class="action-btn" id="clearBtn">
+                                    🗑️ Clear
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="loading" id="loadingDiv">
+                            <div class="loading-spinner"></div>
+                            <div class="loading-text">Generating your content...</div>
+                        </div>
+
+                        <div class="output-content" id="outputContent">
+                            <div class="output-placeholder">
+                                <span class="icon">✍️</span>
+                                <p>Your generated content will appear here. Fill in the settings and click "Generate Content" to start.</p>
+                            </div>
+                        </div>
+
+                        <div class="stats" id="contentStats" style="display: none;">
+                            <div class="stat">
+                                <div class="stat-number" id="wordsCount">0</div>
+                                <div class="stat-label">Words</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number" id="charactersCount">0</div>
+                                <div class="stat-label">Characters</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-number" id="readingTime">0</div>
+                                <div class="stat-label">Min Read</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <section style="margin-top: 60px; padding: 50px; border-radius: 20px; color: #ffffff; font-family: 'Poppins', sans-serif; box-shadow: 0 25px 50px rgba(0,0,0,0.3);">
+  <h2 style="font-size: 2.8rem; margin-bottom: 25px; color: #ffffff; text-align: center;">AI Writer – Your Smart Content Creation Assistant</h2>
+
+
+  <p style="font-size: 1.15rem; line-height: 1.9; max-width: 900px; margin: 0 auto 40px auto; text-align: center;">
+    Unleash the power of AI with our advanced <strong>AI Writing Tool</strong>. Whether you're writing blog posts, social media captions, product descriptions, or academic content, our AI writer helps you generate high-quality, plagiarism-free text in seconds. Save time, boost creativity, and write smarter with just a click.
+  </p>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #facc15;">Why Use Our AI Writer?</h3>
+  <ul style="font-size: 1.05rem; padding-left: 20px; line-height: 1.8;">
+    <li>Generate human-like content in seconds</li>
+    <li>Choose tone: formal, creative, professional, friendly</li>
+    <li>Perfect for blogs, ads, emails, and more</li>
+    <li>No sign-up required – free and easy to use</li>
+    <li>AI-powered, grammar-aware, and smart formatting</li>
+  </ul>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #34d399;">How It Works:</h3>
+  <ol style="font-size: 1.05rem; padding-left: 20px; line-height: 1.8;">
+    <li>Type your topic or prompt in the input box</li>
+    <li>Select tone, word count, or writing style (optional)</li>
+    <li>Click <strong>“Generate”</strong> to create content instantly</li>
+    <li>Copy, refine, and publish – it’s that simple</li>
+  </ol>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #60a5fa;">Who Is This Tool For?</h3>
+  <p style="font-size: 1.1rem; line-height: 1.9;">
+    Ideal for content creators, marketers, entrepreneurs, students, and freelancers. Whether you’re building websites, writing essays, or growing a brand – our AI writer is your personal content assistant.
+  </p>
+
+
+  <h3 style="font-size: 2rem; margin-top: 40px; color: #f472b6;">Fast. Reliable. Creative.</h3>
+  <p style="font-size: 1.1rem; line-height: 1.9;">
+    Powered by advanced language models, our AI writer crafts content that reads naturally and flows smoothly. Say goodbye to writer’s block and hello to high-performing content.
+  </p>
+
+
+  <p style="font-size: 0.95rem; margin-top: 40px; color: #d1d5db; text-align: center;">
+    <strong>Tags:</strong> ai writing tool, ai content generator, generate blog content, smart article writer, free ai writer online, best ai writing software, automatic text creator
+  </p>
+</section>
+
+
+
+ <!-- Footer Start -->
+<footer style="background-color: #f8f8f8; padding: 20px 0; text-align: center; font-size: 14px; color: #555;">
+  <div style="max-width: 1200px; margin: auto;">
+    <p>&copy; 2025 ConvertTools. All rights reserved.</p>
+    <p>
+      <a href="./Privacy-Policy.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Privacy Policy</a> |
+      <a href="./contact-us.html" style="margin: 0 10px; text-decoration: none; color: #007bff;">Contact</a>
+    </p>
+  </div>
+</footer>
+<!-- Footer End -->
+    <script>
+
+         document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Toggle mobile menu
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.querySelector('i').classList.toggle('fa-bars');
+                hamburger.querySelector('i').classList.toggle('fa-times');
+            });
+
+            // Handle dropdown toggles on mobile
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && link.nextElementSibling?.classList.contains('dropdown')) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    navMenu.classList.remove('active');
+                    hamburger.querySelector('i').classList.remove('fa-times');
+                    hamburger.querySelector('i').classList.add('fa-bars');
+                }
+            });
+        });
+
+
+        // API Configuration
+        const API_KEY = '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';
+        const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+        const MODEL = 'llama-3.3-70b-versatile';
+
+        // DOM Elements
+        let contentTypes, topicInput, descriptionInput, audienceInput, toneSelect;
+        let wordCountSlider, creativitySlider, wordCountValue, creativityValue;
+        let generateBtn, copyBtn, downloadBtn, clearBtn;
+        let messageBox, loadingDiv, outputContent, contentStats;
+        let wordsCount, charactersCount, readingTime;
+
+        // Current settings
+        let currentContentType = 'blog';
+        let generatedContent = '';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeElements();
+            setupEventListeners();
+            console.log('AI Content Writer initialized');
+        });
+
+        function initializeElements() {
+            contentTypes = document.querySelectorAll('.content-type');
+            topicInput = document.getElementById('topic');
+            descriptionInput = document.getElementById('description');
+            audienceInput = document.getElementById('audience');
+            toneSelect = document.getElementById('tone');
+            
+            wordCountSlider = document.getElementById('wordCount');
+            creativitySlider = document.getElementById('creativity');
+            wordCountValue = document.getElementById('wordCountValue');
+            creativityValue = document.getElementById('creativityValue');
+            
+            generateBtn = document.getElementById('generateBtn');
+            copyBtn = document.getElementById('copyBtn');
+            downloadBtn = document.getElementById('downloadBtn');
+            clearBtn = document.getElementById('clearBtn');
+            
+            messageBox = document.getElementById('messageBox');
+            loadingDiv = document.getElementById('loadingDiv');
+            outputContent = document.getElementById('outputContent');
+            contentStats = document.getElementById('contentStats');
+            
+            wordsCount = document.getElementById('wordsCount');
+            charactersCount = document.getElementById('charactersCount');
+            readingTime = document.getElementById('readingTime');
+        }
+
+        function setupEventListeners() {
+            // Content type selection
+            contentTypes.forEach(type => {
+                type.addEventListener('click', function() {
+                    contentTypes.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentContentType = this.dataset.type;
+                });
+            });
+
+            // Slider updates
+            wordCountSlider.addEventListener('input', function() {
+                wordCountValue.textContent = this.value;
+            });
+
+            creativitySlider.addEventListener('input', function() {
+                creativityValue.textContent = this.value;
+            });
+
+            // Generate button
+            generateBtn.addEventListener('click', generateContent);
+
+            // Action buttons
+            copyBtn.addEventListener('click', copyToClipboard);
+            downloadBtn.addEventListener('click', downloadContent);
+            clearBtn.addEventListener('click', clearContent);
+
+            // Enter key in topic input
+            topicInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    generateContent();
+                }
+            });
+        }
+
+        async function generateContent() {
+            const topic = topicInput.value.trim();
+            const description = descriptionInput.value.trim();
+            const audience = audienceInput.value.trim();
+            const tone = toneSelect.value;
+            const wordCount = wordCountSlider.value;
+            const creativity = creativitySlider.value;
+
+            // Validation
+            if (!topic) {
+                showMessage('❌ Please enter a topic or title for your content', 'error');
+                return;
+            }
+
+            try {
+                setLoading(true);
+                hideMessage();
+
+                // Build prompt based on content type
+                const prompt = buildPrompt({
+                    type: currentContentType,
+                    topic,
+                    description,
+                    audience,
+                    tone,
+                    wordCount
+                });
+
+                console.log('Generating content with prompt:', prompt);
+
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: prompt
+                            }
+                        ],
+                        temperature: parseFloat(creativity),
+                        max_tokens: Math.max(parseInt(wordCount) * 2, 1000),
+                        top_p: 0.9,
+                        frequency_penalty: 0.1,
+                        presence_penalty: 0.1
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                const content = data.choices[0]?.message?.content;
+
+                if (!content) {
+                    throw new Error('No content generated');
+                }
+
+                generatedContent = content;
+                displayContent(content);
+                updateStats(content);
+                showMessage('✅ Content generated successfully!', 'success');
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                showMessage(`❌ Error: ${error.message}`, 'error');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function buildPrompt({ type, topic, description, audience, tone, wordCount }) {
+            const contentTypePrompts = {
+                blog: `Write an engaging blog post about "${topic}". The post should be informative, well-structured with clear headings, and include practical insights.`,
+                article: `Write a comprehensive article about "${topic}". Include an introduction, main body with supporting evidence, and a conclusion.`,
+                marketing: `Create compelling marketing copy for "${topic}". Focus on benefits, create urgency, and include a strong call-to-action.`,
+                creative: `Create a creative piece about "${topic}". Use vivid imagery, storytelling techniques, and engage the reader's imagination.`,
+                technical: `Write a technical document about "${topic}". Be precise, include step-by-step instructions where appropriate, and use clear technical language.`,
+                social: `Create engaging social media content about "${topic}". Make it shareable, use relevant hashtags, and include a call-to-action.`
+            };
+
+            let prompt = contentTypePrompts[type] || contentTypePrompts.blog;
+
+            if (description) {
+                prompt += `\n\nAdditional context: ${description}`;
+            }
+
+            if (audience) {
+                prompt += `\n\nTarget audience: ${audience}`;
+            }
+
+            prompt += `\n\nTone: ${tone}`;
+            prompt += `\n\nTarget length: approximately ${wordCount} words`;
+            prompt += `\n\nMake sure the content is well-structured, engaging, and provides value to the reader. Use proper formatting with headings and paragraphs where appropriate.`;
+
+            return prompt;
+        }
+
+        function displayContent(content) {
+            // Format content with basic HTML
+            const formattedContent = content
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>')
+                .replace(/^/, '<p>')
+                .replace(/$/, '</p>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/#{1,6}\s(.*?)(?=\n|$)/g, '<h3>$1</h3>');
+
+            outputContent.innerHTML = formattedContent;
+        }
+
+        function updateStats(content) {
+            const words = content.trim().split(/\s+/).length;
+            const characters = content.length;
+            const readTime = Math.max(1, Math.ceil(words / 200)); // Average reading speed
+
+            wordsCount.textContent = words.toLocaleString();
+            charactersCount.textContent = characters.toLocaleString();
+            readingTime.textContent = readTime;
+
+            contentStats.style.display = 'flex';
+        }
+
+        function copyToClipboard() {
+            if (!generatedContent) {
+                showMessage('⚠️ No content to copy', 'error');
+                return;
+            }
+
+            navigator.clipboard.writeText(generatedContent).then(() => {
+                showMessage('✅ Content copied to clipboard!', 'success');
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                showMessage('❌ Failed to copy content', 'error');
+            });
+        }
+
+        function downloadContent() {
+            if (!generatedContent) {
+                showMessage('⚠️ No content to download', 'error');
+                return;
+            }
+
+            const topic = topicInput.value.trim() || 'AI_Generated_Content';
+            const filename = `${topic.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+            
+            const blob = new Blob([generatedContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage('✅ Content downloaded successfully!', 'success');
+        }
+
+        function clearContent() {
+            generatedContent = '';
+            outputContent.innerHTML = `
+                <div class="output-placeholder">
+                    <span class="icon">✍️</span>
+                    <p>Your generated content will appear here. Fill in the settings and click "Generate Content" to start.</p>
+                </div>
+            `;
+            contentStats.style.display = 'none';
+            hideMessage();
+        }
+
+        function setLoading(isLoading) {
+            if (isLoading) {
+                generateBtn.disabled = true;
+                generateBtn.textContent = '⏳ Generating...';
+                loadingDiv.style.display = 'block';
+                outputContent.style.display = 'none';
+            } else {
+                generateBtn.disabled = false;
+                generateBtn.textContent = '✨ Generate Content';
+                loadingDiv.style.display = 'none';
+                outputContent.style.display = 'block';
+            }
+        }
+
+        function showMessage(text, type) {
+            messageBox.textContent = text;
+            messageBox.className = `message ${type}`;
+            messageBox.style.display = 'block';
+            
+            setTimeout(() => {
+                hideMessage();
+            }, 5000);
+        }
+
+        function hideMessage() {
+            messageBox.style.display = 'none';
+        }
+
+        // Theme toggle functionality (optional enhancement)
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+
+        // Auto-save functionality for form inputs
+        function saveFormData() {
+            const formData = {
+                topic: topicInput.value,
+                description: descriptionInput.value,
+                audience: audienceInput.value,
+                tone: toneSelect.value,
+                wordCount: wordCountSlider.value,
+                creativity: creativitySlider.value,
+                contentType: currentContentType
+            };
+            
+            // Note: In a real application, you might want to save to localStorage
+            // but since we can't use localStorage in this environment, we'll skip that
+            console.log('Form data:', formData);
+        }
+
+        // Auto-save on input changes
+        function setupAutoSave() {
+            const inputs = [topicInput, descriptionInput, audienceInput, toneSelect, wordCountSlider, creativitySlider];
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', saveFormData);
+                input.addEventListener('change', saveFormData);
+            });
+        }
+
+        // Initialize auto-save after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            setupAutoSave();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to generate
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                generateContent();
+            }
+            
+            // Ctrl/Cmd + C to copy (when output is focused)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c' && outputContent.contains(document.activeElement)) {
+                e.preventDefault();
+                copyToClipboard();
+            }
+        });
+
+        // Enhanced error handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            showMessage('❌ An unexpected error occurred', 'error');
+        });
+
+        // Progress indicator for long content generation
+        let progressInterval;
+        function startProgressIndicator() {
+            let progress = 0;
+            const progressText = document.querySelector('.loading-text');
+            const messages = [
+                'Analyzing your requirements...',
+                'Generating creative content...',
+                'Structuring the content...',
+                'Adding finishing touches...',
+                'Almost ready...'
+            ];
+            
+            progressInterval = setInterval(() => {
+                progress = (progress + 1) % messages.length;
+                if (progressText) {
+                    progressText.textContent = messages[progress];
+                }
+            }, 2000);
+        }
+
+        function stopProgressIndicator() {
+            if (progressInterval) {
+                clearInterval(progressInterval);
+                progressInterval = null;
+            }
+        }
+
+        // Update the setLoading function to include progress indicator
+        function setLoadingWithProgress(isLoading) {
+            setLoading(isLoading);
+            if (isLoading) {
+                startProgressIndicator();
+            } else {
+                stopProgressIndicator();
+            }
+        }
+
+        // Replace the original setLoading calls with the new function
+        // This would be done in the generateContent function
+    </script>
+</body>
+</html>
